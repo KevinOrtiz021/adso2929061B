@@ -6,6 +6,6 @@
 
 ___
 
-![Goku Ultrainstinto](https://tinyurl.com/37a45y4u)
+![Goku Ultrainstinto](https://tinyurl.com/4jkd6vkv)
 
 [ADSO File DRIVE](https://tinyurl.com/wnkk334u)
