@@ -106,10 +106,12 @@ body {
             gap: 0.6rem;
             flex-direction: column;
             align-items: center;
+            color: #ffffff;
             h1 {
                 font-size: 3rem;
                 font-weight: 400;
                 display: flex;
+                color: hsl(0, 0%, 97%);
                 align-items: center;
                 gap: 0.6rem;
                 span {
@@ -127,6 +129,7 @@ body {
             h2 {
                 font-size: 1.4rem;
                 font-weight: 600;
+                color: var(--color-1);
             }
             h3 {
                 font-size: 1rem;
@@ -152,6 +155,11 @@ body {
         }
         section {
             padding: 1rem;
+            background-color: var(--color-1);
+            border-radius: 4px;
+            margin-block: 1rem;
+            min-height: 25vh;
+            width: 400px;
             h3 {
                 border-bottom: 2px dotted var(--color-2);
 
@@ -215,13 +223,6 @@ body {
                 width: 28px;                
             }
              
-        }
-        section {
-            background-color: var(--color-1);
-            border-radius: 4px;
-            margin-block: 1rem;
-            min-height: 25vh;
-            width: 400px;
         }
     }
 
