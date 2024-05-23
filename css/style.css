@@ -106,12 +106,12 @@ body {
             gap: 0.6rem;
             flex-direction: column;
             align-items: center;
-            color: #ffffff;
+            color: hwb(0 100% 0%);
             h1 {
                 font-size: 3rem;
                 font-weight: 400;
                 display: flex;
-                color: rgb(255, 255, 255);
+                color: #000000;
                 align-items: center;
                 gap: 0.6rem;
                 span {
@@ -166,7 +166,7 @@ body {
             }
             p {
                 font-size: 1.6rem;
-                margin-bottom: 0.6rem;
+                margin-bottom: 0.5rem;
                 svg{
                     width: 35px;
                 }
@@ -177,7 +177,7 @@ body {
                 margin-top: 0.6rem;
                 border-radius: 5px;
                 padding: 0 0.6rem 0.6rem;
-                background-color: #000000b2;
+                background-color: hsla(0, 0%, 0%, 0.514);
             }
         }
     
