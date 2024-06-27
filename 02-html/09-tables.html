@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>09 - Tables</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/custom.css">
+    <style>
+        table {
+            border-collapse: collapse;
+            width: 100%;
+
+            thead,
+            tfoot {
+
+                th,
+                td {
+                    background: #fffc;
+                    border: 1px solid #fff9;
+                    text-align: center;
+                    padding: 4px;
+                }
+
+                tbody {
+                    td {
+                        background: #fff6;
+                        border: 1px solid #fff9;
+                        font-size: 0.8rem;
+                        padding: 4px;
+                    }
+
+                    tr:nth-of-type(even) {
+                        td {
+                            background: #fff9;
+                        }
+                    }
+                }
+            }
+        }
+    </style>
+</head>
+
+<body class="html">
+    <nav>
+        <a href="../02-html/index.html">
+            <svg xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 448 512"><!--!Font Awesome Free 6.5.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.-->
+                <path fill="#edeff3"
+                    d="M9.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.2 288 416 288c17.7 0 32-14.3 32-32s-14.3-32-32-32l-306.7 0L214.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z" />
+            </svg>
+
+        </a>
+    </nav>
+    <main>
+        <header>
+            <h1><span>09</span>Tables</h1>
+            <p>
+                This tag allows you to create a table
+            </p>
+        </header>
+        <section>
+            <table>
+                <thead>
+                    <!-- Tr es fila -->
+                    <tr>
+                        <!-- Th son los encabezados de las filas -->
+                        <th>Nombre</th>
+                        <th>Last Name</th>
+                        <th>Gender</th>
+                        <th>Age</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <!-- Td son las columnas -->
+                        <td>Juan</td>
+                        <td>Sanchez</td>
+                        <td>Male</td>
+                        <td>21</td>
+                    </tr>
+                    <tr>
+                        <td>David</td>
+                        <td>Flor</td>
+                        <td>Male</td>
+                        <td>20</td>
+                    </tr>
+                    <tr>
+                        <td>Jhonnatan</td>
+                        <td>Florez</td>
+                        <td>Male</td>   
+                        <td>20</td>
+                    </tr>
+                    <tr>
+                        <td>Maria</td>
+                        <td>Guarin</td>
+                        <td>Female</td>
+                        <td>20</td>
+                    </tr>
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <!-- Esta fila tiene una celda que abarca 4 columnas -->
+                        <td colspan="4">Sipson Family</td>
+                    </tr>
+                </tfoot>
+            </table>
+        </section>
+    </main>
+</body>
+
+</html>
