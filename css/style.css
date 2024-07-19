@@ -102,12 +102,12 @@ body {
             gap: 0.6rem;
             flex-direction: column;
             align-items: center;
-            color: hwb(0 0% 100%);
+            color: hwb(0 99% 0%);
             h1 {
                 font-size: 3rem;
                 font-weight: 400;
                 display: flex;
-                color: #000000;
+                color: black;
                 align-items: center;
                 gap: 0.6rem;
                 span {
@@ -206,8 +206,8 @@ body {
             }
             }
             a:is(:hover) {
-                background-color: #ffffff;
-                transform: scale(1.15); translate: (-4px);
+                background-color: linear-gradient(to rigth, #fffe, #fff6);
+                transform: scale(1.05); translate: (-4px);
             }
             span {
                 border-radius: 600;
@@ -275,6 +275,30 @@ main {
         a {
             span {
                 background-color: orange;
+            }
+        }
+    }
+}
+}
+
+/* - - - - - - - - - - */
+/* C S S */
+/* - - - - - - - - - - */
+body.css {
+    background-color: #4F4AD5;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100%25' height='100%25' viewBox='0 0 1200 800'%3E%3Cdefs%3E%3ClinearGradient id='a' gradientUnits='userSpaceOnUse' x1='600' y1='25' x2='600' y2='777'%3E%3Cstop offset='0' stop-color='%234F4AD5'/%3E%3Cstop offset='1' stop-color='%23080ABB'/%3E%3C/linearGradient%3E%3ClinearGradient id='b' gradientUnits='userSpaceOnUse' x1='650' y1='25' x2='650' y2='777'%3E%3Cstop offset='0' stop-color='%234540d7'/%3E%3Cstop offset='1' stop-color='%230809ac'/%3E%3C/linearGradient%3E%3ClinearGradient id='c' gradientUnits='userSpaceOnUse' x1='700' y1='25' x2='700' y2='777'%3E%3Cstop offset='0' stop-color='%233a36d8'/%3E%3Cstop offset='1' stop-color='%2309089e'/%3E%3C/linearGradient%3E%3ClinearGradient id='d' gradientUnits='userSpaceOnUse' x1='750' y1='25' x2='750' y2='777'%3E%3Cstop offset='0' stop-color='%23302cda'/%3E%3Cstop offset='1' stop-color='%230a088f'/%3E%3C/linearGradient%3E%3ClinearGradient id='e' gradientUnits='userSpaceOnUse' x1='800' y1='25' x2='800' y2='777'%3E%3Cstop offset='0' stop-color='%232622db'/%3E%3Cstop offset='1' stop-color='%230a0881'/%3E%3C/linearGradient%3E%3ClinearGradient id='f' gradientUnits='userSpaceOnUse' x1='850' y1='25' x2='850' y2='777'%3E%3Cstop offset='0' stop-color='%23201ed7'/%3E%3Cstop offset='1' stop-color='%230a0872'/%3E%3C/linearGradient%3E%3ClinearGradient id='g' gradientUnits='userSpaceOnUse' x1='900' y1='25' x2='900' y2='777'%3E%3Cstop offset='0' stop-color='%231b1ad3'/%3E%3Cstop offset='1' stop-color='%230a0764'/%3E%3C/linearGradient%3E%3ClinearGradient id='h' gradientUnits='userSpaceOnUse' x1='950' y1='25' x2='950' y2='777'%3E%3Cstop offset='0' stop-color='%231716cf'/%3E%3Cstop offset='1' stop-color='%230a0756'/%3E%3C/linearGradient%3E%3ClinearGradient id='i' gradientUnits='userSpaceOnUse' x1='1000' y1='25' x2='1000' y2='777'%3E%3Cstop offset='0' stop-color='%231212ca'/%3E%3Cstop offset='1' stop-color='%23090648'/%3E%3C/linearGradient%3E%3ClinearGradient id='j' gradientUnits='userSpaceOnUse' x1='1050' y1='25' x2='1050' y2='777'%3E%3Cstop offset='0' stop-color='%230e0fc5'/%3E%3Cstop offset='1' stop-color='%2308053a'/%3E%3C/linearGradient%3E%3ClinearGradient id='k' gradientUnits='userSpaceOnUse' x1='1100' y1='25' x2='1100' y2='777'%3E%3Cstop offset='0' stop-color='%230b0cc0'/%3E%3Cstop offset='1' stop-color='%2307042d'/%3E%3C/linearGradient%3E%3ClinearGradient id='l' gradientUnits='userSpaceOnUse' x1='1150' y1='25' x2='1150' y2='777'%3E%3Cstop offset='0' stop-color='%23080ABB'/%3E%3Cstop offset='1' stop-color='%2305031F'/%3E%3C/linearGradient%3E%3C/defs%3E%3Cg %3E%3Crect fill='url(%23a)' width='1200' height='800'/%3E%3Crect fill='url(%23b)' x='100' width='1100' height='800'/%3E%3Crect fill='url(%23c)' x='200' width='1000' height='800'/%3E%3Crect fill='url(%23d)' x='300' width='900' height='800'/%3E%3Crect fill='url(%23e)' x='400' width='800' height='800'/%3E%3Crect fill='url(%23f)' x='500' width='700' height='800'/%3E%3Crect fill='url(%23g)' x='600' width='600' height='800'/%3E%3Crect fill='url(%23h)' x='700' width='500' height='800'/%3E%3Crect fill='url(%23i)' x='800' width='400' height='800'/%3E%3Crect fill='url(%23j)' x='900' width='300' height='800'/%3E%3Crect fill='url(%23k)' x='1000' width='200' height='800'/%3E%3Crect fill='url(%23l)' x='1100' width='100' height='800'/%3E%3C/g%3E%3C/svg%3E");
+    background-attachment: fixed;
+    background-size: cover;
+main {
+    header {
+        img { 
+            border-color: var(--color-1)
+        }
+    }
+    menu {
+        a {
+            span {
+                background-color: #2595D0;
             }
         }
     }
