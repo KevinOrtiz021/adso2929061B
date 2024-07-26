@@ -3,34 +3,29 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>10-Percentage-Units</title>
+    <title>12-colors-alpha</title>
     <link rel="stylesheet" href="../css/style.css">
     <style>
-        main {
-            width: 100%;
+        figure {
+            background: url(Images/mario.png) no-repeat center /cover;
+            padding: 0;
+            height: 380px;
+            margin: 1rem auto;
+            width: 360px;
         }
-        main section.section {
-            width: 80%;
+        figure div {
+            height: calc(380px/3);
         }
-        div.parent {
-            display: flex;
-            height: 340px;
-            justify-content: center;
-            width: 100%;
+        figure div.color1 {
+            background-color: rgba(0,0,0,.4);
+            border-radius: 10px 10px 0 0;
         }
-        div.parent div {
-            font-size: 4rem;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+        figure div.color2 {
+            background-color: hsla(0,100%, 0%,.6);
         }
-        div.parent div.child1 {
-            background-color: cadetblue;
-            width: 60%;
-        }
-        div.parent div.child2 {
-            background-color: tomato;
-            width: 40%;
+        figure div.color3 {
+            background-color: #000b;
+            border-radius: 0 0 10px 10px;
         }
     </style>
 </head>
@@ -42,16 +37,17 @@
     </nav>
     <main>
         <header>
-            <h1>10-Percentage-Units</h1>
+            <h1>12-Colors-Alpha</h1>
             <p>
-                Are relative to the size of the parent element. 
+                The fourth alpha channel allows you to apply opacity or transparency to the color.
             </p>
         </header>
-        <section class="section">
-            <div class="parent">
-                <div class="child1">60%</div>
-                <div class="child2">40%</div>
-              </div>
+        <section>
+          <figure>
+            <div class="color1"></div>
+            <div class="color2"></div>
+            <div class="color3"></div>
+          </figure>
         </section>
     </main>
     

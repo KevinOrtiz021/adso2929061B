@@ -3,34 +3,23 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>10-Percentage-Units</title>
+    <title>13-Box-Model</title>
     <link rel="stylesheet" href="../css/style.css">
     <style>
-        main {
-            width: 100%;
+        main ul li {
+            color: #fffb;
         }
-        main section.section {
-            width: 80%;
-        }
-        div.parent {
-            display: flex;
-            height: 340px;
-            justify-content: center;
-            width: 100%;
-        }
-        div.parent div {
-            font-size: 4rem;
+        div.box {
+            border: 4px dashed #0009;
+            background-color: #0004;
             display: flex;
             align-items: center;
             justify-content: center;
-        }
-        div.parent div.child1 {
-            background-color: cadetblue;
-            width: 60%;
-        }
-        div.parent div.child2 {
-            background-color: tomato;
-            width: 40%;
+            font-size: 5rem;
+            padding: 1rem;
+            height: 200px;
+            margin: 2rem auto;
+            width: 350px;
         }
     </style>
 </head>
@@ -42,16 +31,24 @@
     </nav>
     <main>
         <header>
-            <h1>10-Percentage-Units</h1>
+            <h1>13- Box Model</h1>
             <p>
-                Are relative to the size of the parent element. 
+                Is essentially a box that wraps around every html element.
             </p>
+            <ul>
+                <li>Border</li>
+                <li>Background</li>
+                <li>Content</li>
+                <li>Height</li>
+                <li>Margin</li>
+                <li>Padding</li>
+                <li>width</li>
+            </ul>
         </header>
-        <section class="section">
-            <div class="parent">
-                <div class="child1">60%</div>
-                <div class="child2">40%</div>
-              </div>
+        <section>
+          <div class="box">
+            BOX 📦 
+          </div>
         </section>
     </main>
     
