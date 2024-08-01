@@ -6,9 +6,50 @@
     <title>15-Position</title>
     <link rel="stylesheet" href="../css/style.css">
     <style>
-        main ul {
-            color: #fff9;
-        }
+        ul {color: white;}
+    div.parent {
+        border: 2px solid #0009;
+        margin: 2rem auto;
+        padding: 2rem;
+        position: relative;
+        min-height: 100px;
+        width: 280px;
+    }
+    div.child {
+        background-color: #0006;
+        color: #fff9;
+        padding: 0.4rem;
+        text-align: center;
+        width: 80px;
+    }
+    div.relative {
+        position: relative;
+        top: -20px;
+        left: 160px;}
+        
+    div.absolute {
+        position: absolute;
+        bottom: 12px;
+        left: 14px;
+    }
+    div.fixed {
+        position: fixed;
+        top: 880px;
+        left: 50%;
+        transform: translateX(-50%);
+        z-index: 9;
+    }
+    div.sticky {
+        position: -webkit-sticky;
+        position: sticky;
+        top: 20px;
+        left: 43%;
+    }
+    div.parent p {
+        font-size: 0.8rem !important;
+        text-align: justify;
+    }
+    
     </style>
 </head>
 <body class="css">
@@ -28,25 +69,28 @@
                 <li>Sticky</li>
             </ul>
         </header>
-        <section>
-            <h3>Relative</h3>
-            <div class="parent"></div>
-            <div class="child relative"></div>
-            <h3>Absolute</h3>
-            <div class="parent"></div>
-            <div class="child absolute"></div>
-            <h3>Fixed</h3>
-            <div class="parent"></div>
-            <div class="child Fixed"></div>
-            <h3>Sticky</h3>
-            <div class="parent"></div>
-            <div class="child Sticky">
-                <p>
-                    Lorem, ipsum dolor sit amet consectetur adipisicing elit. Quidem quas ipsam fugiat obcaecati architecto unde odio quam aperiam quibusdam tempore alias vero voluptas adipisci recusandae aliquid minus repellat dolore illum, nisi aut! Molestiae quidem maxime ad temporibus obcaecati autem veritatis eaque facilis ducimus dolorum. Porro officiis, corporis sit architecto autem molestiae delectus mollitia dolorum nihil nulla id, magnam odio inventore tempora atque reiciendis accusantium consectetur a? Incidunt debitis saepe hic sint enim nam dicta molestiae minima natus deserunt fugit iste voluptatem mollitia, quis eius consequuntur, minus quos officiis nostrum sapiente omnis veritatis id! Cum ad quidem voluptatem, iure tempora dolorum corporis voluptate aut maiores velit fuga nemo placeat mollitia maxime amet? Distinctio vero in obcaecati minima et? Ipsam quam dicta officiis asperiores id nobis culpa reprehenderit, alias voluptatum voluptas quod dignissimos veniam, adipisci magnam! Asperiores, minima. Facere delectus repellendus voluptate atque pariatur ullam! Culpa excepturi deleniti doloribus, iure ipsam hic ad quibusdam et, consectetur eveniet vel minima dolorum vero, ea eum! Enim sapiente illum vero nihil, corrupti sint provident maxime corporis? Ipsam consequuntur aut, quam error ab a, nemo cumque in temporibus quaerat culpa, ex minima distinctio corrupti similique doloremque ad soluta nisi dolor nesciunt! Aspernatur reprehenderit quas suscipit ducimus?
-                </p>
-            </div>
-        </ul>
+            <section>
+                <h3>Normal/Static</h3>
+                
+                <h3>Relative</h3>
+                <div class="parent">
+                    <div class="child relative">BOX <small>relative</small></div>
+                </div>
+                <h3>Absolute</h3>
+                <div class="parent">
+                    <div class="child absolute">BOX <small>absolute</small></div>
+                </div>
+                <h3>Fixed</h3>
+                <div class="parent">
+                    <div class="child fixed">BOX <small>fixed</small>
+                    </div>
+                </div>
+                <h3>Sticky</h3>
+                <div class="parent">
+                    <div class="child sticky">BOX <small>sticky</small></div>Lorem ipsum dolor sit amet consectetur adipisicing elit. Explicabo temporibus fugiat consequuntur accusantium, sapiente ipsum ad voluptatem sint eum placeat quia tempore, libero quod sequi iure aspernatur veritatis dicta quo reprehenderit praesentium ipsa hic. Vero, soluta. Consectetur labore molestias quidem cum omnis ipsam nihil officia sit esse possimus odio neque enim vitae, at autem nam laborum praesentium incidunt adipisci qui numquam impedit quisquam dignissimos. Tenetur dolorem vitae atque perferendis nisi! Consequuntur eum beatae provident quibusdam asperiores odit illum iste ad quasi, aliquam nobis eaque ut dolores commodi rem vitae? Laboriosam voluptate corrupti at quas nisi rem eius eum. Libero incidunt sunt mollitia. Ut eum inventore tenetur voluptatibus, sint corrupti commodi quos amet explicabo asperiores culpa ad obcaecati recusandae tempora minus, in accusantium soluta nobis maiores sed porro saepe totam eius id. Nostrum repellat facere sunt consequuntur quos iure necessitatibus. Nostrum voluptatibus ullam veritatis cumque ab voluptas, nisi distinctio sunt sed numquam obcaecati alias cum totam, consectetur magni odit repellendus inventore dicta similique quis non quae unde nulla voluptatum? Temporibus nesciunt repellendus fugit doloribus! Dolores cupiditate dignissimos animi a odio possimus quia sunt corrupti perferendis non maiores, voluptatem, veritatis voluptate repellat illo, iusto quam atque voluptates! Nemo consequuntur veritatis reiciendis provident.
+                </div
         </section>
+        
     </main>
     
 </body>
