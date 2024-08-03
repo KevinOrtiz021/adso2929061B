@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sprite</title>
+    <title>Document</title>
     <style>
          body{
             background-color: #17a053;
@@ -74,6 +74,91 @@
                     }
                 }
                 
+                
+            }
+            div.parrafos{
+                background-color: #0009;
+                display: flex;
+                flex-direction: column;
+                width: 720px;
+                padding: 0.5rem;
+                gap: 0.5rem;
+                div.contenedor{
+                    display: flex;
+                    flex-direction: row;
+                    gap: 2rem;
+                    background-color: #fff;
+                    height: 200px;
+                    align-items: center;
+                    div.sp2{
+                        display: flex;
+                        flex-direction: row;
+                        width: 100px;
+                        height: 100px;
+                        background: url(images/spriteweb.png);
+                        background-position: -280px -1090px;
+                    }
+                    p{
+                        width: 60%;
+                        font-size: 0.9rem;
+                        display: flex;
+                        text-align: justify;
+                    }
+                    div.sp3{
+                        background: url(images/spriteweb.png) no-repeat;
+                        background-position: -90px -200px;
+                        display: flex;
+                        width: 110px;
+                        height: 170px;
+                    }
+                    p:is(:hover){
+                        color: #33c647;
+                        cursor: pointer;
+                    }
+                }
+            }
+            footer{
+                display: flex;
+                flex-direction: column;
+                background-color: #fff;
+                width: 700px;
+                height: auto;
+                margin: 2rem;
+                align-items: center;
+                padding: 1rem;
+                div.sp4{
+                    display: flex;
+                    width: 300px;
+                    height: 180px;
+                    background: url(images/spriteweb.png) no-repeat;
+                    background-position: -500px -430px;
+                }
+                div.botones-finales{
+                    display: flex;
+                    flex-direction: row;
+                    justify-content: center;
+                    gap: 0.5rem;
+                    align-items: center;
+                a:is(:link, :visited){
+                    text-decoration: none;
+                    color: #000;
+                    background-color: transparent;
+                    border-bottom: solid 4px #0009;
+                    height: 50px;
+                    width: 135px;
+                    align-items: center;
+                    display: flex;
+                    justify-content: center;
+                    font-size: 1rem;
+                }
+                a:is(:hover){
+                    border-color: rgba(101,180,91,255);
+                    transition: 0.3s ease-in all;
+                }
+                }
+            }
+        }
+        
             }
             div.parrafos{
                 background-color: #0009;
@@ -160,49 +245,45 @@
     </style>
 </head>
 <body>
-    <header>
+    <main>
+        <header>
         <div class="logo"></div>
         <menu>
-            <div class="buttons">
-                <a class="boton" href="">Home</a>
-                <a class="boton" href="">About</a>
-                <a class="boton" href="">Services</a>
-                <a class="boton" href="">Contact</a>
-            </div>
-            <div class="imagenes">
-                <div class="sprite"><div>Sprite 01</div></div>
-                <div class="sprite"><div>Sprite 02</div></div>
-                <div class="sprite"><div>Sprite 03</div></div>
-            </div>
-            <div class="parrafos">
-                <div class="contenedor">
-                    <div class="sp2"></div>
-                    <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Facilis cumque maiores, eaque odit alias consectetur ducimus quae quisquam accusantium? Consectetur optio odio culpa iusto soluta, doloremque eius id eveniet nemo beatae itaque eligendi mollitia consequatur fugit in, voluptatem sapiente velit expedita. Placeat officiis, sint incidunt maiores accusantium odio distinctio veritatis.</p>
-                    <div class="sp3"></div>
-                </div>
-                <div class="contenedor">
-                    <div class="sp2"></div>
-                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Pariatur voluptas ducimus, saepe praesentium obcaecati atque odio incidunt harum sunt hic dolores adipisci officiis nam illo porro amet! Distinctio, placeat nisi? Cupiditate laboriosam quam accusamus a nobis aspernatur alias tempore obcaecati similique et culpa dolorem voluptatem ipsam reprehenderit, sapiente velit atque!.</p>
-                    <div class="sp3"></div>
-                </div>
-                <div class="contenedor">
-                    <div class="sp2"></div>
-                    <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Iure delectus dignissimos tempore quaerat ipsam velit et recusandae nemo eligendi aliquid ex natus corrupti dicta officiis ipsa fugiat autem, distinctio est fugit amet obcaecati assumenda voluptates. Officia, veniam, at nostrum doloremque eligendi quam facilis sit optio accusantium tenetur repudiandae magni totam!</p>
-                    <div class="sp3"></div>
-                </div>
-            </div>
-            <footer>
-                <div class="sp4"></div>
-                <div class="botones-finales">
-                    <a href="">Home</a>
-                    <a href="">About</a>
-                    <a href="">Services</a>
-                    <a href="">Contact</a>
-                </div>
-            </footer>
+            <a href="">INICIO</a>
+            <a href="">NOSOTROS</a>
+            <a href="">PORTAFOLIO</a>
+            <a href="">SERVICIOS</a>
+            <a href="">CONTACTO</a>
         </menu>
-    </header>
-    
-    </div>
+        </header>
+            <section>
+                <figure class="sprite">
+                    <figcaption>Sprite 01</figcaption>
+                </figure>
+                <figure class="sprite">
+                    <figcaption>Sprite 02</figcaption>
+                </figure>
+                <figure class="sprite">
+                    <figcaption>Sprite 03</figcaption>
+                </figure>
+            </section>
+            <br>
+            <section class="second">
+                <aside class="first"></aside>
+                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Tenetur vitae molestiae quod laborum! Id, reprehenderit inventore? Sequi ipsam debitis, necessitatibus consectetur reprehenderit, incidunt magni aliquid, voluptatem voluptates mollitia deleniti tempore!</p>
+                <aside class="last"></aside>
+            </section>
+            <section class="second">
+                <aside class="first"></aside>
+                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Tenetur vitae molestiae quod laborum! Id, reprehenderit inventore? Sequi ipsam debitis, necessitatibus consectetur reprehenderit, incidunt magni aliquid, voluptatem voluptates mollitia deleniti tempore!</p>
+                <aside class="last"></aside>
+            </section>
+        </section>
+        <section class="second">
+            <aside class="first"></aside>
+            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Tenetur vitae molestiae quod laborum! Id, reprehenderit inventore? Sequi ipsam debitis, necessitatibus consectetur reprehenderit, incidunt magni aliquid, voluptatem voluptates mollitia deleniti tempore!</p>
+            <aside class="last"></aside>
+        </section>
+    </main>
 </body>
 </html>
