@@ -3,11 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sprite</title>
+    <title>24-challenge-Sprite</title>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@100;300;400;800&display=swap');
         body{
-            font-family: poppins;
             background-color: #17a053;
             display: flex;
             flex-direction: column;
@@ -18,7 +16,7 @@
                 align-items: center;
                 justify-content: center;
                 div.sp1{
-                    background: url(images/spriteweb.png) no-repeat;
+                    background: url(imagenes/spriteweb.png) no-repeat;
                     width: 180px;
                     height: 170px;
                     background-position: -10px -400px;
@@ -58,7 +56,7 @@
                 padding: 1.5rem;
                 width: calc(230px*3);
                 .sprite{
-                    background: url(./images/spriteweb.png) no-repeat;
+                    background: url(./imagenes/spriteweb.png) no-repeat;
                     background-position: -530px -13px;
                     width: 230px;
                     height: 195px;
@@ -69,14 +67,12 @@
                         display: flex;
                         justify-content: center;
                         padding: 1.2rem;
-                        align-items: center;
                     }
                     div:is(:hover){
                         background-color: #fff9;
                     }
                 }
                 
-
             }
             div.parrafos{
                 background-color: #0009;
@@ -97,7 +93,7 @@
                         flex-direction: row;
                         width: 100px;
                         height: 100px;
-                        background: url(images/spriteweb.png);
+                        background: url(imagenes/spriteweb.png);
                         background-position: -280px -1090px;
                     }
                     p{
@@ -107,7 +103,7 @@
                         text-align: justify;
                     }
                     div.sp3{
-                        background: url(images/spriteweb.png) no-repeat;
+                        background: url(imagenes/spriteweb.png) no-repeat;
                         background-position: -90px -200px;
                         display: flex;
                         width: 110px;
@@ -132,7 +128,7 @@
                     display: flex;
                     width: 300px;
                     height: 180px;
-                    background: url(images/spriteweb.png) no-repeat;
+                    background: url(imagenes/spriteweb.png) no-repeat;
                     background-position: -500px -430px;
                 }
                 div.botones-finales{
@@ -159,43 +155,51 @@
                 }
                 }
             }
-    }
+        }
     </style>
 </head>
 <body>
-    <main>
-        <header>
-            <div class="sp1"></div>
-            <menu></menu>
-        </header>
-            <section>
-                <figure class="sprite">
-                    <figcaption>Sprite 01</figcaption>
-                </figure>
-                <figure class="sprite">
-                    <figcaption>Sprite 02</figcaption>
-                </figure>
-                <figure class="sprite">
-                    <figcaption>Sprite 03</figcaption>
-                </figure>
-            </section>
-            <br>
-            <section class="second">
-                <aside class="first"></aside>
-                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Tenetur vitae molestiae quod laborum! Id, reprehenderit inventore? Sequi ipsam debitis, necessitatibus consectetur reprehenderit, incidunt magni aliquid, voluptatem voluptates mollitia deleniti tempore!</p>
-                <aside class="last"></aside>
-            </section>
-            <section class="second">
-                <aside class="first"></aside>
-                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Tenetur vitae molestiae quod laborum! Id, reprehenderit inventore? Sequi ipsam debitis, necessitatibus consectetur reprehenderit, incidunt magni aliquid, voluptatem voluptates mollitia deleniti tempore!</p>
-                <aside class="last"></aside>
-            </section>
-        </section>
-        <section class="second">
-            <aside class="first"></aside>
-            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Tenetur vitae molestiae quod laborum! Id, reprehenderit inventore? Sequi ipsam debitis, necessitatibus consectetur reprehenderit, incidunt magni aliquid, voluptatem voluptates mollitia deleniti tempore!</p>
-            <aside class="last"></aside>
-        </section>
-    </main>
+    <header>
+        <div class="sp1"></div>
+    </header>
+    <div class="buttons">
+        <a class="boton" href="">INICIO</a>
+        <a class="boton" href="">NOSOTROS</a>
+        <a class="boton" href="">PORTAFOLIO</a>
+        <a class="boton" href="">SERVICIOS</a>
+        <a class="boton" href="">CONTACTO</a>
+    </div>
+    <div class="imagenes">
+        <div class="sprite"><div>Sprite 01</div></div>
+        <div class="sprite"><div>Sprite 02</div></div>
+        <div class="sprite"><div>Sprite 03</div></div>
+    </div>
+    <div class="parrafos">
+        <div class="contenedor">
+            <div class="sp2"></div>
+            <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Facilis cumque maiores, eaque odit alias consectetur ducimus quae quisquam accusantium? Consectetur optio odio culpa iusto soluta, doloremque eius id eveniet nemo beatae itaque eligendi mollitia consequatur fugit in, voluptatem sapiente velit expedita. Placeat officiis, sint incidunt maiores accusantium odio distinctio veritatis.</p>
+            <div class="sp3"></div>
+        </div>
+        <div class="contenedor">
+            <div class="sp2"></div>
+            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Pariatur voluptas ducimus, saepe praesentium obcaecati atque odio incidunt harum sunt hic dolores adipisci officiis nam illo porro amet! Distinctio, placeat nisi? Cupiditate laboriosam quam accusamus a nobis aspernatur alias tempore obcaecati similique et culpa dolorem voluptatem ipsam reprehenderit, sapiente velit atque!.</p>
+            <div class="sp3"></div>
+        </div>
+        <div class="contenedor">
+            <div class="sp2"></div>
+            <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Iure delectus dignissimos tempore quaerat ipsam velit et recusandae nemo eligendi aliquid ex natus corrupti dicta officiis ipsa fugiat autem, distinctio est fugit amet obcaecati assumenda voluptates. Officia, veniam, at nostrum doloremque eligendi quam facilis sit optio accusantium tenetur repudiandae magni totam!</p>
+            <div class="sp3"></div>
+        </div>
+    </div>
+    <footer>
+        <div class="sp4"></div>
+        <div class="botones-finales">
+            <a href="">INICIO</a>
+            <a href="">NOSOTROS</a>
+            <a href="">PORTAFOLIO</a>
+            <a href="">SERVICIOS</a>
+            <a href="">CONTACTO</a>
+        </div>
+    </footer>
 </body>
 </html>
