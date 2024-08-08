@@ -3,106 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>24-challenge-Sprite</title>
+    <title>24-Challenge-Sprite</title>
     <style>
         body{
             background-color: #17a053;
-            border-radius: 10px white;
-        }
-        div.logo {
-            background: url(images/spriteweb.png) no-repeat;
-            background-position: -10px -400px;
-            height: 190px;
-            margin: 0 auto;
-            width: 190px;
-        }
-        menu {
-            align-items: center;
             display: flex;
-            justify-content: center;
-            gap: 1rem;
-            padding: 0;
-        }
-        menu a {
-            text-decoration: none;
-            color: white;
-            background-color: rgba(3, 3, 3, 0.219);
-            padding: 1rem;
-            display: flex;
+            flex-direction: column;
             justify-content: center;
             align-items: center;
-            width: 120px;
-            border-bottom: 7px solid white;
-        }
-        menu a:hover {
-            background-color: rgba(3, 3, 3, 0.692);
-            color: rgb(197, 197, 78);
-            border-bottom: 7px solid rgb(197, 197, 78);
-            
-        }
-        section {
-            display: flex;
-            background-color: rgba(3, 3, 3, 0.219);
-            padding: 1rem;
-            margin-inline: auto;
-            gap: 1rem;
-            justify-content: center;
-            align-items: center;
-            width: 800px;
-        }
-        section figure.sprite {
-            background: url(images/spriteweb.png) no-repeat;
-            background-position: -510px -10px;
-            height: 200px;
-            margin: 0 auto;
-            border: 2px solid white;
-            width: 280px;
-            color: white;
-        }
-        section figcaption {
-            font-size: 25px;
-            font-weight: 800;
-            color: black;
-            background-color: #fff9;
-            justify-content: center;
-            align-items: center; 
-            display: flex;
-            height: 60px;
-        }
-        section figcaption:hover {
-            background-color: rgba(255, 255, 255, 0.884);
-        }
-        section.second {
-            background-color: white;
-            border: 10px rgba(20, 10, 10, 0.6);
-            display: flex;
-            padding: 1rem;
-        }
-        section.second aside {
-            width: 15%;
-        }
-        section.second aside.first {
-            background: url(images/spriteweb.png) no-repeat;
-            background-position: -260px -490px;
-            height: 100px;
-            margin: 0 auto;
-            border: 1px solid white;
-            width: 200px;
-            color: white;
-        }
-        section.second p {
-            width: 70%;
-            position: relative;
-        }
-        section.second aside.last {
-            background: url(images/spriteweb.png) no-repeat;
-            background-position: -65px -216px;
-            height: 150px;
-            margin: 0 auto;
-            border: 2px solid white;
-            width: 170px;
-            color: white;
-        }
             header{
                 display: flex;
                 align-items: center;
@@ -247,6 +155,7 @@
                 }
                 }
             }
+        }
     </style>
 </head>
 <body>
@@ -285,10 +194,6 @@
     <footer>
         <div class="sp4"></div>
         <div class="botones-finales">
-    <main>
-        <header>
-        <div class="logo"></div>
-        <menu>
             <a href="">INICIO</a>
             <a href="">NOSOTROS</a>
             <a href="">PORTAFOLIO</a>
@@ -296,36 +201,6 @@
             <a href="">CONTACTO</a>
         </div>
     </footer>
-        </menu>
-        </header>
-            <section>
-                <figure class="sprite">
-                    <figcaption>Sprite 01</figcaption>
-                </figure>
-                <figure class="sprite">
-                    <figcaption>Sprite 02</figcaption>
-                </figure>
-                <figure class="sprite">
-                    <figcaption>Sprite 03</figcaption>
-                </figure>
-            </section>
-            <br>
-            <section class="second">
-                <aside class="first"></aside>
-                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Tenetur vitae molestiae quod laborum! Id, reprehenderit inventore? Sequi ipsam debitis, necessitatibus consectetur reprehenderit, incidunt magni aliquid, voluptatem voluptates mollitia deleniti tempore!</p>
-                <aside class="last"></aside>
-            </section>
-            <section class="second">
-                <aside class="first"></aside>
-                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Tenetur vitae molestiae quod laborum! Id, reprehenderit inventore? Sequi ipsam debitis, necessitatibus consectetur reprehenderit, incidunt magni aliquid, voluptatem voluptates mollitia deleniti tempore!</p>
-                <aside class="last"></aside>
-            </section>
-        </section>
-        <section class="second">
-            <aside class="first"></aside>
-            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Tenetur vitae molestiae quod laborum! Id, reprehenderit inventore? Sequi ipsam debitis, necessitatibus consectetur reprehenderit, incidunt magni aliquid, voluptatem voluptates mollitia deleniti tempore!</p>
-            <aside class="last"></aside>
-        </section>
-    </main>
+
 </body>
 </html>
