@@ -5,6 +5,32 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>31 - Filters</title>
     <link rel="stylesheet" href="../css/style.css">
+    <style>
+        img.filter {
+            display: block;
+            margin-inline: auto;
+            width: 320px;
+            transition: all 0.6s ease-in;
+        }
+        img.filter:hover{
+            filter: none;
+        }
+        img.filter1 {
+            filter: grayscale(1);
+        }
+        img.filter2 {
+            filter: blur(10px);
+        }
+        img.filter3 {
+            filter: sepia();
+        }
+        img.filter4{
+            filter: brightness(0.20);
+        }
+        img.filter5{
+            filter: invert(1);
+        }
+    </style>
 </head>
 <body class="css">
     <nav>
