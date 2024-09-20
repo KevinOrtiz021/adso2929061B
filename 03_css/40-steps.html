@@ -3,23 +3,34 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>32 - Clip-Path</title>
+    <title>40-steps</title>
     <link rel="stylesheet" href="../css/style.css">
     <style>
-        div.clip {
-            background: url(images/pittsburgh.jpg) no-repeat center;
-            background-size: cover;
+
+        div.steps {
+            position: relative;
+            margin: 0 auto;
             height: 280px;
-            margin-block: 1rem;
-            margin-inline: auto;
-            width: 320px;
+            width: calc(1024px / 4);
+            animation: animSteps 0.7s steps(4) infinite;
         }
-        div.clip1 {
-            clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
+
+        div.steps01 {
+            background: url(images/steps-01.png) no-repeat;
         }
-        div.clip2 {
-            clip-path: polygon(20% 0%, 0% 20%, 30% 50%, 0% 80%, 20% 100%, 50% 70%, 80% 100%, 100% 80%, 70% 50%, 100% 20%, 80% 0%, 50% 30%);
+
+        div.steps02 {
+            background: url(images/steps-02.png) no-repeat;
         }
+
+        div.steps03 {
+            background: url(images/steps-03.png) no-repeat;
+        }
+
+        @keyframes animSteps {
+            100% {background-position: -1024px;}
+        }
+
     </style>
 </head>
 <body class="css">
@@ -30,16 +41,19 @@
     </nav>
     <main>
         <header>
-            <h1> 32 CLip-Path</h1>
+            <h1> 40 - Sterps </h1>
             <p>
-                Property lets you clip an element to a basic shape.
+                Allows step-by-step animation of a sprite.
+
             </p>
         </header>
         <section>
-            <h3>Example 01:</h3>
-            <div class="clip clip1"></div>
-            <h3> Example 02:</h3>
-            <div class="clip clip2"></div>
+            <h3>Example 01</h3>
+            <div class="steps steps01"></div>
+            <h3>Example 02</h3>
+            <div class="steps steps02"></div>
+            <h3>Example 03</h3>
+            <div class="steps steps03"></div>
         </section>
     </main>
     
