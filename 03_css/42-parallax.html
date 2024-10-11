@@ -8,19 +8,18 @@
     <style>
         figure.parallax {
             border-radius: 6px;
-            height:576px;
+            height: 576px;
             overflow: hidden;
             position: relative;
             margin: 1rem auto;
-            width: 1rem auto;
+            width: calc(1024px / 3);
         }
         figure.parallax div {
             height: 576px;
             position: absolute;
             width: calc(1024px * 2);
-            
         }
-        figure.parallax div.layer8{
+        figure.parallax div.layer8 {
             background: url(images/parallax/layer_08.png) repeat-x;
             z-index: 1;
         }
@@ -60,17 +59,27 @@
             animation: animParallax 10s linear infinite;
         }
         figure.parallax div.runner {
-            background: url(images/Parallax/running.gif) repeat-x;
+            background: url(images/parallax/running.gif) no-repeat center;
             background-size: contain;
+            height: 100px;
             left: 120px;
             bottom: 120px;
-            height: 100px;
             width: 100px;
             z-index: 9;
-            
         }
+
+
+        
         @keyframes animParallax {
-            100% {background-position: calc(-1024px *2);}
+            100% { background-position: calc(-1024px * 2) }
+        }
+        @media (min-width: 1200px) {
+            body main section{
+                width: 1080px;
+                figure.parallax{
+                    width: 1024px;
+                }
+            }
         }
     </style>
 </head>

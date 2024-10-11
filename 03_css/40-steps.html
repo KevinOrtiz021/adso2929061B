@@ -6,31 +6,56 @@
     <title>40-steps</title>
     <link rel="stylesheet" href="../css/style.css">
     <style>
-
-        div.steps {
-            position: relative;
-            margin: 0 auto;
-            height: 280px;
-            width: calc(1024px / 4);
-            animation: animSteps 0.7s steps(4) infinite;
+        section div.steps {
+            background: url(images/steps-all.png) no-repeat;
+            height: calc(1024px/4);
+            margin: 1rem auto;
+            width: 256px;
+            animation: animSteps 0.5s steps(4) infinite;
         }
-
-        div.steps01 {
-            background: url(images/steps-01.png) no-repeat;
+        section div.front{
+            background-position-y: calc(-256px * 0);
         }
-
-        div.steps02 {
-            background: url(images/steps-02.png) no-repeat;
+        section div.back{
+            background-position-y: calc(-256px * 3);
         }
-
-        div.steps03 {
-            background: url(images/steps-03.png) no-repeat;
+        section div.left{
+            background-position-y: calc(-256px * 1);
         }
-
+        section div.right{
+            background-position-y: calc(-256px * 2);
+        }
         @keyframes animSteps {
-            100% {background-position: -1024px;}
-        }
+            100%{
+                background-position-x: -1024px ;
 
+            }
+        }
+        section div.controls{
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            gap: 0.3rem;
+            align-items: center;
+        }
+        section div.controls button{
+            background-color: #fff6;
+            cursor: pointer;
+            border: none;
+            height: 50px;
+            transition: all 0.2s ease-in;
+            width: 50px;
+            &:hover{
+                background-color: #fffa;
+                transform: scale(1.05);
+            }
+        }
+        section div.controls button.btnBack{
+            transform: rotate(-90deg);
+        }
+        section div.controls button.btnFront{
+            transform: rotate(90deg);
+        }
     </style>
 </head>
 <body class="css">
@@ -41,21 +66,77 @@
     </nav>
     <main>
         <header>
-            <h1> 40 - Sterps </h1>
+            <h1>40 - steps</h1>
             <p>
                 Allows step-by-step animation of a sprite.
-
             </p>
         </header>
         <section>
-            <h3>Example 01</h3>
-            <div class="steps steps01"></div>
-            <h3>Example 02</h3>
-            <div class="steps steps02"></div>
-            <h3>Example 03</h3>
-            <div class="steps steps03"></div>
+          <h3>Example 01:</h3>
+          <div class="steps front"></div>
+          <div class="controls">
+            <div class="header">
+                <button class="btnBack">&rarr;</button>
+            </div>
+            <div class="fonter">
+                <button class="btnLeft">&larr;</button>
+                <button class="btnFront">&rarr;</button>
+                <button class="btnRight">&rarr;</button>
+            </div>
+          </div>
         </section>
     </main>
+    <script>
+        let btnFront = document.querySelector('.btnFront')
+        let btnBack = document.querySelector('.btnBack')
+        let btnLeft = document.querySelector('.btnLeft')
+        let btnRight= document.querySelector('.btnRight')
+
+
+        let steps   = document.querySelector('.steps')
+
+        btnFront.addEventListener('click',() => {
+            removeAllClases()
+            steps.classList.add('front')
+        })
+
+        btnBack.addEventListener('click',() => {
+            removeAllClases()
+            steps.classList.add('back')
+        })
+
+        btnLeft.addEventListener('click',() => {
+            removeAllClases()
+            steps.classList.add('left')
+        })
+
+        btnRight.addEventListener('click',() => {
+            removeAllClases()
+            steps.classList.add('right')
+        })
+
+        function removeAllClases() {
+            steps.classList.remove('fornt', 'back', 'left', 'right')
+        }
+        document.addEventListener('keyup', function(e) {
+            if(e.keyCode == 37) {
+                removeAllClases()
+            steps.classList.add('left')
+            }
+            if(e.keyCode == 38) {
+                removeAllClases()
+            steps.classList.add('back')
+            }
+            if(e.keyCode == 39) {
+                removeAllClases()
+            steps.classList.add('right')
+            }
+            if(e.keyCode == 40) {
+                removeAllClases()
+            steps.classList.add('front')
+            }
+        })
+    </script>
     
 </body>
 </html>
