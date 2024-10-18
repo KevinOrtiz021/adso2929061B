@@ -3,31 +3,93 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>45-challenge-grid</title>
+    <title>45 - Challenge</title>
     <link rel="stylesheet" href="../css/style.css">
     <style>
-        section {
+        main header p{
+            background-color: black;
+            color: white;
+        }
+        .rectangle1 {
+            margin-top: 3rem;
+            height: 600px;
+            width: fit-content;
+            border: 3px solid #000;
             display: grid;
-            grid-template-columns: 1fr 1fr 1fr;
-            grid-template-rows: 1fr 1fr 1fr;
-            grid-gap: 1rem;
+            grid-template-columns: repeat(3, 200px);
+            gap: 5px;
+            background-color: black;
+            border-bottom: none;
         }
-        section div.box {
-            border: 2px solid rgb(0, 0, 0);
-            background-color: #fff6;
-            height: 120px;
-            width: 120px; 
+        .rectangle2 {
+            border: 2px solid #000;
+            border-top: 5px solid black;
+            width: fit-content;
+            height: 450px;
+            margin-bottom: 3rem;
+            display: grid;
+            grid-template-columns: repeat(4, 150px);
+            gap: 3.9px;
+            background-color: black;
         }
-        section div.box2 {
-            grid-column-start:2 ;
-            grid-row-start:1 ;
-            grid-row-end: 3;
-            height: auto;
+        .c1r1 {
+            background: url(images/broly.jpg);
+            background-position: 24%;
+            background-size: 100%;
         }
-        section div.box6{
-            grid-column-start:1;
-            grid-column-end:3;
-            width: auto;
+        .c2r1 {
+            grid-row: 1 / 3;
+            grid-column: 2 / 3;
+            background: url(images/zoro.jpg) 50% / cover;
+        }
+        .c3r1 {
+            background: url(images/scorpion.jpeg) 40% / 100%;
+        }
+        .c1r2 {
+            background: url(images/subzero.jpeg)
+            no-repeat 50% / 181%;        }
+        .c2r2 {
+            background: url(images/kageyama.jpg) 50%;
+        }
+        .c3r2 {
+            grid-column: 1 / 3;
+            background: url(images/dragonball.jpg) 50% / cover;
+        }
+        .c1r3 {
+            background: url(images/kamado.jpeg);
+        }
+        .leftbig {
+            grid-column: 1 / 3;
+            grid-row: 1 / 3;
+            background: url(images/giyu.jpeg) 50% / cover ;
+        }
+        .row1c2 {
+            background: url(images/shoyo.jpg) 40% /cover;
+        }
+        .row1c3 {
+            background: url(images/luffy.jpg) 50% /cover;
+        }
+        .row3c1 {
+            background: url(images/guku.jpg) 50% / cover;
+        }
+        .row3c2 {
+            background: url(images/naruto.jpg) 50% / cover;
+        }
+        
+        .rightbig {
+            grid-column: 3 / 5;
+            grid-row: 2 / 4;
+            background: url(images/sasuke.jpg) 50% / cover;
+        }
+
+        .back {
+            background: #fff9;
+            width: 640px;
+            display: flex;
+            align-items: center;
+            flex-direction: column;
+            border-radius: 50px;
+            position: relative;
         }
     </style>
 </head>
@@ -39,34 +101,30 @@
     </nav>
     <main>
         <header>
-            <h1> 45-challenge-grid </h1>
+            <h1> 45 - Challenge </h1>
             <p>
                 Irregular Gallery.
             </p>
         </header>
-        <section>
-            <div class="box box1">
-                <img src="images/1.webp" width="120px">
+        <section class="back">
+            <div class="rectangle1">
+                <div class="square c1r1"></div>
+                <div class="square c2r1"></div>
+                <div class="square c3r1"></div>
+                <div class="square c1r2"></div>
+                <div class="square c2r2"></div>
+                <div class="square c3r2"></div>
+                <div class="square c1r3"></div>
             </div>
-            <div class="box box2">
-                <img src="images/2.jpg" width="120px">
+            <div class="rectangle2">
+                <div class="square leftbig "></div>
+                <div class="square row1c2"></div>
+                <div class="square row1c3"></div>
+                <div class="square rightbig"></div>
+                <div class="square row3c1"></div>
+                <div class="square row3c2"></div>
             </div>
-            <div class="box box3">
-                <img src="images/3.jpg" width="120px">
-            </div>
-            <div class="box box4">
-                <img src="images/4.jpg" width="120px">
-            </div>
-            <div class="box box5">
-                <img src="images/5.jpg" width="120px">
-            </div>
-            <div class="box box6">
-                <img src="images/6.jpg" width="120px">
-            </div>
-            <div class="box box7">
-                <img src="images/7.jpg" width="120px">
-            </div>
-        </section>
+    </section>
     </main>
     
 </body>
