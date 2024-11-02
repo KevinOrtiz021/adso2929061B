@@ -5,6 +5,19 @@ html(lang="en")
         meta(name="viewport", content="width=device-width, initial-scale=1.0")
         title 17 Challenge 
         link(rel="stylesheet", href="../../css/style.css")
+        style.
+            li {
+            height: 70px;
+            }
+            p.list {
+            display: flex;
+            height: 100%;
+            width: 70px;
+            align-items: center;
+            justify-content: center;
+            background-color: #0008;
+            color: #fff;
+            }
     body.pug 
         nav 
             a(href="../index.html")
@@ -14,4 +27,8 @@ html(lang="en")
             header 
                 h1 17 Challenge 
                 p Provides an exercise to apply the learned concepts.
-            section 
+            section
+                ul
+                    each val, index in ['#08fafa', '#17c8fa', '#3296fa', '#4b64fa', '#6432fa', '#7d01fa', '#9601fa', '#af01fa', '#c801fa', '#e101fa',]
+                        li(style='list-style: none; border-bottom: 2px solid #Fff; background-color:'+val)
+                            p.list= index+1
