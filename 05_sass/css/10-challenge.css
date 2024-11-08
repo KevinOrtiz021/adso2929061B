@@ -1,1 +1,76 @@
+@import url("https://fonts.googleapis.com/css2?family=Arimo:ital,wght@0,400..700;1,400..700&display=swap");
+body {
+  background-color: #fff;
+}
 
+a {
+  text-align: center;
+  display: flex;
+}
+
+header {
+  align-items: center;
+  border-bottom: 2px solid #333;
+  display: flex;
+  font-family: "Arimo", sans-serif;
+  justify-content: space-between;
+  padding: 20px;
+}
+
+header ul {
+  display: flex;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+header ul li.small_box {
+  align-items: center;
+  cursor: pointer;
+  display: flex;
+  height: 50px;
+  width: 100px;
+}
+
+header ul li:is(:hover) {
+  background-color: plum;
+  transition: 0.5s ease-in;
+}
+
+.toggle-menu,
+.toggle-menu-label {
+  display: none;
+}
+
+@media (max-width: 768px) {
+  .menu {
+    display: none;
+    flex-direction: column;
+    position: absolute;
+    top: 80px;
+    left: 0;
+    width: 100%;
+    background-color: white;
+    padding: 20px;
+  }
+  .toggle-menu:checked ~ .menu {
+    display: flex;
+  }
+  .toggle-menu-label {
+    display: block;
+  }
+  header ul li {
+    margin: 10px 0;
+    width: 700px;
+  }
+  header ul li:is(:hover) {
+    background-color: plum;
+    transition: 0.5s ease-in;
+  }
+  header ul li a {
+    width: 900px;
+  }
+  header ul li.small_box {
+    width: 100%;
+  }
+}
