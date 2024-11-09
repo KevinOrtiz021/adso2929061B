@@ -13,7 +13,7 @@ section.content menu.menu ul {
   width: 420px;
 }
 section.content menu.menu ul li {
-  background-color: #d94d9b;
+  background-color: #cd639a;
   color: #fff;
   display: inline-block;
   padding: 10px;
@@ -21,7 +21,7 @@ section.content menu.menu ul li {
   position: relative;
   text-align: center;
   transition: all 0.5s ease-in;
-  width: 88px;
+  width: 86px;
 }
 section.content menu.menu ul li:hover {
   color: #fff;

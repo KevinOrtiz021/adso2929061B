@@ -3,14 +3,14 @@ main {
 		list-style: none;
 		margin: 100px auto;
 		padding: 0;
-		width: 400px;
+		width: 380px;
 		li {
 			border: thin solid rgba(0,0,0,.2);
 			border-radius: 4px;
 			display: inline-block;
 			margin: 0;
 			height: 280px;
-			transition: all 0.1s ease-in;
+			transition: all 0.2s ease;
 			vertical-align: top;
 			width: 58px;
 			// - - - - - - - - - - - - - - - - - 

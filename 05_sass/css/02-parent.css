@@ -35,17 +35,18 @@ article figure div {
   width: 280px;
 }
 article figure div button {
-  border: 1px solid #d94d9b;
+  border: 1px solid #cd639a;
   border-radius: 20px;
   background-color: #000;
-  color: #d94d9b;
+  color: #cd639a;
   font-size: 1em;
   padding: 10px;
   width: 120px;
+  transition: all 0.4s ease-in;
 }
 article figure div button:hover {
   cursor: pointer;
-  background-color: #d94d9b;
+  background-color: #cd639a;
   border: 1px solid #000;
   color: #000;
 }
