@@ -40,6 +40,7 @@ header ul li:is(:hover) {
 .toggle-menu,
 .toggle-menu-label {
   display: none;
+  color: plum;
 }
 
 @media (max-width: 768px) {
