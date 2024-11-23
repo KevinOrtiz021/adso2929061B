@@ -3,7 +3,7 @@
     <head> 
         <meta charset="UTF-8"> 
         <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
-        <title>00- Template</title> 
+        <title>11-Overflow</title> 
         <link rel="stylesheet" href="../../css/style.css"> 
         <link rel="stylesheet" href="../css/bootstrap.min.css"> 
     </head> 
@@ -15,12 +15,26 @@
     </nav> 
     <main> 
         <header> 
-            <h1>00- Template</h1> 
-            <p> Lorem </p>
+            <h1>11 Overflow</h1> 
+            <p> Adjust the overflow property on the fly with four default values and classes. These classes are not responsive by default. </p>
         </header> 
-        <section> 
-
-        </section> 
+        <section class="content">
+            <h3 class="my-4">Example:</h3>
+            <div class="bd-example d-flex flex-column gap-4 mx-auto w-75">
+                <div class="overflow-auto p-3 mb-3 mb-md-0 me-md-3 bg-body-tertiary" style="max-width: 260px; max-height: 100px;">
+                  This is an example of using <code>.overflow-auto</code> on an element with set width and height dimensions. By design, this content will vertically scroll.
+                </div>
+                <div class="overflow-hidden p-3 mb-3 mb-md-0 me-md-3 bg-body-tertiary" style="max-width: 260px; max-height: 100px;">
+                  This is an example of using <code>.overflow-hidden</code> on an element with set width and height dimensions.
+                </div>
+                <div class="overflow-visible p-3 mb-3 mb-md-0 me-md-3 bg-body-tertiary" style="max-width: 260px; max-height: 100px;">
+                  This is an example of using <code>.overflow-visible</code> on an element with set width and height dimensions.
+                </div>
+                <div class="overflow-scroll p-3 bg-body-tertiary" style="max-width: 260px; max-height: 100px;">
+                  This is an example of using <code>.overflow-scroll</code> on an element with set width and height dimensions.
+                </div>
+              </div>
+        </section>
     </main> 
     <script src="../js/bootstrap.min.js"></script> 
     <script src="../js/bootstrap.bundle.min.js"></script> 

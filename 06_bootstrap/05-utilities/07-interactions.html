@@ -3,7 +3,7 @@
     <head> 
         <meta charset="UTF-8"> 
         <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
-        <title>00- Template</title> 
+        <title>07-Onteractions</title> 
         <link rel="stylesheet" href="../../css/style.css"> 
         <link rel="stylesheet" href="../css/bootstrap.min.css"> 
     </head> 
@@ -15,12 +15,19 @@
     </nav> 
     <main> 
         <header> 
-            <h1>00- Template</h1> 
-            <p> Lorem </p>
+            <h1>07 Onteractions</h1> 
+            <p> Utility classes that change how users interact with contents of a website. </p>
         </header> 
-        <section> 
-
-        </section> 
+        <section class="content">
+            <h3 class="my-4">Text Selection:</h3>
+            <p class="user-select-all">This paragraph will be entirely selected when clicked by the user.</p>
+            <p class="user-select-auto">This paragraph has default select behavior.</p>
+            <p class="user-select-none">This paragraph will not be selectable when clicked by the user.</p>
+            <h3 class="my-4">Pointer events:</h3>
+            <p><a href="#" class="pe-none" tabindex="-1" aria-disabled="true">This link</a> can not be clicked.</p>
+            <p><a href="#" class="pe-auto">This link</a> can be clicked (this is default behavior).</p>
+            <p class="pe-none"><a href="#" tabindex="-1" aria-disabled="true">This link</a> can not be clicked because the <code>pointer-events</code> property is inherited from its parent. However, <a href="#" class="pe-auto">this link</a> has a <code>pe-auto</code> class and can be clicked.</p>
+        </section>
     </main> 
     <script src="../js/bootstrap.min.js"></script> 
     <script src="../js/bootstrap.bundle.min.js"></script> 
