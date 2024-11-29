@@ -80,7 +80,7 @@ body {
     justify-content: center;
     flex-wrap: wrap;
     min-height: 100vh;
-    nav {
+    nav:not(.nav) {
         position: fixed;
         top: 10px;
         left: 10px;
