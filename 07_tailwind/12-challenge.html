@@ -1,31 +1,252 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>12-Challenge</title>
-    <link rel="stylesheet" href="../css/style.css">
+    <title>Sección Fallout</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <style>
-        
+        body{
+            background: url(images/acmilan.jfif);
+            background-size: cover;
+        }
+        /* Estilo específico para esta sección */
+        .button {
+            background-color: red; /* color amarillo de Tailwind */
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            margin-top: 0.5rem;
+            cursor: pointer;
+            border-radius: 20px; /* redondeo de los bordes */
+        }
+        .container {
+            width: 90%; /* Ancho del contenedor en pantallas pequeñas */
+            max-width: 400px; /* Tamaño máximo del contenedor */
+            text-align: center; /* Centra el texto */
+            border-radius: 20px;
+            position: relative; /* Agregado para posicionar la flecha */
+        }
+        .container img {
+            max-width: 100%; /* Ajusta el tamaño de las imágenes */
+            height: auto; /* Mantiene la proporción de las imágenes */
+            margin: 0 auto; /* Centra las imágenes */
+        }
+        .hidden-section {
+            display: none;
+        }
+        .circle-number {
+            display: inline-block;
+            width: 3rem;
+            height: 3rem;
+            line-height:3rem;
+            border-radius: 100%;
+            background-color: red;
+            color: black;
+            text-align: center;
+            margin-right: 0.8rem;
+        }
+        .back-arrow {
+            position: absolute;
+            top: 1rem;
+            left: 1rem;
+            cursor: pointer;
+        }
+        @media (min-width: 640px) {
+            .container {
+                width: 60%; /* Ancho del contenedor en pantallas medianas */
+            }
+        }
+        @media (min-width: 1024px) {
+            .container {
+                width: 40%; /* Ancho del contenedor en pantallas grandes */
+            }
+        }
+        .box {
+            border: 2px solid #facc15; /* Borde amarillo */
+            border-radius: 12px; /* Bordes redondeados */
+            padding: 1rem;
+            background-color: #1e3a8a; /* Fondo azul oscuro */
+            margin-bottom: 1rem; /* Espacio inferior */
+            font-size: 0.875rem; /* Fuente más pequeña */
+            text-align: left; /* Alinear texto a la izquierda */
+        }
+        .additional-text {
+            color: white; /* Color de texto blanco */
+            padding: 1rem;
+            margin-top: 1rem;
+            font-size: 1rem; /* Tamaño de fuente para el texto adicional */
+        }
     </style>
 </head>
-<body class="tailwind">
-    <nav>
-        <a href="index.html">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--!Font Awesome Free 6.5.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--><path fill="#ffffff" d="M9.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.2 288 416 288c17.7 0 32-14.3 32-32s-14.3-32-32-32l-306.7 0L214.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg>
-        </a>
-    </nav>
-    <main>
-        <header>
-            <h1>12-Challenge </h1>
-            <p>
-                Practical exercise to apply Tailwind concepts.
-            </p>
-        </header>
-        <section>
-          
-        </section>
-    </main>
-    <script src="js/tailwind.js"></script>
+<body class="bg-gray-800 flex items-center justify-center min-h-screen relative">
+
+    <!-- Contenedor de la sección -->
+    <div id="fallout-section" class="container bg-black p-5 text-white">
+        <img src="images/logo-acm.png" alt="Logo de AC-Milan" class="w-96">
+        <img src="images/equipo.jpg" alt="">
+        <p class="mt-1">La Associazione Calcio Milan S.p.A. también conocida como A. C. Milan, o simplemente Milan, es un club de fútbol italiano con sede en la ciudad de Milán, en la región de Lombardía. Fundado el 16 de diciembre de 1899 por Alfred Edwards y Herbert Kilpin, entre otros, bajo el nombre de Milan Foot-Ball & Cricket Club,12​ adoptó su actual denominación en 2003, la cual tuvo su origen en 1945. Es considerado uno de los clubes más grandes del mundo</p>
+        <button class="button" onclick="showSection('jugadores-iconicos')">Conoce más acerca de AC-Milan</button>
+    </div>
+
+    <!-- Nueva sección -->
+    <div id="jugadores-iconicos" class="container bg-black p-5 text-white mt-10 hidden-section half-yellow h-screen overflow-y-scroll">
+        <div class="back-arrow" onclick="showSection('fallout-section')">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="w-6 h-6 text-white">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+            </svg>
+        </div>
+        <h2 class="text-2xl font-bold mb-4">Jugadores Iconicos</h2>
+        <div class="mb-4 flex items-start">
+            <span class="circle-number">1</span>
+            <div>
+                <h3 class="text-xl font-semibold"><strong>Ronaldinho</strong></h3>
+                <p>Ronaldo de Assis Moreira (Porto Alegre, 21 de marzo de 1980) conocido como Ronaldinho Gaúcho portugués brasileño o simplemente Ronaldinho,nota es un exfutbolista brasileño. Como jugador, se desempeñó en la posición de centrocampista o delantero, siendo mundialmente reconocido como uno de los jugadores y talentos más grandes en la historia de fútbol</p>
+                <img src="images/ronaldinho.jfif" alt="" class="w-full mt-2">
+            </div>
+        </div>
+        <div class="mb-4 flex items-start">
+            <span class="circle-number">2</span>
+            <div>
+                <h3 class="text-xl font-semibold">KAKA</h3>
+                <p>Ricardo Izecson dos Santos Leite (Gama, Distrito Federal, 22 de abril de 1982), conocido deportivamente como Kaká, es un exfutbolista brasileño que se desempeñó en la posición de centrocampista o mediapunta.Fue considerado uno de los mejores futbolistas del mundo desde mediados hasta finales de la década de 2000, destacando especialmente en su primera etapa con el A. C. Milan.</p>
+                <img src="images/kaka.jpg" alt="" class="w-full mt-2">
+            </div>
+        </div>
+        <div class="mb-4 flex items-start">
+            <span class="circle-number">3</span>
+            <div>
+                <h3 class="text-xl font-semibold">Ronaldo Nazario</h3>
+                <p>Ronaldo Luís Nazário de Lima pronunciación en portugués Río de Janeiro, (18 de septiembre de 1976), conocido deportivamente como Ronaldo,es un exfutbolista y dirigente deportivo brasileño, actual presidente y propietario del Real Valladolid Club de Fútbol español desde el 3 de septiembre de 2018.</p>
+                <img src="images/ronaldo.jpg" alt="" class="w-full mt-2">
+            </div>
+        </div>
+        <div class="mb-4 flex items-start">
+            <span class="circle-number">4</span>
+            <div>
+                <h3 class="text-xl font-semibold">Ibrahimovic</h3>
+                <p>Zlatan Ibrahimović es un exfutbolista sueco de ascendencia bosniocroata. Considerado ampliamente como uno de los mejores delanteros de todos los tiempos, es el futbolista más laureado en la historia de su país con 32 títulos oficiales, tras haber jugado en nueve clubes distintos y en siete ligas diferentes</p>
+                <img src="images/ibra.jfif" alt="" class="w-full mt-2">
+            </div>
+        </div>
+        <div class="mb-4 flex items-start">
+            <span class="circle-number">5</span>
+            <div>
+                <h3 class="text-xl font-semibold">Gullit</h3>
+                <p>Ruud Gullit (nacido como Rudi Dil) (Ámsterdam, 1 de septiembre de 1962) es un exfutbolista y entrenador neerlandés que jugaba como mediapunta o delantero. Es considerado uno de los mejores futbolistas del mundo de los años 80 y principios de los 90.</p>
+                <img src="images/gullit.jfif" alt="" class="w-full mt-2">
+            </div>
+        </div>
+        <div class="mb-4 flex items-start">
+            <span class="circle-number">6</span>
+            <div>
+                <h3 class="text-xl font-semibold">Cafú</h3>
+                <p>Marcos Evangelista de Moraes (Itaquaquecetuba, 7 de junio de 1970), conocido deportivamente como Cafú, es un exfutbolista brasileño que jugaba como lateral derecho. Jugó la mayor parte de su carrera en el São Paulo F. C. donde permaneció durante 6 temporadas, desde 1989 hasta 1994. También tuvo una etapa en la A. S. Roma, desde 1997 hasta 2003. Su último equipo fue el A. C. Milan.</p>
+                <img src="images/cafu.jpg" alt="" class="w-full mt-2">
+            </div>
+        </div>
+        <div class="mb-4 flex items-start">
+            <span class="circle-number">7</span>
+            <div>
+                <h3 class="text-xl font-semibold">Pirlo</h3>
+                <p>Andrea Pirlo (Flero, Brescia, 19 de mayo de 1979) es un exfutbolista y entrenador italiano. Actualmente sin club, Se desempeñaba en la posición de centrocampista. Como jugador se caracterizó por su buen pase, visión de juego, control de pelota y lanzamiento de tiro libre. Es ampliamente considerado como uno de los mejores centrocampistas de la historia</p>
+                <img src="images/andrea-pirlo.jpeg" alt="" class="w-full mt-2">
+            </div>
+        </div>
+        <div class="mb-4 flex items-start">
+            <span class="circle-number">8</span>
+            <div>
+                <h3 class="text-xl font-semibold">Maldini</h3>
+                <p>Paolo Cesare Maldini (pronunciación en italiano: paolo malˈdiːni/; Milán, Lombardía, 26 de junio de 1968) es un exfutbolista italiano que jugaba como lateral izquierdo o defensa central para el AC Milan y la selección italiana. Es considerado uno de los mejores defensores de todos los tiempos.</p>
+                <img src="images/maldini.jfif" alt="" class="w-full mt-2">
+            </div>
+        </div>
+        <div class="mb-4 flex items-start">
+            <span class="circle-number">9</span>
+            <div>
+                <h3 class="text-xl font-semibold">Nesta</h3>
+                <p>Alessandro Giovanni Faccutio Nesta (Roma, 19 de marzo de 1976) es un exfutbolista y director técnico italiano que jugaba de defensa central. Actualmente dirige al Monza de la Serie A.</p>
+                <img src="images/nesta.jfif" alt="" class="w-full mt-2">
+            </div>
+        </div>
+        <div class="mb-4 flex items-start">
+            <span class="circle-number">10</span>
+            <div>
+                <h3 class="text-xl font-semibold">Zambrota</h3>
+                <p>Zambrotta debutó con 18 años en el club de su ciudad natal, el Como, disputando la Serie B en 1994. Comenzó a jugar con regularidad en el equipo después del descenso a la Serie C1, lo que le sirvió para que el Bari se fijase en él. Por el Bari fichó en 1997, debutando así en la Serie A. Desde el primer momento se ganó la titularidad en un equipo que jugaba como recién ascendido, lo que le valió para ser habitual de las convocatorias de la selección italiana sub-21.</p>
+                <img src="images/zambrota.jpg" alt="" class="w-full mt-2">
+            </div>
+        </div>
+        <button class="button mt-4" onclick="showSection('juegos-section')">Conoce más acerca del juego</button>
+    </div>
+
+    <!-- Sección de juegos -->
+    <div id="juegos-section" class="container bg-gray-700 p-5 text-white mt-10 hidden-section half-yellow">
+        <div class="back-arrow" onclick="showSection('jugadores-iconicos')">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="w-6 h-6 text-white">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+            </svg>
+        </div>
+        <h2 class="text-2xl font-bold mb-4">TÍTULOS MÁS IMPORTANTES</h2>
+        <div class="box">
+            <div class="mb-4 flex items-start">
+                <span class="circle-number">1</span>
+                <div>
+                    <h3 class="text-lg font-semibold">Champions League</h3>
+                    <p></p>
+                    <img src="" alt="" class="w-full mt-2">
+                </div>
+            </div>
+            <div class="mb-4 flex items-start">
+                <span class="circle-number">2</span>
+                <div>
+                    <h3 class="text-lg font-semibold">Fallout 2 (1998)</h3>
+                </div>
+            </div>
+            <div class="mb-4 flex items-start">
+                <span class="circle-number">3</span>
+                <div>
+                    <h3 class="text-lg font-semibold">Fallout 3 (2008)</h3>
+                </div>
+            </div>
+            <div class="mb-4 flex items-start">
+                <span class="circle-number">4</span>
+                <div>
+                    <h3 class="text-lg font-semibold">Fallout: New Vegas (2010)</h3>
+                </div>
+            </div>
+            <div class="mb-4 flex items-start">
+                <span class="circle-number">5</span>
+                <div>
+                    <h3 class="text-lg font-semibold">Fallout 4 (2015)</h3>
+                </div>
+                <div class="mb-4 flex items-start">
+                    <span class="circle-number">6</span>
+                    <div>
+                        <h3 class="text-lg font-semibold">Fallout 4 (2015)</h3>
+                    </div>
+                </div>
+                <div class="mb-4 flex items-start">
+                    <span class="circle-number">7</span>
+                    <div>
+                        <h3 class="text-lg font-semibold">Fallout 4 (2015)</h3>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="additional-text">
+            <p>Estos son los principales juegos de la saga, adéntrate en un mundo postapocalíptico, con humor bizarro, mucha sangre y desgracia.</p>
+        </div>
+        <button class="button mt-4" onclick="showSection('fallout-section')">Regresar</button>
+    </div>
+
+    <script>
+        function showSection(sectionToShow) {
+            document.getElementById('fallout-section').style.display = 'none';
+            document.getElementById('jugadores-iconicos').style.display = 'none';
+            document.getElementById('juegos-section').style.display = 'none';
+            document.getElementById(sectionToShow).style.display = 'block';
+        }
+    </script>
 </body>
 </html>
