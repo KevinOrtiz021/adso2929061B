@@ -3,34 +3,33 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sección Fallout</title>
+    <title>AC-Milan</title>
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <style>
         body{
             background: url(images/acmilan.jfif);
             background-size: cover;
         }
-        /* Estilo específico para esta sección */
         .button {
-            background-color: red; /* color amarillo de Tailwind */
+            background-color: red; 
             color: white;
             border: none;
             padding: 0.5rem 1rem;
             margin-top: 0.5rem;
             cursor: pointer;
-            border-radius: 20px; /* redondeo de los bordes */
+            border-radius: 20px; 
         }
         .container {
-            width: 90%; /* Ancho del contenedor en pantallas pequeñas */
-            max-width: 400px; /* Tamaño máximo del contenedor */
-            text-align: center; /* Centra el texto */
+            width: 90%; 
+            max-width: 400px; 
+            text-align: center; 
             border-radius: 20px;
-            position: relative; /* Agregado para posicionar la flecha */
+            position: relative; 
         }
         .container img {
-            max-width: 100%; /* Ajusta el tamaño de las imágenes */
-            height: auto; /* Mantiene la proporción de las imágenes */
-            margin: 0 auto; /* Centra las imágenes */
+            max-width: 100%; 
+            height: auto; 
+            margin: 0 auto; 
         }
         .hidden-section {
             display: none;
@@ -38,13 +37,13 @@
         .circle-number {
             display: inline-block;
             width: 3rem;
-            height: 3rem;
-            line-height:3rem;
-            border-radius: 100%;
+            height: 2rem;
+            line-height:2rem;
+            border-radius: 50px;
             background-color: red;
             color: black;
             text-align: center;
-            margin-right: 0.8rem;
+            margin-right: 1rem;
         }
         .back-arrow {
             position: absolute;
@@ -54,35 +53,40 @@
         }
         @media (min-width: 640px) {
             .container {
-                width: 60%; /* Ancho del contenedor en pantallas medianas */
+                width: 60%; 
             }
         }
         @media (min-width: 1024px) {
             .container {
-                width: 40%; /* Ancho del contenedor en pantallas grandes */
+                width: 40%; 
             }
         }
         .box {
-            border: 2px solid #facc15; /* Borde amarillo */
-            border-radius: 12px; /* Bordes redondeados */
-            padding: 1rem;
-            background-color: #1e3a8a; /* Fondo azul oscuro */
-            margin-bottom: 1rem; /* Espacio inferior */
-            font-size: 0.875rem; /* Fuente más pequeña */
-            text-align: left; /* Alinear texto a la izquierda */
+            border: 4px solid #e20606; 
+            border-radius: 12px; 
+            padding: 2rem;
+            background-color: #3c3e42; 
+            margin-bottom: 1rem; 
+            font-size: 0.875rem; 
+            text-align: left; 
+            height: 400px;
+            overflow-y: auto;
+            padding-right: 10px;
         }
         .additional-text {
-            color: white; /* Color de texto blanco */
+            color: white;
             padding: 1rem;
             margin-top: 1rem;
-            font-size: 1rem; /* Tamaño de fuente para el texto adicional */
+            font-size: 1rem; 
         }
+
     </style>
 </head>
 <body class="bg-gray-800 flex items-center justify-center min-h-screen relative">
 
     <!-- Contenedor de la sección -->
     <div id="fallout-section" class="container bg-black p-5 text-white">
+        <p class="mt-2 font-bold bg-red-700 text-black">AC-MIlan</p>
         <img src="images/logo-acm.png" alt="Logo de AC-Milan" class="w-96">
         <img src="images/equipo.jpg" alt="">
         <p class="mt-1">La Associazione Calcio Milan S.p.A. también conocida como A. C. Milan, o simplemente Milan, es un club de fútbol italiano con sede en la ciudad de Milán, en la región de Lombardía. Fundado el 16 de diciembre de 1899 por Alfred Edwards y Herbert Kilpin, entre otros, bajo el nombre de Milan Foot-Ball & Cricket Club,12​ adoptó su actual denominación en 2003, la cual tuvo su origen en 1945. Es considerado uno de los clubes más grandes del mundo</p>
@@ -90,7 +94,7 @@
     </div>
 
     <!-- Nueva sección -->
-    <div id="jugadores-iconicos" class="container bg-black p-5 text-white mt-10 hidden-section half-yellow h-screen overflow-y-scroll">
+    <div id="jugadores-iconicos" class="container bg-black p-5 text-white mt-10 hidden-section half-yellow h-screen overflow-auto">
         <div class="back-arrow" onclick="showSection('fallout-section')">
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="w-6 h-6 text-white">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
@@ -157,7 +161,7 @@
             <span class="circle-number">8</span>
             <div>
                 <h3 class="text-xl font-semibold">Maldini</h3>
-                <p>Paolo Cesare Maldini (pronunciación en italiano: paolo malˈdiːni/; Milán, Lombardía, 26 de junio de 1968) es un exfutbolista italiano que jugaba como lateral izquierdo o defensa central para el AC Milan y la selección italiana. Es considerado uno de los mejores defensores de todos los tiempos.</p>
+                <p>Paolo Cesare Maldini (pronunciación en italiano: paolo maldini Milán, Lombardía, 26 de junio de 1968) es un exfutbolista italiano que jugaba como lateral izquierdo o defensa central para el AC Milan y la selección italiana. Es considerado uno de los mejores defensores de todos los tiempos.</p>
                 <img src="images/maldini.jfif" alt="" class="w-full mt-2">
             </div>
         </div>
@@ -181,61 +185,79 @@
     </div>
 
     <!-- Sección de juegos -->
-    <div id="juegos-section" class="container bg-gray-700 p-5 text-white mt-10 hidden-section half-yellow">
+    <div id="juegos-section" class="container bg-black p-5 text-white mt-14 hidden-section half-yellow">
         <div class="back-arrow" onclick="showSection('jugadores-iconicos')">
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="w-6 h-6 text-white">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
             </svg>
         </div>
-        <h2 class="text-2xl font-bold mb-4">TÍTULOS MÁS IMPORTANTES</h2>
+        <h2 class="text-2xl font-bold mb-4 ">TÍTULOS MÁS IMPORTANTES</h2>
         <div class="box">
             <div class="mb-4 flex items-start">
                 <span class="circle-number">1</span>
                 <div>
                     <h3 class="text-lg font-semibold">Champions League</h3>
-                    <p></p>
-                    <img src="" alt="" class="w-full mt-2">
+                    <img src="images/champions.jfif" alt="" class="w-full mt-2">
+                    <p> El AC Milan ha ganado la Champions League en siete ocasiones: 1968-69, 1988-89, 1989-90, 1993-94, 2002-03 y 2006-07. </p>
+                    
                 </div>
             </div>
             <div class="mb-4 flex items-start">
                 <span class="circle-number">2</span>
                 <div>
-                    <h3 class="text-lg font-semibold">Fallout 2 (1998)</h3>
+                    <h3 class="text-lg font-semibold">Supercopa de Europa</h3>
+                    <img src="images/supercopa-de-europa.jpg" alt="" class="w-full mt-2">
+                    <p>El AC Milan ha ganado la Supercopa de Europa en cinco ocasiones: 1989, 1990, 1994, 2003 y 2007. </p>
+    
                 </div>
             </div>
             <div class="mb-4 flex items-start">
                 <span class="circle-number">3</span>
                 <div>
-                    <h3 class="text-lg font-semibold">Fallout 3 (2008)</h3>
+                    <h3 class="text-lg font-semibold">Copa Mundial de Clubes</h3>
+                    <img src="images/copa-mudial-de-clubes.jpg" alt="" class="w-full mt-2">
+                    <p>El AC Milan ha ganado la Copa Mundial de Clubes de la FIFA en una ocasión: 2007. </p>
+    
                 </div>
             </div>
             <div class="mb-4 flex items-start">
                 <span class="circle-number">4</span>
                 <div>
-                    <h3 class="text-lg font-semibold">Fallout: New Vegas (2010)</h3>
+                    <h3 class="text-lg font-semibold">Copa Intercontinental</h3>
+                    <img src="images/intercontinental.jpg" alt="" class="w-full mt-2">
+                    <p>El AC Milan ha ganado la Copa Intercontinental en tres ocasiones. </p>
+    
                 </div>
             </div>
             <div class="mb-4 flex items-start">
                 <span class="circle-number">5</span>
                 <div>
-                    <h3 class="text-lg font-semibold">Fallout 4 (2015)</h3>
+                    <h3 class="text-lg font-semibold">Recopa de Europa</h3>
+                    <img src="images/recopa-de-europa.jpg" alt="" class="w-full mt-2">
+                    <p> El AC Milan ha ganado la Recopa de Europa en dos ocasiones: 1967-1968 y 1972-1973. </p>
+    
                 </div>
-                <div class="mb-4 flex items-start">
-                    <span class="circle-number">6</span>
-                    <div>
-                        <h3 class="text-lg font-semibold">Fallout 4 (2015)</h3>
-                    </div>
+            </div>
+            <div class="mb-4 flex items-start">
+                <span class="circle-number">6</span>
+                <div>
+                    <h3 class="text-lg font-semibold">Copa Latina</h3>
+                    <img src="images/copa-latina.jpg" alt="" class="w-full mt-2">
+                    <p>El AC Milan ha ganado la Copa Latina en dos ocasiones: 1951 y 1956. </p>
+    
                 </div>
-                <div class="mb-4 flex items-start">
-                    <span class="circle-number">7</span>
-                    <div>
-                        <h3 class="text-lg font-semibold">Fallout 4 (2015)</h3>
-                    </div>
+            </div>
+            <div class="mb-4 flex items-start">
+                <span class="circle-number">7</span>
+                <div>
+                    <h3 class="text-lg font-semibold">Copa Mitropa</h3>
+                    <img src="images/copa-mitropa.jpg" alt="" class="w-full mt-2">
+                    <p>El AC Milan ha ganado la Copa Mitropa en una ocasión: 1982. </p>
                 </div>
             </div>
         </div>
-        <div class="additional-text">
-            <p>Estos son los principales juegos de la saga, adéntrate en un mundo postapocalíptico, con humor bizarro, mucha sangre y desgracia.</p>
+        <div class="additional-text font-bold">
+            <p>El AC Milan es el club italiano más ganador en competiciones internacionales. Es uno de los clubes más exitosos del mundo en cuanto a trofeos ganados. Títulos internacionales 7 Copas de Europa, 3 Copas Intercontinentales, 1 Mundial de Clubes de la FIFA, 5 Supercopas de Europa, 2 Recopas de Europa. </p>
         </div>
         <button class="button mt-4" onclick="showSection('fallout-section')">Regresar</button>
     </div>
