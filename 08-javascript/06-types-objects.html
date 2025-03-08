@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>06- Type Objects</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <style>
+        section ul.objects{
+            list-style: none;
+            padding: 0;
+            li {
+                border-radius: 0.4rem;
+                padding: 0.2rem;
+                background-color: #fff9;
+                margin-bottom: 0.4rem;
+                b{
+                    font-weight: 600;
+                    color: #928531;
+                }
+            }
+        }
+    </style>
+</head>
+<body class="js">
+    <nav>
+        <a href="index.html">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--!Font Awesome Free 6.5.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--><path fill="#ffffff" d="M9.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.2 288 416 288c17.7 0 32-14.3 32-32s-14.3-32-32-32l-306.7 0L214.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg>
+        </a>
+    </nav>
+    <main>
+        <header>
+            <h1>06-types-objects</h1>
+            <p>
+                Understand and work with different object types.
+            </p>
+        </header>
+        <section>
+            <ul class="objects"></ul>
+        </section>
+    </main>
+    <script>
+        //Element
+        const objects = document.querySelector('.objects')
+        //Object String
+        let objString = new String()
+        objects.innerHTML = `<li><b>Type:</b> ${objString.constructor.name}</li>`
+        //Object Number 
+        let objNumber = new Number()
+        objects.innerHTML += `<li><b>Type:</b> ${objNumber.constructor.name}</li>`
+        //Object Boolean 
+        let objBoolean = new Boolean()
+        objects.innerHTML += `<li><b>Type:</b> ${objBoolean.constructor.name}</li>`
+        //Object Array 
+        let objArray = new Array()
+        objects.innerHTML += `<li><b>Type:</b> ${objArray.constructor.name}</li>`
+        //Object Date
+        let objDate = new Date()
+        objects.innerHTML += `<li><b>Type:</b> ${objDate.constructor.name}</li>`
+        //Object 
+        let objObject = new Object()
+        objects.innerHTML += `<li><b>Type:</b> ${objObject.constructor.name}</li>`
+    </script>
+</body>
+</html>
