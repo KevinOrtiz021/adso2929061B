@@ -106,6 +106,10 @@
             gap: 0.2rem;
             width: 346px;
             bottom: 20px;
+            &:hover button:not(:hover){
+                opacity: 0.2;
+                filter: blur(px);
+            }
         }
         
         div.methods button {
@@ -139,7 +143,8 @@
         div.methods button.btn-power-off {
             background: url(images/class-vehicle/btn-power-off.svg.svg) no-repeat center;
         }
-        div.lindscape{
+        
+        div.lindscape {
             position: absolute;
             overflow: hidden;
             left: 50%;
@@ -150,13 +155,50 @@
             width: 359px;
         }
         
-        img.car{
+        /* Animated Landscape Styles */
+        .landscape {
+            position: absolute;
+            overflow: hidden;
+            height: 281px;
+            width: 389px;
+            top: 0;
+            left: 0;
+            border-radius: 20px;
+            z-index: 0;
+        }
+        
+        .landscape div {
+            position: absolute;
+            height: 271px;
+            width: 810px;
+        }
+        
+        .landscape div div {
+            height: 271px;
+            width: 800px;
+        }
+        
+        .landscape div.layer01 div.bg1 {
+            background: url(https://repo2873711.netlify.app/08-javascript/images/vehicle/bg-sky.svg) repeat-x 0 bottom;
+        }
+        
+        .landscape div.layer02 div.bg2 {
+            background: url(https://repo2873711.netlify.app/08-javascript/images/vehicle/bg-mountains.svg) repeat-x 0 bottom;
+        }
+        
+        .landscape div.layer03 div.bg3 {
+            background: url(https://repo2873711.netlify.app/08-javascript/images/vehicle/bg-route.svg) repeat-x 0 bottom;
+        }
+        
+        img.car {
             display: flex;
             margin: 200px auto 0 auto;
             object-fit: contain;
             height: 80px;
             width: 164px;
             transition: transform 0.1s ease-in-out;
+            position: relative;
+            z-index: 10;
         }
         
         /* Dark Mode */
@@ -237,6 +279,19 @@
                 <button class="btn-prev"></button>
                 <button class="btn-next"></button>
                 <div class="lindscape">
+                    <!-- Add the animated landscape inside the existing lindscape div -->
+                    <div class="landscape">
+                        <div class="layer01">
+                            <div class="layer bg1"></div>
+                        </div>
+                        <div class="layer02">
+                            <div class="layer bg2"></div>
+                        </div>
+                        <div class="layer03">
+                            <div class="layer bg3"></div>
+                        </div>
+                    </div>
+                    <!-- Keep the car img at the same level as the landscape -->
                     <img class="car" src="" alt="">
                 </div>
                 <div class="methods">
@@ -285,30 +340,51 @@
         const amplitude = 2
         let isAnimating = false
         let animationFrameId = null
-        let horizontalPosition = 0
         let isMovingForward = false
         let isMovingBackward = false
+        
+        // Landscape Animation Variables
+        const layers = document.querySelectorAll('.layer')
+        let isReversed = false
+        let isPaused = true
+        let lastTimestamp = 0
+        const speedFactors = [0.1, 0.05, 0.1]
+        
+        // Initialize layer positions
+        layers.forEach(layer => {
+            layer.dataset.pos = '0'
+        })
         
         btnPrev.style.opacity ='0.2'
         btnPrev.style.pointerEvents = 'none';
         
-        // Función para hacer vibrar el vehículo
+        // Landscape Animation Function
+        function animateLandscape(timestamp) {
+            if (!isPaused) {
+                const delta = timestamp - (lastTimestamp || timestamp)
+                lastTimestamp = timestamp
+                
+                layers.forEach((layer, index) => {
+                    let currentPos = (parseFloat(layer.dataset.pos) || 0) + speedFactors[index] * (isReversed ? delta : -delta)
+                    layer.style.backgroundPositionX = `${currentPos}px`
+                    layer.dataset.pos = currentPos
+                })
+            }
+            requestAnimationFrame(animateLandscape)
+        }
+        
+        // Start landscape animation
+        requestAnimationFrame(animateLandscape)
+        
+        // Function to make vehicle vibrate
         function vibrate() {
             position += direction * speed
             if (position > amplitude || position < -amplitude) {
                 direction *= -1
             }
             
-            // Manejar movimiento horizontal si está en movimiento
-            if (isMovingForward) {
-                horizontalPosition += 1
-                if (horizontalPosition > 80) horizontalPosition = 80
-            } else if (isMovingBackward) {
-                horizontalPosition -= 1
-                if (horizontalPosition < -80) horizontalPosition = -80
-            }
-            
-            carImg.style.transform = `translate(${horizontalPosition}px, ${position}px)`
+            // Only apply the vertical vibration, no horizontal movement for the vehicle
+            carImg.style.transform = `translate(0px, ${position}px)`
             animationFrameId = requestAnimationFrame(vibrate)
         }
         
@@ -409,8 +485,8 @@
                     isAnimating = false
                     isMovingForward = false
                     isMovingBackward = false
+                    isPaused = true
                     cancelAnimationFrame(animationFrameId)
-                    horizontalPosition = 0
                     position = 0
                     carImg.style.transform = 'translate(0, 0)'
                 }
@@ -420,6 +496,8 @@
                     console.log('Moving forward')
                     isMovingForward = true
                     isMovingBackward = false
+                    isReversed = false
+                    isPaused = false
                 } else {
                     console.log('Turn on the vehicle first')
                 }
@@ -429,6 +507,7 @@
                     console.log('Stopped')
                     isMovingForward = false
                     isMovingBackward = false
+                    isPaused = true
                 }
             }
             moveBackward(){
@@ -436,6 +515,8 @@
                     console.log('Moving backward')
                     isMovingBackward = true
                     isMovingForward = false
+                    isReversed = true
+                    isPaused = false
                 } else {
                     console.log('Turn on the vehicle first')
                 }
