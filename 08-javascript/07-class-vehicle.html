@@ -21,7 +21,7 @@
             cursor: pointer;
             border: none;
             position: absolute;
-            top: 30px;
+            top: 40px;
             right: 20px;
             height: 50px;
             transition: transform 0.4s ease-in;
@@ -77,7 +77,7 @@
         
         button.btn-prev {
             background: url(images/class-vehicle/btn-prev.svg.svg) no-repeat center;
-            left: 32px;
+            left: 15px;
         }
         
         button.btn-prev:hover {
@@ -86,7 +86,7 @@
         
         button.btn-next {
             background: url(images/class-vehicle/btn-next.svg.svg) no-repeat center;
-            right: 30px;
+            right: 15px;
         }
         
         button.btn-next:hover {
@@ -102,22 +102,23 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            left: 12px;
-            gap: 0.2rem;
-            width: 346px;
+            left: 5px;
+            gap: 0.3rem;
+            width: 356px;
             bottom: 20px;
-            &:hover button:not(:hover){
-                opacity: 0.2;
-                filter: blur(px);
-            }
+        }
+        
+        div.methods:hover button:not(:hover){
+            opacity: 0.2;
+            filter: blur(1px);
         }
         
         div.methods button {
             border: none;
             cursor: pointer;
-            height: 68px;
+            height: 70px;
             transition: transform 0.4s ease-in;
-            width: 68px;
+            width: 70px;
         }
         
         div.methods button:hover {
@@ -149,45 +150,52 @@
             overflow: hidden;
             left: 50%;
             transform: translateX(-50%);
-            top: 402px;
+            top: 408px;
             border-radius: 20px;
-            height: 271px;
+            height: 280px;
             width: 359px;
+            perspective: 1000px;
         }
         
-        /* Animated Landscape Styles */
+        /* Parallax Landscape Styles */
         .landscape {
             position: absolute;
             overflow: hidden;
-            height: 281px;
-            width: 389px;
+            height: 290px;
+            width: 430px;
             top: 0;
             left: 0;
             border-radius: 20px;
             z-index: 0;
+            transform-style: preserve-3d;
         }
         
         .landscape div {
             position: absolute;
-            height: 271px;
-            width: 810px;
+            height: 260px;
+            width: 760px;
+            transform: translateZ(-10px) scale(1.1);
         }
         
         .landscape div div {
-            height: 271px;
-            width: 800px;
+            height: 260px;
+            width: 760px;
+            backface-visibility: hidden;
         }
         
         .landscape div.layer01 div.bg1 {
-            background: url(https://repo2873711.netlify.app/08-javascript/images/vehicle/bg-sky.svg) repeat-x 0 bottom;
+            background: url(images/class-vehicle/fondo-dia.svg) repeat-x 0 bottom;
+            transform: translateZ(-20px) scale(1.2);
         }
         
         .landscape div.layer02 div.bg2 {
-            background: url(https://repo2873711.netlify.app/08-javascript/images/vehicle/bg-mountains.svg) repeat-x 0 bottom;
+            background: url(images/class-vehicle/montaña-dia.svg) repeat-x 0 bottom;
+            transform: translateZ(-10px) scale(1.1);
         }
         
         .landscape div.layer03 div.bg3 {
-            background: url(https://repo2873711.netlify.app/08-javascript/images/vehicle/bg-route.svg) repeat-x 0 bottom;
+            background: url(images/class-vehicle/carretera-dia.svg) repeat-x 0 bottom;
+            transform: translateZ(0) scale(1);
         }
         
         img.car {
@@ -201,7 +209,7 @@
             z-index: 10;
         }
         
-        /* Dark Mode */
+        /* Dark Mode Styles */
         figure.vehicle.dark {
             background: url(images/class-vehicle/bg-dark.svg) no-repeat center;
         }
@@ -242,6 +250,17 @@
             background: url(images/class-vehicle/turn-off-dark.svg) no-repeat center;
         }
         
+        /* Night Mode Landscape */
+        figure.vehicle.dark .landscape div.layer01 div.bg1 {
+            background: url(images/class-vehicle/fondo-noche.svg) repeat-x 0 bottom;
+        }
+        figure.vehicle.dark .landscape div.layer01 div.bg2 {
+            background: url(images/class-vehicle/montaña-noche.svg) repeat-x 0 bottom;
+        }
+        figure.vehicle.dark .landscape div.layer01 div.bg3 {
+            background: url(images/class-vehicle/carretera-noche.svg) repeat-x 0 bottom;
+        }
+        
         @keyframes showData {
             0% {
                 opacity: 0;
@@ -279,7 +298,6 @@
                 <button class="btn-prev"></button>
                 <button class="btn-next"></button>
                 <div class="lindscape">
-                    <!-- Add the animated landscape inside the existing lindscape div -->
                     <div class="landscape">
                         <div class="layer01">
                             <div class="layer bg1"></div>
@@ -291,7 +309,6 @@
                             <div class="layer bg3"></div>
                         </div>
                     </div>
-                    <!-- Keep the car img at the same level as the landscape -->
                     <img class="car" src="" alt="">
                 </div>
                 <div class="methods">
@@ -388,21 +405,22 @@
             animationFrameId = requestAnimationFrame(vibrate)
         }
         
-        //Dark Mode 
-        const darkMode = window.matchMedia('(prefers-color-scheme:dark)')
-        darkMode.addListener(darkModeChange)
-        function darkModeChange(dm){
-            if(dm.matches){
-                vFigure.classList.add('dark')
-            } else {
-                vFigure.classList.remove('dark')
-            }
-        }
-        darkModeChange(darkMode)
-        //Events
+        // Enhanced Dark Mode Functionality
         btnMode.addEventListener('click', () => {
             vFigure.classList.toggle('dark')
+            // Store user's preference in localStorage
+            localStorage.setItem('darkMode', vFigure.classList.contains('dark') ? 'enabled' : 'disabled')
         })
+
+        // Check for saved dark mode preference
+        document.addEventListener('DOMContentLoaded', () => {
+            const savedDarkMode = localStorage.getItem('darkMode')
+            if (savedDarkMode === 'enabled') {
+                vFigure.classList.add('dark')
+            }
+        })
+        
+        //Events
         btnNext.addEventListener('click', () => {
             if(inx < (vehicles.attrs.length)-1) {
                 ++inx
