@@ -6,7 +6,12 @@
     <title>02-comments</title>
     <link rel="stylesheet" href="../css/style.css">
     <style>
-        
+        h4 {
+            font-size: 3rem;
+            text-align: center;
+            border: #060606 solid 10px;
+            border-radius: 2rem;
+        }
     </style>
 </head>
 <body class="js">
@@ -27,14 +32,24 @@
         </section>
     </main>
     <script>
+        // This is a comment line
         const today = document.getElementById('today')
-        /* 
-            this is a 
-            block comment to
-            multiple lines of code 
-        */ 
+        setInterval(() => {
+        /*
+        This is a 
+        block comment to
+        multiple lines of code
+        */
         const tdate = new Date()
-        today.innerText =tdate 
+
+        const seconds = tdate.getSeconds().toString().padStart(2, '0')
+        const minutes = tdate.getMinutes().toString().padStart(2, '0')
+        const hours = tdate.getHours().toString().padStart(2, '0')
+
+        const time = `${hours}:${minutes}:${seconds}`;
+        
+        today.innerText = time
+        }, 1000);
     </script>
 </body>
 </html>
