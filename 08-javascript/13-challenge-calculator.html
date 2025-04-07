@@ -18,6 +18,18 @@
                 width: 330px;
                 height: 162px;
                 margin: 0 auto;
+                
+                /* Nuevo contenedor de fondo para el área de display */
+                .display-background {
+                    position: absolute;
+                    top: 45px;
+                    width: 310px;
+                    height: 90px;
+                    background-color: rgba(255, 255, 200, 0.2); /* Amarillo claro para modo normal */
+                    border-radius: 10px;
+                    transition: all 0.4s ease-in;
+                }
+                
                 button.btn-mode{
                     background: url(images/calculadora/btn-mode.svg);
                     cursor: pointer;
@@ -36,22 +48,44 @@
                 display: flex;
                 background-color: transparent;
                 position: absolute;
-                top: 75px;
-                right: 0;
+                top: 65px;
+                right: 10px;
                 text-align: right;
                 font-size: 18px;
                 font-weight: 500;
-                width: 100%;
+                width: 310px;
+                max-width: 310px;
+                overflow: hidden;
             }
             h4.result {
-                font-size: 40px;
+                font-size: 36px;
                 text-align: right;
                 font-weight: 600;
                 position: absolute;
-                top: 58px;
-                right: 0;
-
+                top: 90px;
+                right: 10px;
+                width: 310px;
+                margin: 0;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                white-space: nowrap;
             }
+            
+            h4.result.preview {
+                color: #666;
+                font-size: 28px;
+            }
+            
+            h4.result.final {
+                color: #000;
+            }
+            
+            @keyframes pulse {
+                0% { transform: scale(1); }
+                50% { transform: scale(1.05); }
+                100% { transform: scale(1); }
+            }
+            
             footer{
                 display: grid;
                 grid-template-columns: repeat(4, 76px);
@@ -131,10 +165,15 @@
 
         /*DARK MODE*/
         div.calculator.dark{
-            background: url(images/calculator/mode-dark.svg) no-repeat center;
+            background: url(images/calculadora/calculadora-dark.svg) no-repeat center;
             header {
                 button.btn-mode{
-                    background: url(images/calculator/btn-mode-dark.svg);
+                    background: url(images/calculadora/btn-mode-dark.svg);
+                }
+                
+                /* Fondo gris claro para el modo oscuro */
+                .display-background {
+                    background-color: rgba(200, 200, 200, 0.2); /* Gris claro para modo oscuro */
                 }
             }
             input.oper {
@@ -143,69 +182,75 @@
             h4.result{
                 color: #ffff;
             }
+            h4.result.preview {
+                color: #ccc;
+            }
+            h4.result.final {
+                color: #fff;
+            }
             footer{
                 button{
                     transition: all 0.4s ease-in;
 
                 &.btn-clear{
-                    background: url(images/calculator/btn-clear-dark.svg);
+                    background: url(images/calculadora/btn-clear-dark.svg);
                 }
                 &.btn-del{
-                    background: url(images/calculator/btn-del-dark.svg);
+                    background: url(images/calculadora/btn-del-dark.svg);
                 }
                 &.btn-pow{
-                    background: url(images/calculator/btn-pow-dark.svg);
+                    background: url(images/calculadora/btn-pow-dark.svg);
                 }
                 &.btn-mod{
-                    background: url(images/calculator/btn-mod-dark.svg);
+                    background: url(images/calculadora/btn-mod-dark.svg);
                 }
                 &.btn-one{
-                    background: url(images/calculator/btn-one-dark.svg);
+                    background: url(images/calculadora/btn-1-dark.svg);
                 }
                 &.btn-two{
-                    background: url(images/calculator/btn-two-dark.svg);
+                    background: url(images/calculadora/btn-2-dark.svg);
                 }
                 &.btn-three{
-                    background: url(images/calculator/btn-three-dark.svg);
+                    background: url(images/calculadora/btn-3-dark.svg);
                 }
                 &.btn-multiply{
-                    background: url(images/calculator/btn-multiply-dark.svg);
+                    background: url(images/calculadora/btn-mul-dark.svg);
                 }
                 &.btn-four{
-                    background: url(images/calculator/btn-four-dark.svg);
+                    background: url(images/calculadora/btn-4-dark.svg);
                 }
                 &.btn-five{
-                    background: url(images/calculator/btn-five-dark.svg);
+                    background: url(images/calculadora/btn-5-dark.svg);
                 }
                 &.btn-six{
-                    background: url(images/calculator/btn-six-dark.svg);
+                    background: url(images/calculadora/btn-6-dark.svg);
                 }
                 &.btn-rest{
-                    background: url(images/calculator/btn-rest-dark.svg);
+                    background: url(images/calculadora/btn-rest-dark.svg);
                 }
                 &.btn-seven{
-                    background: url(images/calculator/btn-seven-dark.svg);
+                    background: url(images/calculadora/btn-7-dark.svg);
                 }
                 &.btn-eight{
-                    background: url(images/calculator/btn-eight-dark.svg);
+                    background: url(images/calculadora/btn-8-dark.svg);
                 }
                 &.btn-nine{
-                    background: url(images/calculator/btn-nine-dark.svg);
+                    background: url(images/calculadora/btn-9-dark.svg);
                 }
                 &.btn-sum{
-                    background: url(images/calculator/btn-sum-dark.svg);
+                    background: url(images/calculadora/btn-sum-dark.svg);
                 }
                 &.btn-div{
-                    background: url(images/calculator/btn-div-dark.svg);
+                    background: url(images/calculadora/btn-div-dark.svg);
                 }
                 &.btn-zero{
-                    background: url(images/calculator/btn-zero-dark.svg);
+                    background: url(images/calculadora/btn-0-dark.svg);
                 }
                 &.btn-dote{
-                    background: url(images/calculator/btn-dote-dark.svg);
+                    background: url(images/calculadora/btn-dote-dark.svg);
                 }
                 &.btn-equal{
-                    background: url(images/calculator/btn-equal-dark.svg);
+                    background: url(images/calculadora/btn-equal-dark.svg);
                 }
                 }
             }
@@ -228,9 +273,10 @@
         <section>
             <div class="calculator">
                 <header>
+                    <div class="display-background"></div>
                     <button class="btn-mode"></button>
-                    <input type="text" class="oper" value="308 x 42" readonly>
-                    <h4 class="result">12.936</h4>
+                    <input type="text" class="oper" readonly>
+                    <h4 id="result-display" class="result"></h4>
                 </header>
                 <footer>
                     <button class="btn-clear"></button>
@@ -258,16 +304,94 @@
         </section>
     </main>
     <script>
-        //buttons
-        const btnMode = document.querySelector('.btn-mode');
-        const divCal = document.querySelector('.calculator');
-        //Events
-        btnMode.addEventListener('click', () => {
-            divCal.classList.toggle('dark');
+        const operInput = document.querySelector('.oper');
+        const resultDisplay = document.getElementById('result-display');
+        const buttons = document.querySelectorAll('footer button');
+    
+        let currentOperation = '';
+        const maxLength = 20;
+    
+        const updateDisplay = () => {
+            operInput.value = currentOperation;
+            try {
+                const result = eval(currentOperation);
+                if (result !== undefined && isFinite(result)) {
+                    resultDisplay.textContent = result;
+                } else {
+                    resultDisplay.textContent = '';
+                }
+            } catch {
+                resultDisplay.textContent = '';
+            }
+        };
+    
+        const isOperator = char => ['+', '-', '*', '/', '%', '**', '.'].includes(char);
+    
+        buttons.forEach(button => {
+            const num = button.dataset.num;
+            const opr = button.dataset.opr;
+    
+            // Botón de número
+            if (num !== undefined) {
+                button.addEventListener('click', () => {
+                    if (currentOperation.length < maxLength) {
+                        currentOperation += num;
+                        updateDisplay();
+                    }
+                });
+            }
+    
+            // Botón de operador
+            if (opr !== undefined) {
+                button.addEventListener('click', () => {
+                    if (currentOperation.length === 0 && opr !== '-') return; // No empieces con operadores excepto "-"
+                    
+                    const lastChar = currentOperation.slice(-1);
+    
+                    if (isOperator(lastChar)) {
+                        currentOperation = currentOperation.slice(0, -1) + opr; // Reemplaza el último operador
+                    } else if (currentOperation.length < maxLength) {
+                        currentOperation += opr;
+                    }
+    
+                    updateDisplay();
+                });
+            }
+    
+            // Botón igual
+            if (button.classList.contains('btn-equal')) {
+                button.addEventListener('click', () => {
+                    try {
+                        currentOperation = eval(currentOperation).toString();
+                        updateDisplay();
+                    } catch (e) {
+                        resultDisplay.textContent = 'Error';
+                    }
+                });
+            }
+    
+            // Botón borrar (DEL)
+            if (button.classList.contains('btn-del')) {
+                button.addEventListener('click', () => {
+                    currentOperation = currentOperation.slice(0, -1);
+                    updateDisplay();
+                });
+            }
+    
+            // Botón limpiar (C)
+            if (button.classList.contains('btn-clear')) {
+                button.addEventListener('click', () => {
+                    currentOperation = '';
+                    resultDisplay.textContent = '';
+                    operInput.value = '';
+                });
+            }
         });
-    </script>
+    
+        // Modo oscuro
+        document.querySelector('.btn-mode').addEventListener('click', () => {
+            document.querySelector('.calculator').classList.toggle('dark');
+        });
+    </script>       
 </body>
 </html>
-
-
-
