@@ -304,94 +304,123 @@
         </section>
     </main>
     <script>
-        const operInput = document.querySelector('.oper');
+        const operInput     = document.querySelector('.oper');
         const resultDisplay = document.getElementById('result-display');
-        const buttons = document.querySelectorAll('footer button');
-    
+        const buttons       = document.querySelectorAll('footer button');
+        const modeButton    = document.querySelector('.btn-mode');
+      
         let currentOperation = '';
         const maxLength = 20;
-    
-        const updateDisplay = () => {
-            operInput.value = currentOperation;
-            try {
-                const result = eval(currentOperation);
-                if (result !== undefined && isFinite(result)) {
-                    resultDisplay.textContent = result;
-                } else {
-                    resultDisplay.textContent = '';
-                }
-            } catch {
-                resultDisplay.textContent = '';
-            }
-        };
-    
-        const isOperator = char => ['+', '-', '*', '/', '%', '**', '.'].includes(char);
-    
-        buttons.forEach(button => {
-            const num = button.dataset.num;
-            const opr = button.dataset.opr;
-    
-            // Botón de número
-            if (num !== undefined) {
-                button.addEventListener('click', () => {
-                    if (currentOperation.length < maxLength) {
-                        currentOperation += num;
-                        updateDisplay();
-                    }
-                });
-            }
-    
-            // Botón de operador
-            if (opr !== undefined) {
-                button.addEventListener('click', () => {
-                    if (currentOperation.length === 0 && opr !== '-') return; // No empieces con operadores excepto "-"
-                    
-                    const lastChar = currentOperation.slice(-1);
-    
-                    if (isOperator(lastChar)) {
-                        currentOperation = currentOperation.slice(0, -1) + opr; // Reemplaza el último operador
-                    } else if (currentOperation.length < maxLength) {
-                        currentOperation += opr;
-                    }
-    
-                    updateDisplay();
-                });
-            }
-    
-            // Botón igual
-            if (button.classList.contains('btn-equal')) {
-                button.addEventListener('click', () => {
-                    try {
-                        currentOperation = eval(currentOperation).toString();
-                        updateDisplay();
-                    } catch (e) {
-                        resultDisplay.textContent = 'Error';
-                    }
-                });
-            }
-    
-            // Botón borrar (DEL)
-            if (button.classList.contains('btn-del')) {
-                button.addEventListener('click', () => {
-                    currentOperation = currentOperation.slice(0, -1);
-                    updateDisplay();
-                });
-            }
-    
-            // Botón limpiar (C)
-            if (button.classList.contains('btn-clear')) {
-                button.addEventListener('click', () => {
-                    currentOperation = '';
-                    resultDisplay.textContent = '';
-                    operInput.value = '';
-                });
-            }
+      
+        // Actualiza el input y el resultado (sin tocar currentOperation)
+        function updateDisplay() {
+          operInput.value = currentOperation;
+          try {
+            const res = eval(currentOperation);
+            resultDisplay.textContent = (res !== undefined && isFinite(res))
+              ? '=' + (Number.isInteger(res) ? res : res.toFixed(2))
+              : '';
+          } catch {
+            resultDisplay.textContent = '';
+          }
+        }
+      
+        // Añade carácter controlando operadores consecutivos
+        function appendChar(char) {
+          if (currentOperation.length >= maxLength) return;
+          const last = currentOperation.slice(-1);
+          if (['+','-','*','/','%','.'].includes(char) && currentOperation === '' && char !== '-') return;
+          if (['+','-','*','/','%','.'].includes(char) && ['+','-','*','/','%','.'].includes(last)) {
+            currentOperation = currentOperation.slice(0, -1);
+          }
+          currentOperation += char;
+          updateDisplay();
+        }
+      
+        // Manejo por mouse
+        buttons.forEach(btn => {
+          if (btn.classList.contains('btn-clear')) {
+            btn.addEventListener('click', () => {
+              currentOperation = '';
+              operInput.value = '';
+              resultDisplay.textContent = '';
+            });
+          }
+          else if (btn.classList.contains('btn-del')) {
+            btn.addEventListener('click', () => {
+              currentOperation = currentOperation.slice(0, -1);
+              updateDisplay();
+            });
+          }
+          else if (btn.classList.contains('btn-equal')) {
+            btn.addEventListener('click', () => {
+              // Solo actualiza el resultado, no toca currentOperation
+              updateDisplay();
+            });
+          }
+          else {
+            const num = btn.dataset.num;
+            const opr = btn.dataset.opr;
+            btn.addEventListener('click', () => {
+              if (num !== undefined) appendChar(num);
+              if (opr !== undefined) appendChar(opr);
+            });
+          }
         });
-    
-        // Modo oscuro
-        document.querySelector('.btn-mode').addEventListener('click', () => {
-            document.querySelector('.calculator').classList.toggle('dark');
+      
+        // Teclado (fila superior + numpad)
+        document.addEventListener('keydown', e => {
+          const key  = e.key;
+          const code = e.code;
+      
+          // ENTER (fila o numpad)
+          if (key === 'Enter' || code === 'NumpadEnter') {
+            e.preventDefault();
+            updateDisplay();  // Solo actualiza resultado
+            return;
+          }
+      
+          // BACKSPACE
+          if (key === 'Backspace') {
+            currentOperation = currentOperation.slice(0, -1);
+            updateDisplay();
+            return;
+          }
+      
+          // ESCAPE / DELETE
+          if (key === 'Escape' || key === 'Delete') {
+            currentOperation = '';
+            operInput.value = '';
+            resultDisplay.textContent = '';
+            return;
+          }
+      
+          // Dígitos 0–9
+          if (/^[0-9]$/.test(key)) {
+            appendChar(key);
+            return;
+          }
+      
+          // Punto
+          if (key === '.' || code === 'NumpadDecimal') {
+            appendChar('.');
+            return;
+          }
+      
+          // Operadores fila y numpad
+          if (key === '+'  || code === 'NumpadAdd')      { appendChar('+');  return; }
+          if (key === '-'  || code === 'NumpadSubtract') { appendChar('-');  return; }
+          if (key === '*'  || code === 'NumpadMultiply') { appendChar('*');  return; }
+          if (key === '/'  || code === 'NumpadDivide')   { appendChar('/');  return; }
+          if (key === '%' && e.shiftKey)                 { appendChar('%');  return; }
+          if (key === '^')                               { appendChar('**'); return; }
         });
-    </script>       
+      
+        // Modo claro/oscuro
+        modeButton.addEventListener('click', () => {
+          document.querySelector('.calculator').classList.toggle('dark');
+        });
+      </script>
+                 
 </body>
 </html>

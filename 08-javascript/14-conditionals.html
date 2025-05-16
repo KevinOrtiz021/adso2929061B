@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>14 - Conditional</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <style>
+       p.answer{
+        &.success {
+            color: #fff;
+            background-color: #1dd527;}
+       } 
+       p.answer{
+        &.error{
+        color: #fff;
+        background-color: red;
+        }
+       }
+       p.today, p.year{ 
+        background-color: rgb(255, 252, 91);
+        padding: 0.4rem;
+        text-align: center;
+       }
+       button{
+        background: #FFF9;
+        border: none;
+        border-radius: 4px;
+        display: flex;
+        margin: 0 auto;
+        cursor: pointer;
+        padding: 0.4rem 1rem;
+        transition: transform 0.2s ease-in;
+        &:hover{
+            transform: scale(1.2);
+        }
+       }
+    </style>
+</head>
+<body class="js">
+    <nav>
+        <a href="index.html">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
+                <path fill="#ffffff" d="M9.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.2 288 416 288c17.7 0 32-14.3 32-32s-14.3-32-32-32l-306.7 0L214.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/>
+            </svg>
+        </a>
+    </nav>
+    <main>
+        <header>
+            <h1>14 - Conditional</h1>
+            <p>
+                Control program flow with conditional statements.
+            </p>
+        </header>
+        <section>
+            <h3>If - Else:</h3>
+            <h4>How many is 2048/512 ?</h4>
+            <button class="btn">Lunch Question</button>
+            <p class="answer"></p>
+            <h3>Switch</h3>
+            <p class="today"></p>
+            <h3>Ternary Operator</h3>
+            <p class="year"></p>
+        </section>
+    </main>
+    <script>
+    // If - Else
+    const btn = document.querySelector('.btn');
+    const answer = document.querySelector('.answer');
+
+    btn.addEventListener('click', () => {
+      challenge();
+    });
+
+    function challenge() {
+      const res = prompt('How many is: 2048/512 ?');
+      if (res == 4) {
+        answer.textContent = `${res} => Congratulations, it's correct`;
+        answer.classList.remove('error');
+        answer.classList.add('success');
+      } else {
+        answer.textContent = `${res} => Sorry, it's incorrect`;
+        answer.classList.remove('success');
+        answer.classList.add('error');
+      }
+    }
+
+    // Switch
+    const today = document.querySelector('.today');
+    const date = new Date();
+    switch (date.getDay()) {
+      case 1:
+        today.textContent = "Today is Monday 😢";
+        break;
+      case 2:
+        today.textContent = "Today is Tuesday 🙂";
+        break;
+      case 3:
+        today.textContent = "Today is Wednesday 😉";
+        break;
+      case 4:
+        today.textContent = "Today is Thursday 😄";
+        break;
+      case 5:
+        today.textContent = "Today is Friday 😁";
+        break;
+      default:
+        today.textContent = "Today is Weekend 🥳";
+        break;
+    }
+
+    // Ternary
+    const year = document.querySelector('.year');
+    const datef = new Date('2024/10/10');
+    const isLeapYear = datef.getFullYear() % 4 === 0 ? 'true' : 'false';
+    year.textContent = `${datef.getFullYear()} => Is leap year: ${isLeapYear}`;
+  </script>
+</body>
+</html>
