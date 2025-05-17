@@ -3,224 +3,198 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>15-Challenge-Conditionals</title>
+  <title>15 - Challenge Conditional</title>
   <link rel="stylesheet" href="../css/style.css" />
   <style>
-    * {
+    body {
       margin: 0;
-      padding: 0;
-      box-sizing: border-box;
+      font-family: sans-serif;
+      text-align: center;
+      background-color: #111;
+      color: #fff;
     }
 
-    body {
-      font-family: 'Arial', sans-serif;
-      height: 100vh;
+    .weather {
       background-size: cover;
       background-position: center;
+      border-radius: 20px;
+      padding: 2rem 1rem;
+      margin: 2rem auto;
+      width: 316px;
+      box-shadow: 0 0 20px rgba(0,0,0,0.6);
+      color: #fff;
       transition: background-image 0.5s ease-in-out;
-      color: white;
+      position: relative;
     }
 
-    nav svg {
-      width: 30px;
-      height: 30px;
-      margin: 10px;
-    }
-
-    main {
-      padding: 1rem;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: space-between;
-      height: 100%;
-    }
-
-    header {
-      text-align: center;
-      margin-bottom: 20px;
-    }
-
-    .query {
-      margin-bottom: 20px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-    }
-
-    .query input {
+    .weather input, .weather button {
       padding: 10px;
-      border-radius: 5px;
+      margin: 0.5rem;
+      border-radius: 10px;
       border: none;
-      margin-bottom: 10px;
     }
 
-    .query button {
-      padding: 10px 20px;
-      border: none;
-      border-radius: 5px;
-      background-color: #ffffffcc;
-      color: black;
+    .weather button {
+      color: #000;
       cursor: pointer;
+    }
+
+    .info {
+      font-size: 1.2rem;
+      margin-top: 1rem;
+    }
+
+    .temp {
+      font-size: 5rem;
       font-weight: bold;
     }
 
-    .weather-info {
-      text-align: center;
-      background-color: rgba(0, 0, 0, 0.4);
-      padding: 20px;
-      border-radius: 10px;
-    }
-
-    .weather-info img.icon {
-      width: 64px;
-      height: 64px;
-    }
-
-    .toggle-btn {
+    .toggle-mode {
       position: absolute;
-      top: 20px;
-      right: 20px;
+      top: 1px;
+      right: 1px;
       background: none;
       border: none;
       cursor: pointer;
     }
 
-    .toggle-btn img {
-      width: 40px;
-      height: 40px;
+    .toggle-mode img {
+      width: 30px;
+      height: 30px;
+    }
+
+    .weather-icon {
+      width: 60px;
+      height: 60px;
+      margin-bottom: 0.5rem;
+    }
+
+    .show h1, .show h2 {
+      margin: 0.3rem 0;
     }
   </style>
 </head>
-<body>
-
+<body class="js">
   <nav>
     <a href="index.html">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
-        <path fill="#ffffff" d="M9.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.2 288 416 288c17.7 0 32-14.3 32-32s-14.3-32-32-32l-306.7 0L214.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/>
+        <path fill="#ffffff"
+          d="M9.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.2 288 416 288c17.7 0 32-14.3 32-32s-14.3-32-32-32l-306.7 0L214.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/>
       </svg>
     </a>
   </nav>
-
-  <button class="toggle-btn" id="toggleMode">
-    <img src="images/luna-nigth.svg" alt="Toggle Day/Night" id="toggleIcon">
-  </button>
-
   <main>
     <header>
-      <h1>15-Challenge-Conditionals</h1>
+      <h1>15 - Challenge Conditional</h1>
       <p>Solve problems using conditional logic.</p>
     </header>
-
-    <div class="query">
-      <input type="text" id="cityInput" placeholder="Escribe una ciudad...">
-      <button id="searchButton">Buscar</button>
-    </div>
-
-    <section class="weather-info">
-      <h2 class="city">Ciudad</h2>
-      <h3 class="country">País</h3>
-      <p class="update">Fecha y hora</p>
-      <img src="" class="icon" alt="Icono del clima" />
-      <p class="temp">--°C</p>
-      <p class="info">Condición: --</p>
-      <p class="extra">Humedad: --%<br>Nubes: --%</p>
+    <section>
+      <figure class="weather">
+        <button class="toggle-mode">
+          <img src="images/sol-day.svg" alt="Toggle mode" id="toggleIcon">
+        </button>
+        <input type="text" class="q" placeholder="Location" />
+        <button class="btn">Enviar</button>
+        <div class="show"></div>
+      </figure>
     </section>
   </main>
-
   <script>
-    const apiKey = "9711613e634d413785c161102241511";
+    const q = document.querySelector('.q');
+    const btn = document.querySelector('.btn');
+    const show = document.querySelector('.show');
+    const weatherCard = document.querySelector('.weather');
+    const toggleBtn = document.querySelector('.toggle-mode');
+    const toggleIcon = document.getElementById('toggleIcon');
 
-    const city = document.querySelector(".city");
-    const country = document.querySelector(".country");
-    const temp = document.querySelector(".temp");
-    const icon = document.querySelector(".icon");
-    const info = document.querySelector(".info");
-    const extra = document.querySelector(".extra");
-    const update = document.querySelector(".update");
+    let isDayManual = null;
 
-    const cityInput = document.getElementById("cityInput");
-    const searchButton = document.getElementById("searchButton");
-    const toggleButton = document.getElementById("toggleMode");
-    const toggleIcon = document.getElementById("toggleIcon");
-
-    let isManualToggle = false;
-    let isDay = true;
-
-    const formatDateTime = (dateTimeStr) => {
-      const date = new Date(dateTimeStr);
-      const options = {
-        year: 'numeric',
-        month: 'long',
-        day: 'numeric',
-        hour: '2-digit',
-        minute: '2-digit',
-        hour12: true
-      };
-      return date.toLocaleString('es-ES', options);
-    };
-
-    const getCountryNameInSpanish = async (countryCode) => {
-      try {
-        const response = await fetch(`https://restcountries.com/v3.1/alpha/${countryCode}`);
-        const data = await response.json();
-        return data[0]?.translations?.spa?.common || data[0]?.name?.common || countryCode;
-      } catch (error) {
-        console.error("Error al obtener el nombre del país:", error);
-        return countryCode;
+    btn.addEventListener('click', () => {
+      if (q.value.trim()) {
+        showWeather(q.value.trim());
+        isDayManual = null;
       }
+    });
+
+    toggleBtn.addEventListener('click', () => {
+      isDayManual = !isDayManual;
+      updateCardBackground(isDayManual);
+    });
+
+    const showWeather = async (location) => {
+      const url = `http://api.weatherapi.com/v1/current.json?key=2d5e221c0a4341b29ce10745251005&q=${location}`;
+      const response = await fetch(url);
+      const data = await response.json();
+
+      const info = {
+        country: data.location.country,
+        name: data.location.name,
+        time: data.location.localtime,
+        temp: data.current.temp_c,
+        isDay: data.current.is_day,
+        conditionText: data.current.condition.text,
+        humidity: data.current.humidity,
+        cloud: data.current.cloud
+      };
+
+      const mode = isDayManual !== null ? isDayManual : Boolean(info.isDay);
+      updateCardBackground(mode);
+
+      const weatherIcon = getWeatherIcon(info.conditionText, mode);
+
+      show.innerHTML = `
+        <img src="${weatherIcon}" alt="${info.conditionText}" class="weather-icon" />
+        <h2>${info.country}</h2>
+        <h1>${info.name}</h1>
+        <p>${info.time}</p>
+        <div class="temp">${info.temp}°</div>
+        <p class="info">Condition: ${info.conditionText}</p>
+        <p class="info">Humidity: ${info.humidity}</p>
+        <p class="info">Cloud: ${info.cloud}</p>
+      `;
     };
 
-    const setBackground = (day) => {
-      document.body.style.backgroundImage = day
+    const updateCardBackground = (isDay) => {
+      const bgImage = isDay
         ? "url('images/01-WireframeDAY.svg')"
         : "url('images/01-WireframeNOCHE.svg')";
-      toggleIcon.src = day
-        ? "images/luna-nigth.svg"
-        : "images/sol-day.svg";
+      const icon = isDay ? "images/sol-day.svg" : "images/luna-nigth.svg";
+
+      weatherCard.style.backgroundImage = bgImage;
+      toggleIcon.src = icon;
     };
 
-    const loadWeather = async (cityName) => {
-      try {
-        const url = `https://api.weatherapi.com/v1/current.json?key=${apiKey}&q=${cityName}&aqi=no`;
-        const res = await fetch(url);
-        const data = await res.json();
+    const getWeatherIcon = (condition, isDay) => {
+      condition = condition.toLowerCase();
 
-        city.textContent = data.location.name;
-        const countryNameInSpanish = await getCountryNameInSpanish(data.location.country);
-        country.textContent = countryNameInSpanish;
-        temp.textContent = `${data.current.temp_c}°C`;
-        icon.src = `https:${data.current.condition.icon}`;
-        info.textContent = `Condición: ${data.current.condition.text}`;
-        extra.innerHTML = `Humedad: ${data.current.humidity}%<br>Nubes: ${data.current.cloud}%`;
-        update.textContent = formatDateTime(data.location.localtime);
-
-        if (!isManualToggle) {
-          isDay = data.current.is_day === 1;
-          setBackground(isDay);
-        }
-      } catch (err) {
-        alert("Ciudad no encontrada.");
-        console.error(err);
+      if (condition.includes("thunder") || condition.includes("tormenta")) {
+        return "https://img.icons8.com/emoji/48/cloud-with-lightning-and-rain.png";
       }
+
+      if (condition.includes("rain") || condition.includes("lluvia")) {
+        return "https://img.icons8.com/emoji/48/cloud-with-rain-emoji.png";
+      }
+
+      if (condition.includes("sun") || condition.includes("soleado")) {
+        return isDay
+          ? "https://img.icons8.com/emoji/48/sun-emoji.png"
+          : "https://img.icons8.com/emoji/48/full-moon-emoji.png";
+      }
+
+      if (condition.includes("cloud") || condition.includes("nublado")) {
+        return "https://img.icons8.com/emoji/48/cloud-emoji.png";
+      }
+
+      if (condition.includes("fog") || condition.includes("niebla")) {
+        return "https://img.icons8.com/emoji/48/fog-emoji.png";
+      }
+
+      return "https://img.icons8.com/emoji/48/sun-behind-cloud-emoji.png";
     };
 
-    searchButton.addEventListener("click", () => {
-      const cityName = cityInput.value.trim();
-      if (cityName) {
-        isManualToggle = false;
-        loadWeather(cityName);
-      }
+    window.addEventListener('DOMContentLoaded', () => {
+      showWeather("Manizales");
     });
-
-    toggleButton.addEventListener("click", () => {
-      isManualToggle = true;
-      isDay = !isDay;
-      setBackground(isDay);
-    });
-
-    // Carga por defecto
-    loadWeather("Manizales");
   </script>
 </body>
 </html>
