@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>22 - Baloto</title>
+  <link rel="stylesheet" href="../css/style.css" />
+  <style>
+  section {
+    background: url('images/index.svg') no-repeat center center;
+    background-size: cover;
+    border-radius: 45px;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+  }
+
+    main {
+      text-align: center;
+      padding: 20px;
+    }
+
+    header h1 {
+      font-size: 1.5rem;
+      color: white;
+      margin-bottom: 0.5rem;
+    }
+
+    header p {
+      color: white;
+    }
+
+    section {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 20px;
+    }
+
+    .logo-baloto {
+      width: 150px;
+      margin-top: 10px;
+    }
+
+    .balls-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+      justify-items: center;
+      margin-top: 20px;
+    }
+
+    .bottom-balls {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+    }
+
+    .ball {
+      width: 80px;
+      height: 80px;
+      background-size: cover;
+      background-position: center;
+      font-size: 24px;
+      font-weight: bold;
+      color: black;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .ball-yellow {
+      background-image: url('images/ball-yellow.svg');
+    }
+
+    .ball-red {
+      background-image: url('images/N-Aleatorio.svg');
+      color: white;
+    }
+
+    .super-ball {
+      margin-top: 10px;
+    }
+
+    #girar {
+      background: transparent;
+      border: none;
+      margin-top: 20px;
+      cursor: pointer;
+    }
+
+    #girar img {
+      width: 150px;
+    }
+
+    #girar:disabled img {
+      filter: grayscale(100%);
+      cursor: not-allowed;
+    }
+
+    nav svg {
+      width: 30px;
+      height: 30px;
+    }
+
+    nav {
+      padding: 1rem;
+    }
+    #figma-btn {
+            background: #ff0d00;
+            color: #000000;
+            border: 2px solid #e4e001;
+            padding: 15px 15px;
+            border-radius: 18px; /* Redondeado solo abajo */
+            cursor: pointer;
+            font-weight: bold;
+            width: 30%; /* Mismo ancho que el section */
+            text-align: center;
+            transition: all 0.3s;
+            margin-top: 2px; /* Para "pegarlo" visualmente */
+        }
+  </style>
+</head>
+<body class="js">
+  <nav>
+    <a href="index.html">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
+        <path fill="#ffffff" d="M9.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.2 288 416 288c17.7 0 32-14.3 32-32s-14.3-32-32-32l-306.7 0L214.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/>
+      </svg>
+    </a>
+  </nav>
+
+  <main>
+    <header>
+      <h1>22 - Challenge Baloto</h1>
+      <p>Simulador de sorteo aleatorio</p>
+    </header>
+
+    <section>
+      <img src="images/logo-baloto.png" alt="Logo Baloto" class="logo-baloto">
+
+      <div class="balls-grid">
+        <div class="ball ball-yellow" id="ball1">--</div>
+        <div class="ball ball-yellow" id="ball2">--</div>
+        <div class="ball ball-yellow" id="ball3">--</div>
+      </div>
+
+      <div class="bottom-balls">
+        <div class="ball ball-yellow" id="ball4">--</div>
+        <div class="ball ball-yellow" id="ball5">--</div>
+      </div>
+
+      <div class="ball ball-red super-ball" id="superball">--</div>
+
+      <button id="girar">
+        <img src="images/btn-entrada.svg" alt="Botón Girar">
+      </button>
+      <button id="figma-btn" onclick="window.open('https://www.figma.com/design/v6OVmBdOjxCWwuOWYB0j6L/Bingo?node-id=46-55&t=65xmegYGqDE7fRbY-1')">
+        Ver Figma
+    </button>
+    </section>
+  </main>
+
+  <script>
+    const btnGirar = document.getElementById('girar');
+    const balls = [
+      document.getElementById('ball1'),
+      document.getElementById('ball2'),
+      document.getElementById('ball3'),
+      document.getElementById('ball4'),
+      document.getElementById('ball5')
+    ];
+    const superBall = document.getElementById('superball');
+
+    function shuffle(arr) {
+      for (let i = arr.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [arr[i], arr[j]] = [arr[j], arr[i]];
+      }
+      return arr;
+    }
+
+    btnGirar.addEventListener('click', () => {
+      btnGirar.disabled = true;
+
+      const amarillos = shuffle(Array.from({ length: 43 }, (_, i) => i + 1)).slice(0, 5);
+      const rojo = shuffle(Array.from({ length: 16 }, (_, i) => i + 1))[0];
+
+      balls.forEach((ball, i) => {
+        setTimeout(() => {
+          ball.textContent = amarillos[i];
+        }, i * 500);
+      });
+
+      setTimeout(() => {
+        superBall.textContent = rojo;
+        btnGirar.disabled = false;
+      }, 5 * 500 + 500);
+    });
+  </script>
+</body>
+</html>
