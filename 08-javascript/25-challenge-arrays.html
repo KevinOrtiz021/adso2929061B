@@ -184,7 +184,20 @@
             left: 0;
             width: 10px;
         }
-
+        #figma-btn {
+            
+            background: #ca4101;
+            color: red;
+            border: 2px solid #e4e001;
+            padding: 15px 15px;
+            border-radius: 18px; /* Redondeado solo abajo */
+            cursor: pointer;
+            font-weight: bold;
+            width: 30%; /* Mismo ancho que el section */
+            text-align: center;
+            transition: all 0.3s;
+            margin-top: 2px; /* Para "pegarlo" visualmente */
+        }
     </style>
 </head>
 <body class="js">
@@ -223,6 +236,9 @@
                     </figure>
                 </div>
             </div>
+            <button id="figma-btn" onclick="window.open('https://www.figma.com/design/PXScvLXRfwGvNPP8fIhdkv/25-challenge-arrays?node-id=0-1&p=f&t=eaWMIoL1B8wP13kB-0')">
+                Ver Figma
+            </button>
         </section>
     </main>
     <script>
