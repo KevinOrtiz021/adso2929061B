@@ -189,17 +189,6 @@
             isPlaying = false
         })
 
-        seekSlider.addEventListener("input", e =>{
-            audio.currentTime = audio.duration * (e.target.value)
-        })
-        audio.addEventListener("timeupdate", e =>{
-            let progress = (e.target.currentTime) / audio.duration
-            seekSlider.value = progress
-        })
-        volumeSlider.addEventListener("input", e => {
-            audio.volume = e.target.value
-            audio.muted = e.target.value ==0
-        })
 
         fetch('json/playlist.json')
         .then(Response => Response.json())
