@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title> 31 - JSON Data </title>
+    <title>31-json-data</title>
     <link rel="stylesheet" href="../css/style.css">
-     <style>
+   <style>
     div.player {
         background: linear-gradient(to bottom, #0006, #000c);
         border-radius: 10px;
@@ -98,7 +98,7 @@
             }
         }
     }
-</style>
+    </style>
 </head>
 <body class="js">
     <nav>
@@ -108,24 +108,24 @@
     </nav>
     <main>
         <header>
-            <h1> 31 - JSON Data </h1>
+            <h1> 31-json-data </h1>
             <p>
                 Text format for data exchange, easy to use.
             </p>
         </header>
         <section>
-            <div class="player">
-                <h4 class="title"></h4>
-                <h4 class="artist"></h4>
-                <h4 class="year"></h4>
-                <div class="controls">
-                    <button class="prev"></button>
-                    <button class="play"></button>
-                    <button class="next"></button>
-                </div>
-                <audio src=""></audio>
-            </div>
-        </section>
+    <div class="player">
+        <h4 class="title"></h4>
+        <h4 class="artist"></h4>
+        <h4 class="year"></h4>
+        <div class="controls">
+            <button class="prev"></button>
+            <button class="play"></button>
+            <button class="next"></button>
+        </div>
+        <audio src=""></audio>
+    </div>
+    </section>
     </main>
     <script>
 
@@ -188,7 +188,6 @@
             btnPlay.style.background = `url(images/mp3player/btn-play.svg)`
             isPlaying = false
         })
-
 
         fetch('json/playlist.json')
         .then(Response => Response.json())
