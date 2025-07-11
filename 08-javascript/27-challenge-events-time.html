@@ -1,0 +1,980 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Space Shooter</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <style>
+        /* Estilos específicos para el juego dentro del section */
+        section {
+            position: relative;
+            width: 380px;
+            height: 700px;
+            overflow: hidden;
+            background-color: #000;
+            border: 2px solid #333;
+            margin: 0 auto;
+        }
+
+        #gameCanvas {
+            display: block;
+            width: 100%;
+            height: 100%;
+        }
+
+        .game-ui {
+            position: absolute;
+            z-index: 10;
+            color: white;
+            font-family: Arial, sans-serif;
+            text-shadow: 1px 1px 2px #000;
+        }
+
+        #livesContainer {
+            top: 10px;
+            left: 10px;
+            display: flex;
+            gap: 5px;
+        }
+
+        .life {
+            width: 30px;
+            height: 30px;
+            background-image: url('images/Spacechip/CR3.svg');
+            background-size: contain;
+            background-repeat: no-repeat;
+        }
+
+        #ammoContainer {
+            top: 50px;
+            left: 10px;
+            display: flex;
+            gap: 3px;
+            flex-wrap: wrap;
+            width: 100px;
+        }
+
+        .ammo {
+            width: 15px;
+            height: 25px;
+            background-image: url('images/Spacechip/Disparo.svg');
+            background-size: contain;
+        }
+
+        #scoreDisplay {
+            top: 10px;
+            right: 10px;
+            font-size: 18px;
+        }
+
+        #levelDisplay {
+            top: 40px;
+            right: 10px;
+            font-size: 16px;
+        }
+
+        .game-screen {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            background-color: rgba(0, 0, 0, 0.8);
+            z-index: 20;
+            color: white;
+        }
+
+        #startScreen {
+            background-image: url('images/Spacechip/Index-Play.svg');
+            background-size: cover;
+            background-position: center;
+        }
+
+        .game-logo {
+            width: 300px;
+            height: 150px;
+            background-image: url('images/Spacechip/LOGO.svg');
+            background-size: contain;
+            background-repeat: no-repeat;
+            background-position: center;
+            margin-bottom: 2rem;
+        }
+
+        #shipSelection {
+            display: flex;
+            gap: 20px;
+            margin: 20px 0;
+        }
+
+        .ship-option {
+            width: 80px;
+            height: 80px;
+            background-size: contain;
+            background-repeat: no-repeat;
+            background-position: center;
+            cursor: pointer;
+            border: 2px solid transparent;
+            transition: all 0.3s;
+        }
+
+        .ship-option.selected {
+            border-color: #ff0;
+            box-shadow: 0 0 15px #ff0;
+            transform: scale(1.1);
+        }
+
+        .game-btn {
+            padding: 10px 30px;
+            font-size: 1.2rem;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 20px;
+            transition: all 0.3s;
+        }
+
+        .game-btn:hover {
+            background-color: #45a049;
+            transform: scale(1.05);
+        }
+
+        #gameOverScreen, #levelCompleteScreen {
+            display: none;
+        }
+        
+        /* Fondo del espacio */
+        .space-background {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('images/Spacechip/Background.svg');
+            background-size: cover;
+            z-index: -1;
+            animation: moveStars 100s linear infinite;
+        }
+        
+        @keyframes moveStars {
+            0% { background-position: 0 0; }
+            100% { background-position: 1000px 1000px; }
+        }
+    </style>
+</head>
+<body class="js">
+    <nav>
+        <a href="index.html">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path fill="#ffffff" d="M9.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.2 288 416 288c17.7 0 32-14.3 32-32s-14.3-32-32-32l-306.7 0L214.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg>
+        </a>
+    </nav>
+    
+    <main>
+        <header>
+            <h1></h1>
+            <p></p>
+        </header>
+        
+        <section>
+            <!-- Fondo del espacio -->
+            <div class="space-background"></div>
+            
+            <!-- Canvas del juego -->
+            <canvas id="gameCanvas"></canvas>
+            
+            <!-- Interfaz del juego -->
+            <div id="livesContainer" class="game-ui"></div>
+            <div id="ammoContainer" class="game-ui"></div>
+            <div id="scoreDisplay" class="game-ui">Score: 0</div>
+            <div id="levelDisplay" class="game-ui">Level: 1</div>
+            <div id="ammoCount" class="game-ui" style="top: 80px; left: 10px;">Ammo: 20/40</div>
+            
+            <!-- Pantallas del juego -->
+            <div id="startScreen" class="game-screen">
+                <div class="game-logo"></div>
+                <div id="shipSelection">
+                    <div class="ship-option selected" data-ship="1" style="background-image: url('images/Spacechip/N13.svg')"></div>
+                    <div class="ship-option" data-ship="2" style="background-image: url('images/Spacechip/N21.svg')"></div>
+                </div>
+                <button id="startBtn" class="game-btn">START</button>
+            </div>
+            
+            <div id="gameOverScreen" class="game-screen">
+                <h1 class="game-title">GAME OVER</h1>
+                <p id="finalScore">Score: 0</p>
+                <button id="restartBtn" class="game-btn">PLAY AGAIN</button>
+            </div>
+            
+            <div id="levelCompleteScreen" class="game-screen">
+                <h1 class="game-title">LEVEL COMPLETE!</h1>
+                <p id="levelScore">Score: 0</p>
+                <button id="nextLevelBtn" class="game-btn">NEXT LEVEL</button>
+            </div>
+        </section>
+    </main>
+
+    <script>
+        // Configuración del juego
+        const canvas = document.getElementById('gameCanvas');
+        const ctx = canvas.getContext('2d');
+        const section = document.querySelector('section');
+        
+        // Elementos de la interfaz
+        const startScreen = document.getElementById('startScreen');
+        const gameOverScreen = document.getElementById('gameOverScreen');
+        const levelCompleteScreen = document.getElementById('levelCompleteScreen');
+        const startBtn = document.getElementById('startBtn');
+        const restartBtn = document.getElementById('restartBtn');
+        const nextLevelBtn = document.getElementById('nextLevelBtn');
+        const shipOptions = document.querySelectorAll('.ship-option');
+        const livesContainer = document.getElementById('livesContainer');
+        const ammoContainer = document.getElementById('ammoContainer');
+        const scoreDisplay = document.getElementById('scoreDisplay');
+        const levelDisplay = document.getElementById('levelDisplay');
+        const ammoCountDisplay = document.getElementById('ammoCount');
+        const finalScore = document.getElementById('finalScore');
+        const levelScore = document.getElementById('levelScore');
+
+        // Ajustar tamaño del canvas
+        function resizeCanvas() {
+            canvas.width = section.clientWidth;
+            canvas.height = section.clientHeight;
+        }
+        resizeCanvas();
+        window.addEventListener('resize', resizeCanvas);
+
+        // Variables del juego
+        let gameRunning = false;
+        let score = 0;
+        let lives = 3;
+        let currentAmmo = 20;
+        let totalAmmo = 40;
+        let level = 1;
+        let meteorsToDestroy = 5;
+        let destroyedMeteors = 0;
+        let selectedShip = '1';
+        let lastMeteorTime = 0;
+        let meteorInterval = 1500;
+        let baseShipSpeed = 8;
+        let baseMeteorSpeed = 1;
+        let shipDamaged = false;
+
+        // Estados de la nave
+        const SHIP_STATE = {
+            NORMAL: 0,
+            DAMAGED: 1,
+            CRITICAL: 2,
+            EXPLODING: 3
+        };
+
+        // Objetos del juego
+        const ship = {
+            x: canvas.width / 2 - 30,
+            y: canvas.height - 100,
+            width: 60,
+            height: 60,
+            speed: baseShipSpeed,
+            dx: 0,
+            state: SHIP_STATE.NORMAL,
+            explosionFrame: 0,
+            damageTime: 0,
+            canMove: true
+        };
+
+        const bullets = [];
+        const meteors = [];
+        const explosions = [];
+        const powerups = [];
+
+        // Imágenes del juego
+        const images = {
+            ships: {
+                1: {
+                    normal: loadImage('images/Spacechip/N21.svg'),
+                    damaged: loadImage('images/Spacechip/N22.svg'),
+                    critical: loadImage('images/Spacechip/N23.svg')
+                },
+                2: {
+                    normal: loadImage('images/Spacechip/N13.svg'),
+                    damaged: loadImage('images/Spacechip/N12.svg'),
+                    critical: loadImage('images/Spacechip/N11.svg')
+                }
+            },
+            shipExplosion: [
+                loadImage('images/Spacechip/E1.svg'),
+                loadImage('images/Spacechip/E2.svg'),
+                loadImage('images/Spacechip/E3.svg'),
+                loadImage('images/Spacechip/E4.svg'),
+                loadImage('images/Spacechip/E5.svg')
+            ],
+            meteorExplosion: [
+                loadImage('images/Spacechip/ME1.svg'),
+                loadImage('images/Spacechip/ME2.svg'),
+                loadImage('images/Spacechip/ME3.svg'),
+                loadImage('images/Spacechip/ME4.svg'),
+                loadImage('images/Spacechip/ME5.svg')
+            ],
+            meteors: [
+                loadImage('images/Spacechip/CA1.svg'),
+                loadImage('images/Spacechip/CA1.svg'),
+                loadImage('images/Spacechip/CA1.svg')
+            ],
+            specialMeteor: loadImage('images/Spacechip/CN1.svg'),
+            bullet: createColoredBullet('#00ff00'),
+            heart: loadImage('images/Spacechip/CR3.svg'),
+            ammo: createColoredBullet('#00ff00'),
+            logo: loadImage('images/Spacechip/LOGO.svg'),
+            background: loadImage('images/Spacechip/Index-Play.svg')
+        };
+
+        // Función para crear una bala de color específico
+        function createColoredBullet(color) {
+            const canvas = document.createElement('canvas');
+            canvas.width = 20;
+            canvas.height = 30;
+            const ctx = canvas.getContext('2d');
+            
+            // Cuerpo de la bala
+            ctx.fillStyle = color;
+            ctx.beginPath();
+            ctx.moveTo(10, 0);
+            ctx.lineTo(20, 30);
+            ctx.lineTo(0, 30);
+            ctx.closePath();
+            ctx.fill();
+            
+            // Punta brillante
+            ctx.fillStyle = '#ffffff';
+            ctx.beginPath();
+            ctx.moveTo(10, 5);
+            ctx.lineTo(15, 20);
+            ctx.lineTo(5, 20);
+            ctx.closePath();
+            ctx.fill();
+            
+            return canvas;
+        }
+
+        // Cargar imágenes
+        function loadImage(src) {
+            return new Promise(resolve => {
+                const img = new Image();
+                img.onload = () => resolve(img);
+                img.onerror = () => {
+                    // Crear imagen de respaldo
+                    const canvas = document.createElement('canvas');
+                    canvas.width = 50;
+                    canvas.height = 50;
+                    const ctx = canvas.getContext('2d');
+                    ctx.fillStyle = src.includes('ship') ? 'blue' : 
+                                    src.includes('meteor') ? 'gray' : 
+                                    src.includes('explosion') ? 'orange' : 'red';
+                    ctx.fillRect(0, 0, 50, 50);
+                    resolve(canvas);
+                };
+                img.src = src;
+            });
+        }
+
+        // Precargar todas las imágenes
+        async function preloadGameImages() {
+            for (const shipType in images.ships) {
+                images.ships[shipType].normal = await images.ships[shipType].normal;
+                images.ships[shipType].damaged = await images.ships[shipType].damaged;
+                images.ships[shipType].critical = await images.ships[shipType].critical;
+            }
+            
+            for (let i = 0; i < images.shipExplosion.length; i++) {
+                images.shipExplosion[i] = await images.shipExplosion[i];
+            }
+            
+            for (let i = 0; i < images.meteorExplosion.length; i++) {
+                images.meteorExplosion[i] = await images.meteorExplosion[i];
+            }
+            
+            for (let i = 0; i < images.meteors.length; i++) {
+                images.meteors[i] = await images.meteors[i];
+            }
+            
+            images.specialMeteor = await images.specialMeteor;
+            images.heart = await images.heart;
+            images.logo = await images.logo;
+            images.background = await images.background;
+            
+            // Actualizar el logo en la pantalla de inicio
+            document.querySelector('.game-logo').style.backgroundImage = `url('${images.logo.src}')`;
+            document.querySelector('.space-background').style.backgroundImage = `url('${images.background.src}')`;
+        }
+
+        // Selección de nave
+        shipOptions.forEach(option => {
+            option.addEventListener('click', () => {
+                shipOptions.forEach(opt => opt.classList.remove('selected'));
+                option.classList.add('selected');
+                selectedShip = option.getAttribute('data-ship');
+            });
+        });
+
+        // Iniciar juego
+        startBtn.addEventListener('click', async () => {
+            startBtn.disabled = true;
+            startBtn.textContent = "Loading...";
+            
+            try {
+                await preloadGameImages();
+                startScreen.style.display = 'none';
+                initGame();
+                gameRunning = true;
+                lastMeteorTime = performance.now();
+                requestAnimationFrame(gameLoop);
+            } catch (error) {
+                console.error("Error loading game:", error);
+                startBtn.disabled = false;
+                startBtn.textContent = "START";
+            }
+        });
+
+        // Reiniciar juego
+        restartBtn.addEventListener('click', () => {
+            gameOverScreen.style.display = 'none';
+            startScreen.style.display = 'flex';
+            startBtn.disabled = false;
+            startBtn.textContent = "START";
+        });
+
+        // Siguiente nivel
+        nextLevelBtn.addEventListener('click', () => {
+            levelCompleteScreen.style.display = 'none';
+            level++;
+            initLevel();
+            gameRunning = true;
+            lastMeteorTime = performance.now();
+            requestAnimationFrame(gameLoop);
+        });
+
+        // Inicializar juego
+        function initGame() {
+            score = 0;
+            lives = 3;
+            currentAmmo = 20;
+            totalAmmo = 40;
+            level = 1;
+            meteorsToDestroy = 5;
+            destroyedMeteors = 0;
+            bullets.length = 0;
+            meteors.length = 0;
+            explosions.length = 0;
+            powerups.length = 0;
+            meteorInterval = 1500;
+            ship.speed = baseShipSpeed;
+            baseMeteorSpeed = 1;
+            shipDamaged = false;
+            
+            ship.x = canvas.width / 2 - ship.width / 2;
+            ship.y = canvas.height - 100;
+            ship.state = SHIP_STATE.NORMAL;
+            ship.explosionFrame = 0;
+            ship.damageTime = 0;
+            ship.canMove = true;
+            
+            updateUI();
+        }
+
+        // Inicializar nivel
+        function initLevel() {
+            destroyedMeteors = 0;
+            bullets.length = 0;
+            meteors.length = 0;
+            explosions.length = 0;
+            powerups.length = 0;
+            meteorInterval = Math.max(500, 1500 - (level * 100));
+            meteorsToDestroy = 5 + (level * 2);
+            
+            // Aumentar velocidad de meteoritos cada nivel
+            baseMeteorSpeed = 1 + (level * 0.3);
+            
+            ship.x = canvas.width / 2 - ship.width / 2;
+            ship.y = canvas.height - 100;
+            ship.state = shipDamaged ? SHIP_STATE.DAMAGED : SHIP_STATE.NORMAL;
+            ship.explosionFrame = 0;
+            ship.damageTime = 0;
+            ship.canMove = true;
+            
+            updateUI();
+        }
+
+        // Actualizar interfaz
+        function updateUI() {
+            // Actualizar vidas
+            livesContainer.innerHTML = '';
+            for (let i = 0; i < lives; i++) {
+                const heart = document.createElement('div');
+                heart.className = 'life';
+                livesContainer.appendChild(heart);
+            }
+            
+            // Actualizar munición
+            ammoContainer.innerHTML = '';
+            const ammoToShow = Math.min(currentAmmo, 20);
+            for (let i = 0; i < ammoToShow; i++) {
+                const ammoElement = document.createElement('div');
+                ammoElement.className = 'ammo';
+                ammoContainer.appendChild(ammoElement);
+            }
+            
+            scoreDisplay.textContent = `Score: ${score}`;
+            levelDisplay.textContent = `Level: ${level}`;
+            ammoCountDisplay.textContent = `Ammo: ${currentAmmo}/${totalAmmo}`;
+        }
+
+        // Controles del teclado
+        document.addEventListener('keydown', keyDown);
+        document.addEventListener('keyup', keyUp);
+
+        function keyDown(e) {
+            if (!gameRunning || !ship.canMove) return;
+            
+            if (e.key === 'ArrowRight' || e.key === 'Right' || e.key === 'd' || e.key === 'D') {
+                ship.dx = ship.speed;
+            } else if (e.key === 'ArrowLeft' || e.key === 'Left' || e.key === 'a' || e.key === 'A') {
+                ship.dx = -ship.speed;
+            } else if ((e.key === ' ' || e.key === 'Spacebar') && ship.state !== SHIP_STATE.EXPLODING && currentAmmo > 0) {
+                shoot();
+            }
+        }
+
+        function keyUp(e) {
+            if (e.key === 'ArrowRight' || e.key === 'Right' || e.key === 'd' || e.key === 'D' || 
+                e.key === 'ArrowLeft' || e.key === 'Left' || e.key === 'a' || e.key === 'A') {
+                ship.dx = 0;
+            }
+        }
+
+        // Disparar
+        function shoot() {
+            if (currentAmmo <= 0) return;
+            
+            bullets.push({
+                x: ship.x + ship.width / 2 - 10,
+                y: ship.y,
+                width: 20,
+                height: 30,
+                speed: 10
+            });
+            
+            currentAmmo--;
+            updateUI();
+            
+            if (currentAmmo === 0 && totalAmmo > 0) {
+                setTimeout(() => {
+                    const reloadAmount = Math.min(20, totalAmmo);
+                    currentAmmo = reloadAmount;
+                    totalAmmo -= reloadAmount;
+                    updateUI();
+                    playSound('../audio/reload.wav');
+                }, 500);
+            }
+            
+            playSound('../audio/shoot.wav');
+        }
+
+        // Crear powerup
+        function createPowerup(x, y) {
+            // Solo crear corazones si la nave está dañada y no tiene todas las vidas
+            const canCreateHeart = shipDamaged && lives < 3;
+            
+            // Decidir qué tipo de powerup crear
+            let type;
+            if (canCreateHeart && Math.random() < 0.3) {
+                type = 'life';
+            } else {
+                type = 'ammo';
+            }
+            
+            powerups.push({
+                x: x,
+                y: y,
+                width: 30,
+                height: 30,
+                speed: 2,
+                type: type
+            });
+        }
+
+        // Reproducir sonido
+        function playSound(src) {
+            try {
+                const audio = new Audio(src);
+                audio.play().catch(e => console.log("Audio error:", e));
+            } catch (e) {
+                console.log("Audio error:", e);
+            }
+        }
+
+        // Bucle principal del juego
+        function gameLoop(timestamp) {
+            if (!gameRunning) return;
+            
+            // Crear meteoritos periódicamente
+            if (timestamp - lastMeteorTime > meteorInterval && meteors.length < 5 + level) {
+                createMeteor();
+                lastMeteorTime = timestamp;
+            }
+            
+            // Limpiar canvas
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            
+            // Dibujar fondo
+            ctx.drawImage(images.background, 0, 0, canvas.width, canvas.height);
+            
+            // Actualizar elementos del juego
+            updateShip(timestamp);
+            updateBullets();
+            updateMeteors();
+            updatePowerups();
+            updateExplosions();
+            checkCollisions();
+            
+            // Dibujar elementos del juego
+            drawShip();
+            drawBullets();
+            drawMeteors();
+            drawPowerups();
+            drawExplosions();
+            
+            // Verificar si se completó el nivel
+            if (destroyedMeteors >= meteorsToDestroy) {
+                levelComplete();
+                return;
+            }
+            
+            requestAnimationFrame(gameLoop);
+        }
+
+        // Crear meteoritos
+        function createMeteor() {
+            const size = Math.random() * 30 + 30;
+            const isSpecial = Math.random() < 0.15;
+            
+            meteors.push({
+                x: Math.random() * (canvas.width - size),
+                y: -size,
+                width: size,
+                height: size,
+                speed: Math.random() * 2 + baseMeteorSpeed,
+                type: isSpecial ? 'special' : 'normal'
+            });
+        }
+
+        // Actualizar posición de la nave
+        function updateShip(timestamp) {
+            // Manejar estados de daño/explosión
+            if (ship.state === SHIP_STATE.EXPLODING) {
+                ship.explosionFrame += 0.1;
+                
+                // Cuando termina la explosión
+                if (ship.explosionFrame >= images.shipExplosion.length) {
+                    lives--;
+                    updateUI();
+                    
+                    if (lives <= 0) {
+                        gameOver();
+                    } else {
+                        // Resetear nave después de explosión
+                        ship.state = SHIP_STATE.DAMAGED; // Siempre queda dañada después de explotar
+                        ship.explosionFrame = 0;
+                        ship.damageTime = 0;
+                        ship.canMove = true;
+                        ship.x = canvas.width / 2 - ship.width / 2;
+                        ship.y = canvas.height - 100;
+                        shipDamaged = true;
+                    }
+                }
+                return;
+            }
+            
+            // Manejar tiempo de daño (inmovilidad)
+            if (ship.state !== SHIP_STATE.NORMAL && timestamp - ship.damageTime > 1000) {
+                ship.canMove = true;
+            }
+            
+            // Mover nave solo si puede moverse
+            if (ship.canMove) {
+                ship.x += ship.dx;
+                
+                // Limites de la pantalla
+                if (ship.x < 0) {
+                    ship.x = 0;
+                } else if (ship.x + ship.width > canvas.width) {
+                    ship.x = canvas.width - ship.width;
+                }
+            }
+        }
+
+        // Actualizar balas
+        function updateBullets() {
+            for (let i = bullets.length - 1; i >= 0; i--) {
+                bullets[i].y -= bullets[i].speed;
+                
+                if (bullets[i].y + bullets[i].height < 0) {
+                    bullets.splice(i, 1);
+                }
+            }
+        }
+
+        // Actualizar meteoritos
+        function updateMeteors() {
+            for (let i = meteors.length - 1; i >= 0; i--) {
+                meteors[i].y += meteors[i].speed;
+                
+                if (meteors[i].y > canvas.height) {
+                    meteors.splice(i, 1);
+                }
+            }
+        }
+
+        // Actualizar powerups
+        function updatePowerups() {
+            for (let i = powerups.length - 1; i >= 0; i--) {
+                powerups[i].y += powerups[i].speed;
+                
+                if (powerups[i].y > canvas.height) {
+                    powerups.splice(i, 1);
+                }
+            }
+        }
+
+        // Actualizar explosiones
+        function updateExplosions() {
+            for (let i = explosions.length - 1; i >= 0; i--) {
+                explosions[i].frame += 0.2;
+                if (explosions[i].frame >= explosions[i].maxFrames) {
+                    explosions.splice(i, 1);
+                }
+            }
+        }
+
+        // Detección de colisiones
+        function checkCollisions() {
+            if (ship.state === SHIP_STATE.EXPLODING) return;
+            
+            // Colisión entre nave y meteoritos
+            for (let i = meteors.length - 1; i >= 0; i--) {
+                if (
+                    ship.x < meteors[i].x + meteors[i].width &&
+                    ship.x + ship.width > meteors[i].x &&
+                    ship.y < meteors[i].y + meteors[i].height &&
+                    ship.y + ship.height > meteors[i].y
+                ) {
+                    // Crear explosión de meteorito
+                    explosions.push({
+                        x: meteors[i].x - 10,
+                        y: meteors[i].y - 10,
+                        width: meteors[i].width + 20,
+                        height: meteors[i].height + 20,
+                        frame: 0,
+                        maxFrames: images.meteorExplosion.length,
+                        type: 'meteor'
+                    });
+                    
+                    playSound('../audio/hit.wav');
+                    meteors.splice(i, 1);
+                    
+                    // Manejar daño a la nave
+                    handleShipDamage();
+                    break;
+                }
+            }
+            
+            // Colisión entre nave y powerups
+            for (let i = powerups.length - 1; i >= 0; i--) {
+                if (
+                    ship.x < powerups[i].x + powerups[i].width &&
+                    ship.x + ship.width > powerups[i].x &&
+                    ship.y < powerups[i].y + powerups[i].height &&
+                    ship.y + ship.height > powerups[i].y
+                ) {
+                    if (powerups[i].type === 'ammo') {
+                        totalAmmo += 20;
+                    } else if (powerups[i].type === 'life' && lives < 3) {
+                        lives++;
+                        // Si recuperamos todas las vidas, la nave vuelve a su estado normal
+                        if (lives === 3) {
+                            ship.state = SHIP_STATE.NORMAL;
+                            shipDamaged = false;
+                        }
+                    }
+                    
+                    playSound('../audio/powerup.wav');
+                    powerups.splice(i, 1);
+                    updateUI();
+                }
+            }
+            
+            // Colisión entre balas y meteoritos
+            for (let i = bullets.length - 1; i >= 0; i--) {
+                for (let j = meteors.length - 1; j >= 0; j--) {
+                    if (
+                        bullets[i].x < meteors[j].x + meteors[j].width &&
+                        bullets[i].x + bullets[i].width > meteors[j].x &&
+                        bullets[i].y < meteors[j].y + meteors[j].height &&
+                        bullets[i].y + bullets[i].height > meteors[j].y
+                    ) {
+                        // Crear explosión de meteorito
+                        explosions.push({
+                            x: meteors[j].x - 10,
+                            y: meteors[j].y - 10,
+                            width: meteors[j].width + 20,
+                            height: meteors[j].height + 20,
+                            frame: 0,
+                            maxFrames: images.meteorExplosion.length,
+                            type: 'meteor'
+                        });
+                        
+                        playSound('../audio/hit.wav');
+                        bullets.splice(i, 1);
+                        
+                        if (meteors[j].type === 'special') {
+                            createPowerup(meteors[j].x, meteors[j].y);
+                        }
+                        
+                        meteors.splice(j, 1);
+                        score += 10;
+                        destroyedMeteors++;
+                        updateUI();
+                        break;
+                    }
+                }
+            }
+        }
+
+        // Manejar daño a la nave
+        function handleShipDamage() {
+            ship.canMove = false;
+            ship.damageTime = performance.now();
+            
+            // Avanzar al siguiente estado de daño
+            if (ship.state === SHIP_STATE.NORMAL) {
+                ship.state = SHIP_STATE.DAMAGED;
+                shipDamaged = true;
+            } else if (ship.state === SHIP_STATE.DAMAGED) {
+                ship.state = SHIP_STATE.CRITICAL;
+            } else {
+                // Estado crítico - explotar
+                ship.state = SHIP_STATE.EXPLODING;
+                ship.explosionFrame = 0;
+                playSound('../audio/explosion.wav');
+                
+                // Crear explosión de nave
+                explosions.push({
+                    x: ship.x - 30,
+                    y: ship.y - 30,
+                    width: ship.width + 60,
+                    height: ship.height + 60,
+                    frame: 0,
+                    maxFrames: images.shipExplosion.length,
+                    type: 'ship'
+                });
+            }
+        }
+
+        // Game over
+        function gameOver() {
+            gameRunning = false;
+            finalScore.textContent = `Score: ${score}`;
+            gameOverScreen.style.display = 'flex';
+            playSound('../audio/gameover.wav');
+        }
+
+        // Nivel completado
+        function levelComplete() {
+            gameRunning = false;
+            levelScore.textContent = `Score: ${score}`;
+            levelCompleteScreen.style.display = 'flex';
+            playSound('../audio/levelcomplete.wav');
+        }
+
+        // Dibujar nave
+        function drawShip() {
+            if (ship.state === SHIP_STATE.EXPLODING) {
+                // No dibujar la nave durante la explosión (ya se dibuja en las explosiones)
+                return;
+            } else {
+                // Dibujar nave según su estado
+                let shipImage;
+                switch(ship.state) {
+                    case SHIP_STATE.DAMAGED:
+                        shipImage = images.ships[selectedShip].damaged;
+                        break;
+                    case SHIP_STATE.CRITICAL:
+                        shipImage = images.ships[selectedShip].critical;
+                        break;
+                    default:
+                        shipImage = images.ships[selectedShip].normal;
+                }
+                ctx.drawImage(shipImage, ship.x, ship.y, ship.width, ship.height);
+            }
+        }
+
+        // Dibujar balas
+        function drawBullets() {
+            for (const bullet of bullets) {
+                ctx.drawImage(images.bullet, bullet.x, bullet.y, bullet.width, bullet.height);
+            }
+        }
+
+        // Dibujar meteoritos
+        function drawMeteors() {
+            for (const meteor of meteors) {
+                if (meteor.type === 'special') {
+                    ctx.drawImage(images.specialMeteor, meteor.x, meteor.y, meteor.width, meteor.height);
+                } else {
+                    const meteorIndex = Math.floor(Math.random() * images.meteors.length);
+                    ctx.drawImage(images.meteors[meteorIndex], meteor.x, meteor.y, meteor.width, meteor.height);
+                }
+            }
+        }
+
+        // Dibujar powerups
+        function drawPowerups() {
+            for (const powerup of powerups) {
+                if (powerup.type === 'ammo') {
+                    ctx.drawImage(images.ammo, powerup.x, powerup.y, powerup.width, powerup.height);
+                } else {
+                    ctx.drawImage(images.heart, powerup.x, powerup.y, powerup.width, powerup.height);
+                }
+            }
+        }
+
+        // Dibujar explosiones
+        function drawExplosions() {
+            for (const explosion of explosions) {
+                const frame = Math.floor(explosion.frame);
+                if (explosion.type === 'ship' && frame < images.shipExplosion.length) {
+                    ctx.drawImage(
+                        images.shipExplosion[frame], 
+                        explosion.x, 
+                        explosion.y, 
+                        explosion.width, 
+                        explosion.height
+                    );
+                } else if (explosion.type === 'meteor' && frame < images.meteorExplosion.length) {
+                    ctx.drawImage(
+                        images.meteorExplosion[frame], 
+                        explosion.x, 
+                        explosion.y, 
+                        explosion.width, 
+                        explosion.height
+                    );
+                }
+            }
+        }
+    </script>
+</body>
+</html>
