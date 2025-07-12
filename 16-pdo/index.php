@@ -5,4 +5,4 @@
     //include 'config/redirect.php';
 
     include 'pages/login.php';
-    $conx = null
+    $conx = null;
