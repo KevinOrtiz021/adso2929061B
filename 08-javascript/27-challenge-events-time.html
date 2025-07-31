@@ -6,7 +6,6 @@
     <title>Space Shooter</title>
     <link rel="stylesheet" href="../css/style.css">
     <style>
-        /* Estilos originales completos */
         section {
             position: relative;
             width: 380px;
@@ -216,8 +215,6 @@
         .pause-btn.exit:hover {
             background-color: #d32f2f;
         }
-
-        /* Elementos del juego */
         .game-object {
             position: absolute;
             background-size: contain;
@@ -276,24 +273,17 @@
         </header>
         
         <section>
-            <!-- Fondo del espacio -->
             <div class="space-background"></div>
             
-            <!-- Área de juego -->
             <div id="gameArea">
-                <!-- Botón de pausa -->
                 <button id="pauseBtn" style="display: none;">PAUSE</button>
-                
-                <!-- Interfaz del juego -->
+
                 <div id="livesContainer" class="game-ui"></div>
                 <div id="ammoContainer" class="game-ui"></div>
                 <div id="scoreDisplay" class="game-ui">Score: 0</div>
                 <div id="levelDisplay" class="game-ui">Level: 1</div>
                 <div id="ammoCount" class="game-ui" style="top: 80px; left: 10px;">Ammo: 20/40</div>
                 
-                <!-- La nave se agregará dinámicamente aquí -->
-                
-                <!-- Pantallas del juego -->
                 <div id="startScreen" class="game-screen">
                     <div class="game-logo"></div>
                     <div id="shipSelection">
@@ -327,16 +317,13 @@
     </main>
 
     <script>
-        // Configuración del juego
         const gameArea = document.getElementById('gameArea');
         const SHIP_STATE = { NORMAL: 0, DAMAGED: 1, CRITICAL: 2, EXPLODING: 3 };
-        
-        // Variables del juego
+
         let gameRunning = false, gamePaused = false, score = 0, lives = 3, currentAmmo = 20, totalAmmo = 40, level = 1;
         let meteorsToDestroy = 5, destroyedMeteors = 0, selectedShip = '1', lastMeteorTime = 0, meteorInterval = 1500;
         let baseShipSpeed = 8, baseMeteorSpeed = 1, shipDamaged = false, gameObjects = [];
-        
-        // Elementos de la interfaz
+
         const ui = {
             startScreen: document.getElementById('startScreen'),
             gameOverScreen: document.getElementById('gameOverScreen'),
@@ -357,7 +344,6 @@
             levelScore: document.getElementById('levelScore')
         };
 
-        // Objeto de la nave
         const ship = {
             element: null,
             x: 0, y: 0, width: 60, height: 60,
@@ -366,31 +352,25 @@
             explosionFrame: 0, damageTime: 0, canMove: true
         };
 
-        // Inicializar juego
         function initGame() {
             // Resetear variables
             score = 0; lives = 3; currentAmmo = 20; totalAmmo = 40; level = 1;
             meteorsToDestroy = 5; destroyedMeteors = 0; shipDamaged = false;
-            
-            // Crear elemento de la nave
+
             if (ship.element) ship.element.remove();
             ship.element = document.createElement('div');
             ship.element.className = 'game-object ship';
             ship.element.style.backgroundImage = `url('images/Spacechip/N${selectedShip}3.svg')`;
             gameArea.appendChild(ship.element);
-            
-            // Posicionar nave
+
             ship.x = gameArea.clientWidth / 2 - ship.width / 2;
             ship.y = gameArea.clientHeight - 100;
             ship.state = SHIP_STATE.NORMAL;
             ship.explosionFrame = 0;
             ship.damageTime = 0;
             ship.canMove = true;
-            
-            // Actualizar posición de la nave
+
             updateShipPosition();
-            
-            // Limpiar objetos del juego
             gameObjects.forEach(obj => {
                 if (obj.element && obj.element.parentNode) {
                     obj.element.remove();
@@ -401,11 +381,9 @@
             updateUI();
         }
 
-        // Inicializar nivel
         function initLevel() {
             destroyedMeteors = 0;
-            
-            // Limpiar meteoritos y balas
+
             gameObjects = gameObjects.filter(obj => {
                 if (obj.type === 'bullet' || obj.type === 'meteor' || obj.type === 'special-meteor') {
                     if (obj.element && obj.element.parentNode) {
@@ -426,15 +404,13 @@
             ship.explosionFrame = 0;
             ship.damageTime = 0;
             ship.canMove = true;
-            
-            // Actualizar imagen de la nave según estado
+
             updateShipAppearance();
             updateShipPosition();
             
             updateUI();
         }
 
-        // Actualizar posición de la nave
         function updateShipPosition() {
             if (ship.element) {
                 ship.element.style.left = `${ship.x}px`;
@@ -442,7 +418,6 @@
             }
         }
 
-        // Actualizar apariencia de la nave según estado
         function updateShipAppearance() {
             if (!ship.element) return;
             
@@ -458,9 +433,7 @@
             }
         }
 
-        // Actualizar interfaz
         function updateUI() {
-            // Actualizar vidas (solo mostrar si tiene menos de 3 vidas)
             ui.livesContainer.innerHTML = '';
             if (lives < 3) {
                 for (let i = 0; i < lives; i++) {
@@ -469,8 +442,6 @@
                     ui.livesContainer.appendChild(heart);
                 }
             }
-            
-            // Actualizar munición
             ui.ammoContainer.innerHTML = '';
             const ammoToShow = Math.min(currentAmmo, 20);
             for (let i = 0; i < ammoToShow; i++) {
@@ -484,7 +455,6 @@
             ui.ammoCount.textContent = `Ammo: ${currentAmmo}/${totalAmmo}`;
         }
 
-        // Crear objeto de juego
         function createGameObject(type, x, y, width, height, extraClass = '') {
             const obj = {
                 type,
@@ -506,7 +476,6 @@
             return obj;
         }
 
-        // Disparar
         function shoot() {
             if (currentAmmo <= 0 || gamePaused || !ship.element) return;
             
@@ -530,7 +499,6 @@
             }
         }
 
-        // Crear meteorito
         function createMeteor() {
             const size = Math.random() * 50 + 50;
             const isSpecial = Math.random() < 0.15;
@@ -545,7 +513,6 @@
             meteor.extraData.isSpecial = isSpecial;
         }
 
-        // Crear powerup
         function createPowerup(x, y) {
             const type = (shipDamaged && lives < 3 && Math.random() < 0.3) ? 'life' : 'ammo';
             const powerup = createGameObject('powerup', x, y, 30, 30, type);
@@ -553,7 +520,6 @@
             powerup.extraData.type = type;
         }
 
-        // Crear explosión
         function createExplosion(x, y, width, height, type) {
             const explosion = createGameObject('explosion', x, y, width, height);
             explosion.frame = 0;
@@ -561,7 +527,6 @@
             explosion.extraData.maxFrames = 5;
         }
 
-        // Manejar daño a la nave
         function handleShipDamage() {
             ship.canMove = false;
             ship.damageTime = performance.now();
@@ -592,7 +557,6 @@
             updateShipAppearance();
         }
 
-        // Game over
         function gameOver() {
             gameRunning = false;
             ui.finalScore.textContent = `Score: ${score}`;
@@ -600,7 +564,6 @@
             ui.pauseBtn.style.display = 'none';
         }
 
-        // Nivel completado
         function levelComplete() {
             gameRunning = false;
             ui.levelScore.textContent = `Score: ${score}`;
@@ -608,7 +571,6 @@
             ui.pauseBtn.style.display = 'none';
         }
 
-        // Pausar juego
         function pauseGame() {
             gamePaused = true;
             gameRunning = false;
@@ -616,7 +578,6 @@
             ui.pauseBtn.style.display = 'none';
         }
 
-        // Reanudar juego
         function resumeGame() {
             gamePaused = false;
             gameRunning = true;
@@ -626,7 +587,6 @@
             gameLoop();
         }
 
-        // Salir al menú
         function exitToMenu() {
             gamePaused = false;
             gameRunning = false;
@@ -637,11 +597,9 @@
             ui.pauseBtn.style.display = 'none';
         }
 
-        // Bucle principal del juego
         function gameLoop(timestamp = 0) {
             if (!gameRunning || gamePaused) return;
-            
-            // Crear meteoritos periódicamente
+
             if (timestamp - lastMeteorTime > meteorInterval) {
                 const meteorCount = gameObjects.filter(obj => 
                     obj.type === 'meteor' || obj.type === 'special-meteor').length;
@@ -651,8 +609,7 @@
                     lastMeteorTime = timestamp;
                 }
             }
-            
-            // Actualizar posición de la nave
+
             if (ship.state === SHIP_STATE.EXPLODING) {
                 ship.explosionFrame += 0.1;
                 if (ship.explosionFrame >= 5) {
@@ -684,15 +641,11 @@
                     }
                 }
             }
-            
-            // Actualizar posición de la nave
+
             updateShipPosition();
-            
-            // Actualizar objetos del juego
             for (let i = gameObjects.length - 1; i >= 0; i--) {
                 const obj = gameObjects[i];
-                
-                // Mover objetos según su tipo
+
                 if (obj.type === 'bullet') {
                     obj.y -= obj.speed;
                 } 
@@ -706,11 +659,9 @@
                     obj.frame += 0.2;
                 }
                 
-                // Actualizar posición del objeto
                 obj.element.style.left = `${obj.x}px`;
                 obj.element.style.top = `${obj.y}px`;
                 
-                // Eliminar objetos fuera de pantalla
                 if ((obj.type === 'bullet' && obj.y + obj.height < 0) ||
                     (obj.type === 'meteor' && obj.y > gameArea.clientHeight) ||
                     (obj.type === 'special-meteor' && obj.y > gameArea.clientHeight) ||
@@ -721,10 +672,8 @@
                     gameObjects.splice(i, 1);
                     continue;
                 }
-                
-                // Detección de colisiones
+
                 if (ship.state !== SHIP_STATE.EXPLODING && ship.element) {
-                    // Colisión nave-meteorito
                     if ((obj.type === 'meteor' || obj.type === 'special-meteor') &&
                         ship.x < obj.x + obj.width && 
                         ship.x + ship.width > obj.x &&
@@ -743,8 +692,6 @@
                         handleShipDamage();
                         continue;
                     }
-                    
-                    // Colisión nave-powerup
                     if (obj.type === 'powerup' &&
                         ship.x < obj.x + obj.width && 
                         ship.x + ship.width > obj.x &&
@@ -768,7 +715,6 @@
                         continue;
                     }
                     
-                    // Colisión bala-meteorito
                     if (obj.type === 'bullet') {
                         for (let j = gameObjects.length - 1; j >= 0; j--) {
                             const target = gameObjects[j];
@@ -804,7 +750,6 @@
                 }
             }
             
-            // Verificar si se completó el nivel
             if (destroyedMeteors >= meteorsToDestroy) {
                 levelComplete();
                 return;
@@ -813,7 +758,6 @@
             requestAnimationFrame(gameLoop);
         }
 
-        // Event listeners
         document.querySelectorAll('.ship-option').forEach(option => {
             option.addEventListener('click', () => {
                 document.querySelectorAll('.ship-option').forEach(opt => opt.classList.remove('selected'));
@@ -826,7 +770,6 @@
             ui.startBtn.disabled = true;
             ui.startBtn.textContent = "Loading...";
             
-            // Simular carga de recursos
             setTimeout(() => {
                 ui.startScreen.style.display = 'none';
                 ui.pauseBtn.style.display = 'block';
