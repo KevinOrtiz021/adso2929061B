@@ -341,7 +341,7 @@
         let baseShipSpeed = 8, baseMeteorSpeed = 1, shipDamaged = false, gameObjects = [];
 
         const ui = {
-            startScreen: document.getElementById('startScreen'),
+           startScreen: document.getElementById('startScreen'),
             gameOverScreen: document.getElementById('gameOverScreen'),
             levelCompleteScreen: document.getElementById('levelCompleteScreen'),
             pauseScreen: document.getElementById('pauseScreen'),
@@ -369,7 +369,6 @@
         };
 
         function initGame() {
-            // Resetear variables
             score = 0; lives = 3; currentAmmo = 20; totalAmmo = 40; level = 1;
             meteorsToDestroy = 5; destroyedMeteors = 0; shipDamaged = false;
 
