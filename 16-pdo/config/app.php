@@ -14,4 +14,3 @@ $host = "localhost";
 $user = "root";
 $pass = "";
 $bdname = "petsdb";
-
