@@ -18,14 +18,11 @@
             if($_POST) {
                 $email = $_POST['email'];
                 $password = md5($_POST['password']);
-                
                 //var_dump($_POST);
-
                 if(login($email, $password, $conx)){
                     echo "<script>window.location.replace('pages/dashboard.php');</script>";
                 } 
             }
-
             if(isset($_SESSION['error'])){
                 include 'error.php';
                 unset($_SESSION['error']);

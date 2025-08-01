@@ -1,5 +1,7 @@
 <?php
     include '../config/app.php';
+    include '../config/database.php';
+    include '../config/security.php';
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -16,105 +18,39 @@
             <h2>Administrar Mascotas</h2>
             <a href="../close.php" class="close"></a>
         </header>
-       <a href="add.html" class="add"></a>   
+       <a href="add.php" class="add"></a>   
        <table>
+            <?php $pets = listPets($conx); ?>
+            <?php foreach($pets as $pet): ?>
            <tr>
                <td>
                     <figure class="photo">
-                        <img src="<?=$css?>photo-sm-1.svg" alt="">
+                        <img src="../uploads/<?=$pet['photo']?>" alt="">
                     </figure>
                     <div class="info">
-                        <h3>karsten</h3>
-                        <h4>Bulldog</h4>
+                        <h3><?=$pet['name']?></h3>
+                        <h4>
+                            <?=$pet['specie']?> -
+                            <?=$pet['breed']?>
+                        </h4>
                     </div>
                     <div class="controls">
-                        <a href="show.html" class="show"></a>
-                        <a href="edit.html" class="edit"></a>
-                        <a href="#" class="delete"></a>
+                        <a href="show.php?id=<?=$pet['id']?>" class="show"></a>
+                        <a href="edit.php?id=<?=$pet['id']?>" class="edit"></a>
+                        <a href="javascript:deletePet(<?=$pet['id']?>, '<?=$pet['name']?>')" class="delete"></a>
                     </div>
                </td>
            </tr>
-           <tr>
-            <td>
-                <figure class="photo">
-                    <img src="<?=$css?>photo-sm-2.svg" alt="">
-                </figure>
-                <div class="info">
-                    <h3>Alban</h3>
-                    <h4>Corgi</h4>
-                </div>
-                <div class="controls">
-                    <a href="show.html" class="show"></a>
-                    <a href="edit.html" class="edit"></a>
-                    <a href="#" class="delete"></a>
-                </div>
-            </td>
-        </tr>
-        <tr>
-            <td>
-                <figure class="photo">
-                    <img src="<?=$css?>photo-sm-3.svg" alt="">
-                </figure>
-                <div class="info">
-                    <h3>Reigner</h3>
-                    <h4>Bulldog</h4>
-                </div>
-                <div class="controls">
-                    <a href="show.html" class="show"></a>
-                    <a href="edit.html" class="edit"></a>
-                    <a href="#" class="delete"></a>
-                </div>
-            </td>
-        </tr>
-        <tr>
-            <td>
-                <figure class="photo">
-                    <img src="<?=$css?>photo-sm-4.svg" alt="">
-                </figure>
-                <div class="info">
-                    <h3>Alex</h3>
-                    <h4>Siamese</h4>
-                </div>
-                <div class="controls">
-                    <a href="show.html" class="show"></a>
-                    <a href="edit.html" class="edit"></a>
-                    <a href="#" class="delete"></a>
-                </div>
-            </td>
-        </tr>
-        <tr>
-            <td>
-                <figure class="photo">
-                    <img src="<?=$css?>photo-sm-5.svg" alt="">
-                </figure>
-                <div class="info">
-                    <h3>Ariana</h3>
-                    <h4>Graycat</h4>
-                </div>
-                <div class="controls">
-                    <a href="show.html" class="show"></a>
-                    <a href="edit.html" class="edit"></a>
-                    <a href="#" class="delete"></a>
-                </div>
-            </td>
-        </tr>
-        <tr>
-            <td>
-                <figure class="photo">
-                    <img src="<?=$css?>photo-sm-1.svg" alt="">
-                </figure>
-                <div class="info">
-                    <h3>Lorem</h3>
-                    <h4>Ipsum</h4>
-                </div>
-                <div class="controls">
-                    <a href="show.html" class="show"></a>
-                    <a href="edit.html" class="edit"></a>
-                    <a href="#" class="delete"></a>
-                </div>
-            </td>
-        </tr>
+            <?php endforeach ?>
        </table>
     </main>
 </body>
+        <script>
+            function deletePet(id, name) {
+            
+                if(confirm(`Esta usted seguro? Va eliminar a ${name}`)) {
+                    window.location.replace('delete.php?id='+id)
+                }
+            }
+        </script>
 </html>

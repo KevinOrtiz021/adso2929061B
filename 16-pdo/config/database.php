@@ -24,7 +24,7 @@
                 $_SESSION['uid'] = $user['id'];
                 return true;
             } else {
-                $_SESSION['error'] = "User not registered!";
+                $_SESSION['error'] = "Usuario o contraseña incorrectos.";
                 return false;
             }
 
@@ -32,3 +32,24 @@
             echo "Error: " . $e->getMessage();
         }
     }
+    // List Pets
+    function listPets($conx) {
+        try {
+            $sql = "SELECT p.id AS id,
+                           p.name AS name,
+                           p.photo AS photo,
+                           s.name AS specie,
+                           b.name AS breed
+                    FROM pets AS p,
+                         species AS s,
+                         breeds AS b
+                    WHERE s.id = p.specie_id
+                    AND b.id = p.breed_id";
+            $stmt = $conx->prepare($sql);
+            $stmt->execute();
+            return $stmt->fetchAll();
+        } catch (PDOException $e) {
+            echo "Error: " . $e->getMessage();
+        }
+    }
+ 
