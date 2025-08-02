@@ -1,3 +1,3 @@
 <section class="error">
-    <?=$_SESSION['error']?>
+    <?= $_SESSION['error']?>
 </section>

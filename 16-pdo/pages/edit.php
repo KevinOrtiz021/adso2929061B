@@ -5,14 +5,14 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tu mejor amigo en casa - Edit</title>
-    <link rel="stylesheet" href="css/master.css">
+    <link rel="stylesheet" href="<?=$css?>master.css">
 </head>
 <body>
     <main class="edit">
         <header>
             <h2>Modificar Mascota</h2>
-            <a href="dashboard.php" class="back"></a>
-            <a href="index.php" class="close"></a>
+            <a href="dashboard.html" class="back"></a>
+            <a href="index.html" class="close"></a>
         </header>
         <figure class="photo-preview">
             <img src="imgs/photo-lg-1.svg" alt="">

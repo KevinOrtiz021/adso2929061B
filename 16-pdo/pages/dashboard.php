@@ -42,6 +42,12 @@
                </td>
            </tr>
             <?php endforeach ?>
+            <?php
+                if(isset($_SESSION['message'])) {
+                    include 'message.php';
+                    unset($_SESSION['message']);
+                }
+            ?>
        </table>
     </main>
 </body>

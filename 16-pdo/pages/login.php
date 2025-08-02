@@ -10,25 +10,28 @@
 <body>
     <main class="login">
         <form action="" method="post">
-            <input type="text" name="email" placeholder="Correo Electrónico">
-            <input type="password" name="password" placeholder="Contraseña">
+            <input type="text" name="email" placeholder="Correo Electrónico" value="admin@tumascotaencasa.com">
+            <input type="password" name="password" placeholder="Contraseña" value="admin">
             <button>Ingresar</button>
         </form>
-        <?php
-            if($_POST) {
+        <?php 
+            if($_POST){
                 $email = $_POST['email'];
-                $password = md5($_POST['password']);
-                //var_dump($_POST);
-                if(login($email, $password, $conx)){
-                    echo "<script>window.location.replace('pages/dashboard.php');</script>";
-                } 
+                $password = $_POST['password'];
+
+                // var_dump($_POST);
+
+                if(login($email, md5($password), $conx)){
+                    echo "<script> 
+                    window.location.replace('pages/dashboard.php')
+                    </script>";
+                };
             }
-            if(isset($_SESSION['error'])){
+
+            if(isset($_SESSION{'error'})){
                 include 'error.php';
                 unset($_SESSION['error']);
-
             }
-
         ?>
     </main>
 </body>
