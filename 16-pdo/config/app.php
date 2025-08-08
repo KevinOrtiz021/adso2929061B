@@ -3,7 +3,7 @@
 session_start();
 
 //routes absolutes
-$url = 'http://localhost:8080/';
+$url = 'http://'.$_SESSION['HTTP_HOST'].'/';
 $public = $url . 'public/';
 $css = $public . 'css/';
 $js = $public . 'js/';
@@ -13,4 +13,4 @@ $imgs = $public . 'imgs/';
 $host = 'localhost';
 $user = 'root';
 $pass = '';
-$dbname = "petsbd";
+$dbname = "petsdb";
