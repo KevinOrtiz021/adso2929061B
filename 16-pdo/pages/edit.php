@@ -1,3 +1,8 @@
+<?php
+    include '../config/app.php';
+    include '../config/database.php';
+    include '../config/security.php';
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -11,38 +16,56 @@
     <main class="edit">
         <header>
             <h2>Modificar Mascota</h2>
-            <a href="dashboard.html" class="back"></a>
-            <a href="index.html" class="close"></a>
+            <a href="dashboard.php" class="back"></a>
+            <a href="index.php" class="close"></a>
         </header>
+        <?php 
+            $id = $_GET['id'];
+            $pet = showPet($id, $conx);
+        ?>
         <figure class="photo-preview">
-            <img src="imgs/photo-lg-1.svg" alt="">
+            <img id="preview" src="../uploads/<?=$pet["photo"]?>" alt="">
         </figure>
         <form action="" method="post">
-            <input type="text" name="name" placeholder="Nombre" value="Reigner">
+            <input type="text" name="name" placeholder="Nombre" value="<?=$pet["name"]?>">
             <div class="select">
                 <select name="raza">
-                    <option value="">Seleccione Raza...</option>
+                    <option selected value="<?=$pet["breed_id"]?>"><?=$pet["breed"]?></option>
                     <option value="1">Corgi</option>
-                    <option value="2" selected>Bulldog</option>
+                    <option value="2">Bulldog</option>
                 </select>
             </div>
             <div class="select">
-                <select name="raza">
-                    <option value="">Seleccione Categoría...</option>
-                    <option value="1" selected>Perro</option>
+                <select name="specie_id">
+                    <option selected value="<?=$pet["specie_id"]?>"><?=$pet["specie"]?></option>
+                    <option value="1">Perro</option>
                     <option value="2">Gato</option>
                 </select>
             </div>
+            <input type="file" id="photo" style="display:none">
             <button type="button" class="upload">Subir Foto</button>
             <div class="select">
-                <select name="raza">
-                    <option value="">Seleccione Genero...</option>
-                    <option value="1">Hembra</option>
-                    <option value="2" selected>Macho</option>
+                <select name="sex_id">
+                    <option selected value="<?=$pet["sex_id"]?>"><?=$pet["sex"]?></option>
+                    <option value="1">Macho</option>
+                    <option value="2">Hembra</option>
                 </select>
             </div>
             <button class="update">Modificar</button>
         </form>
     </main>
+    <script>
+        const preview = document.querySelector('#preview')
+        const upload  = document.querySelector('.upload')
+        const photo   = document.querySelector('#photo')
+ 
+        upload.addEventListener('click', function() {
+            photo.click()
+        })
+ 
+        photo.addEventListener('change', function() {
+            preview.src = window.URL.createObjectURL(this.files[0])
+        })
+    </script>
 </body>
 </html>

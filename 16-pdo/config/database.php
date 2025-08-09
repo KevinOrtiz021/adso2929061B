@@ -47,7 +47,7 @@
                     AND b.id = p.breed_id";
             $stmt = $conx->prepare($sql);
             $stmt->execute();
-            return $stmt->fetchAll();
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
         } catch (PDOException $e) {
             echo "Error: " . $e->getMessage();
         }
@@ -98,7 +98,10 @@
     // Show Pet
     function showPet($id, $conx) {
         try {
-            $sql = "SELECT p.name AS name,
+            $sql = "SELECT  p.specie_id,
+                            p.sex_id,
+                            p.breed_id,
+                            p.name AS name,
                            p.photo AS photo,
                            s.name AS specie,
                            b.name AS breed,
@@ -157,4 +160,3 @@
             echo "Error: " . $e->getMessage();
         }
     }
- 
