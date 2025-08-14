@@ -30,7 +30,7 @@
                     <?php $species = listSpecies($conx) ?>
                     <?php foreach($species as $specie): ?>
                         <option value="<?=$specie['id']?>" <?php if(isset($_POST['specie_id']) && $_POST['specie_id'] == $specie['id']) echo "selected"; ?>><?=$specie['id']?>-<?=$specie['name']?></option>
-                    <?php endforeach ?>
+                    <?php endforeach ?> 
                 </select>
             </div>
             <div class="select">
@@ -74,7 +74,7 @@
                     $specie_id = $_POST['specie_id'];
                     $breed_id  = $_POST['breed_id'];
                     $sex_id    = $_POST['sex_id'];
-                    $photo     = time().".".pathinfo($_FILES['photo']['name'], PATHINFO_EXTENSION);
+                    $photo     = time()."_".$_FILES['photo']['name'];
                     move_uploaded_file($_FILES['photo']['tmp_name'], "../uploads/".$photo);
  
                     if(addPet($name, $specie_id, $breed_id, $sex_id, $photo, $conx)) {
@@ -89,7 +89,7 @@
             }
  
             if(isset($_SESSION['error'])) {
-                include 'errors.php';
+                include 'error.php';
                 unset($_SESSION['error']);
             }
         ?>
