@@ -2,68 +2,129 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">    
-    <title>Menu Main - ADSO 2929061 B </title>
-</head>
-<body>
-
-</body>
-</html>
-
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Main Menu - ADSO2929061</title>
+    <title>Main Menu - ADSO 2929061 B </title>
     <link rel="stylesheet" href="css/style.css">
+    <style>
+        div.menus {
+            display: flex;
+            align-items: start;
+            gap: 1rem;
+            h3 {
+                color: #fff9;
+            }
+        }
+        @media screen and (max-width: 580px) {
+            div.menus {
+                flex-direction: column;
+            }
+        }
+        a.inactive {
+                opacity: 0.5;
+                pointer-events: none;
+            }
+</style>
 </head>
 <body class="main-menu">
     <main>
         <header>
-            <h1> ADSO2929061 <span>B</span></h1>
-            <h2>Analysis & Sofware Development</h2>
-            <img src="images/photo2.jpg" alt="photo">
-            <h3> Kevin Arenas Ortiz </h3>
+            <h1>ADSO 2929061 <span>B</span></h1>
+            <h2>Sotfware & Analysis Development</h2>
+            <img src="images/photo.jpg" alt="Photo">
+            <h3>Kevin Arenas Ortiz</h3>
         </header>
-        <menu>
-            <a href="01-emmet/index.html">
-                <span>01</span>
-                Emmet
-            </a>
-            <a <a href="02-html/index.html">
-                <span>02</span>
-                Html
-            </a>
-            <a href="03_css/index.html">
-                <span>03</span>
-                Css
-            </a>
-            <a href="04_pug/index.html">
-                <span>04</span>
-                PUG
-            </a>
-            <a href="05_sass/index.html">
-                <span>05</span>
-                Sass
-            </a>
-            <a href="06_bootstrap/index.html">
-                <span>06</span>
-                Bootstrap
-            </a>
-            <a href="07_tailwind/index.html">
-                <span>07</span>
-                Tailwind
-            </a>
-            <a href="08-javascript/index.html">
-                <span>08</span>
-                Javascript
-            </a>
-            <a href="16-pdo/index.php">
-                <span>16</span>
-                16-pdo
-            </a>
-        </menu>
+  <div class="menus">
+            <menu>
+                <h3>FRONT-END</h3>
+                <a href="01-emmet/index.html">
+                    <span>01</span>
+                    Emmet
+                </a>
+                <a href="02-html/index.html">
+                    <span>02</span>
+                    Html
+                </a>
+                <a href="03_css/index.html">
+                    <span>03</span>
+                    Css
+                </a>
+                <a href="04_pug/index.html">
+                    <span>04</span>
+                    Pug
+                </a>
+                <a href="05_sass/index.html">
+                    <span>05</span>
+                    Sass
+                </a>
+                <a href="06_bootstrap/index.html">
+                    <span>06</span>
+                    Bootstrap
+                </a>
+                <a href="07_tailwind/index.html">
+                    <span>07</span>
+                    Tailwind
+                </a>
+                <a href="08_javascript/index.html">
+                    <span>08</span>
+                    Javascript Vanilla
+                </a>
+                <a href="09_jquery/index.html">
+                    <span>09</span>
+                    jQuery
+                </a>
+                <a href="10_typescript/index.html" class="inactive">
+                    <span>10</span>
+                    TypeScript
+                </a>
+                <a href="11_node/index.html" class="inactive">
+                    <span>11</span>
+                    Node JS
+                </a>
+                <a href="12_react/index.html" class="inactive">
+                    <span>12</span>
+                    React JS
+                </a>
+                <a href="13_next/index.html" class="inactive">
+                    <span>13</span>
+                    Next JS
+                </a>
+            </menu>
+            <menu>
+                <h3>BACK-END</h3>
+                <a href="14_php/index.html" class="inactive">
+                    <span>14</span>
+                    PHP
+                </a>
+                <a href="15_sql/index.html" class="inactive">
+                    <span>15</span>
+                    SQL
+                </a>
+                <a href="http://localhost:8080" target="_blank">
+                    <span>16</span>
+                    PDO
+                </a>
+                <a href="17_oop/index.html" class="inactive">
+                    <span>17</span>
+                    OOP
+                </a>
+                <a href="18_mvc/index.html" class="inactive">
+                    <span>18</span>
+                    MVC
+                </a>
+                <a href="19_laravel/index.html" class="inactive">
+                    <span>19</span>
+                    Laravel
+                </a>
+                <a href="20_api/index.html" class="inactive">
+                    <span>21</span>
+                    API Laravel
+                </a>
+                <a href="22_native/index.html" class="inactive">
+                    <span>20</span>
+                    React Native
+                </a>
+            </menu>
+        </div>
     </main>
     
 </body>
