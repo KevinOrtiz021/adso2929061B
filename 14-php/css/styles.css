@@ -209,6 +209,31 @@ body {
                 padding: 0 0.8rem 0.8rem;
                 background-color: #0006;
             }
+            table {
+                border: 1px solid #0006;
+                border-collapse: collapse;
+                font-size: 0.8rem;
+                width: 100%;
+                thead {
+                    th {
+                        border: 1px solid #0006;
+                        background-color: #0006;
+                        color: #fff;
+                        padding: 0.4rem;
+                    }
+                }
+                tbody {
+                    td {
+                        border: 1px solid #0006;
+                        background-color: #fff6;
+                        padding: 0.4rem;
+                        &:last-child {
+                            font-family: 'Poppins-600';
+                            text-align: center;
+                        }
+                    }
+                }
+            }
         }
 
         menu {
