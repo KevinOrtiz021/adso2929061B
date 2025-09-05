@@ -71,10 +71,36 @@
     <script src="js/jquery-3.7.1.min.js"></script>
     <script>
         $(document).ready(function () {
+            // Set
+            $('section').on('click', '.set-html', function () {
+                $('.text-area').html('<ul><li>Apple</li></ul>')
+            })
+            $('section').on('click', '.set-text', function () {
+                $('.text-area').text('Lorem ipsum dolor sit amet.')
+            })
+            $('section').on('click', '.set-attr', function () {
+                $('.text-area').attr('rows', '20')
+            })
+            $('section').on('click', '.set-value', function () {
+                $('.text-area').val('Memento Mori')
+            })
 
+            // Get
+            $('section').on('click', '.get-html', function () {
+                alert($('.actions').html())
+            })
+            $('section').on('click', '.get-text', function () {
+                alert($('header p').text())
+            })
+            $('section').on('click', '.get-attr', function () {
+                alert($('.text-area').attr('rows'))
+            })
+            $('section').on('click', '.get-value', function () {
+                alert($('.text-area').val())
+            })
         })
-
     </script>
+
 </body>
 
 </html>
