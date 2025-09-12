@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Card Games - Memory Game</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <style>
+        body {
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            color: #fff;
+            font-family: Arial, sans-serif;
+            min-height: 100vh;
+        }
+        main {
+            max-width: 430px;
+            margin: 30px auto;
+            background: url('images/Among-Us/Fondo.png') center center/cover no-repeat;
+            border-radius: 30px;
+            box-shadow: 0 0 30px #000a;
+            padding: 0;
+            overflow: hidden;
+        }
+        header {
+            text-align: center;
+            padding-top: 20px;
+            padding-bottom: 10px;
+            margin: 0;
+        }
+        .main-title {
+            font-size: 2.3rem;
+            font-weight: bold;
+            margin-bottom: 0;
+            letter-spacing: 2px;
+        }
+        .main-title span:nth-child(1) { color: #f00; }
+        .main-title span:nth-child(2) { color: #ff0; }
+        .main-title span:nth-child(3) { color: #0f0; }
+        .main-title span:nth-child(4) { color: #00f; }
+        .subtitle {
+            color: #b084f7;
+            font-size: 1.1rem;
+            margin-bottom: 10px;
+            letter-spacing: 1px;
+        }
+        .status-bar {
+            display: flex;
+            justify-content: space-between;
+            margin: 0;
+            background: rgba(20, 75, 184, 0.549);
+            border-radius: 10px;
+            padding: 8px 16px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            box-shadow: none;
+        }
+        .status-bar span {
+            display: flex;
+            align-items: center;
+            gap: 7px;
+            
+        }
+        .status-bar img {
+            width: 22px;
+            vertical-align: middle;
+            opacity: 0.8;
+        }
+        .memory-board {
+            display: grid;
+            grid-template-columns: repeat(3, 100px);
+            grid-template-rows: repeat(4, 122px);
+            gap: 16px;
+            justify-content: center;
+            margin: 0 auto 18px auto;
+            padding: 10px 0;
+        }
+        .fondo{
+            width: 400px;
+            height: 700px;
+        }
+        .memory-card {
+            width: 100px;
+            height: 122px;
+            background: rgba(6, 8, 18, 0.74);
+            border-radius: 18px;
+            box-shadow: 0 2px 8px #0008;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            position: relative;
+            transition: transform 0.2s, box-shadow 0.2s;
+            user-select: none;
+            border: 3px solid #ffffff;
+            perspective: 600px;
+        }
+        .memory-card.flipped .card-inner,
+        .memory-card.matched .card-inner {
+            transform: rotateY(180deg);
+        }
+        .card-inner {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            transition: transform 0.4s;
+            transform-style: preserve-3d;
+        }
+        .memory-card .front, .memory-card .back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            backface-visibility: hidden;
+            border-radius: 18px;
+        }
+        .memory-card .front {
+            background: rgba(35,39,47,0.55);
+            transform: rotateY(180deg);
+            z-index: 2;
+        }
+        .memory-card .back {
+            background: rgba(35,39,47,0.55);
+            z-index: 1;
+        }
+        .memory-card .front img, .memory-card .back img {
+            width: 70px;
+            height: 90px;
+            object-fit: contain;
+            filter: drop-shadow(0 2px 6px #000a);
+        }
+        
+        .restart-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            margin: 0 auto;
+            margin-top: 10px;
+            padding: 5px 20px;
+            width: 50%;
+            background: rgba(243, 243, 243, 0.664);
+            color: #fff;
+            border: none;
+            border-radius: 20px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            box-shadow: 0 2px 8px #0003;
+            transition: background 0.2s, color 0.2s;
+        }
+        .restart-btn img {
+            float: left;
+            display: flex;
+            width: 24px;
+            filter: drop-shadow(0 1px 2px #0008);
+        }
+        .restart-btn:hover {
+            background: #c90c0c7c;
+            color: #fff;
+        }
+        @media (max-width: 500px) {
+            main { max-width: 98vw; }
+            .memory-board { grid-template-columns: repeat(3, 1fr); gap: 8px; }
+            .memory-card { width: 28vw; height: 28vw; min-width: 60px; min-height: 80px; }
+        }
+        #figma-btn {
+            display: block;
+            margin: 20px auto 40px auto;
+            background: url('images/Among-Us/Fondo.png') no-repeat;
+            color: white;
+            border-color: wheat;
+            padding: 15px 15px;
+            border-radius: 18px; /* Redondeado solo abajo */
+            cursor: pointer;
+            font-weight: bold;
+            width: 30%; /* Mismo ancho que el section */
+            text-align: center;
+            transition: all 0.3s;
+            margin-top: 2px; /* Para "pegarlo" visualmente */
+        }
+    </style>
+</head>
+<body class="jquery">
+    <nav>
+        <a href="index.html">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path fill="#ffffff" d="M9.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.2 288 416 288c17.7 0 32-14.3 32-32s-14.3-32-32-32l-306.7 0L214.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg>
+        </a>
+    </nav>
+    <main>
+        <header>
+            <div class="main-title">
+                <span>C</span><span>a</span><span>r</span><span>d</span> Games
+            </div>
+            <div class="subtitle">Memory game</div>
+        </header>
+        <div class="status-bar">
+            <span><img src="images/Among-Us/Second.svg" alt="clock" /> <span id="timer">0</span> Second</span>
+            <span><img src="images/Among-Us/Amongos-moves.gif" alt="moves" /> <span id="moves">0</span> Moves</span>
+        </div>
+        <div class="fondo">
+            <div class="memory-board"></div>
+            <button class="restart-btn"><img src="images/Among-Us/Reset.svg" alt="reset" />Restart</button>
+    </div>
+    <button id="figma-btn" onclick="window.open('https://www.figma.com/design/iyxXkpQ3bjx7UFNm5XuHq6/Among-us?node-id=0-1&p=f&t=dNxsuSu5yjIfNphX-0')">
+        Ver Figma
+    </button>
+    </main>
+    <script src="js/jquery-3.7.1.min.js"></script>
+    <script>
+        $(document).ready(function(){
+            // 6 imágenes distintas para 4x3
+            const images = [
+                'images/Among-Us/Azul.svg','images/Among-Us/Blanco.svg','images/Among-Us/Cian.svg',
+                'images/Among-Us/Naranja.svg','images/Among-Us/Rojo.svg','images/Among-Us/Verde.svg'
+            ];
+            const backImg = 'images/Among-Us/Volteado.svg'; 
+            let cards = [];
+            let flipped = [];
+            let matched = 0;
+            let moves = 0;
+            let timer = 0;
+            let timerInterval = null;
+            let gameStarted = false;
+            const $board = $('.memory-board');
+            const $moves = $('#moves');
+            const $timer = $('#timer');
+
+            function shuffle(array) {
+                for (let i = array.length - 1; i > 0; i--) {
+                    const j = Math.floor(Math.random() * (i + 1));
+                    [array[i], array[j]] = [array[j], array[i]];
+                }
+                return array;
+            }
+
+            function startTimer() {
+                timer = 0;
+                $timer.text('0');
+                if (timerInterval) clearInterval(timerInterval);
+                timerInterval = setInterval(function(){
+                    timer++;
+                    $timer.text(timer);
+                }, 1000);
+            }
+
+            function stopTimer() {
+                if (timerInterval) clearInterval(timerInterval);
+            }
+
+            function initGame() {
+                cards = shuffle([...images, ...images]); 
+                $board.empty();
+                matched = 0;
+                moves = 0;
+                $moves.text('0');
+                flipped = [];
+                gameStarted = false;
+                stopTimer();
+                $timer.text('0');
+                for (let i = 0; i < cards.length; i++) {
+                    $board.append(`
+                        <div class="memory-card" data-index="${i}" data-img="${cards[i]}">
+                            <div class="card-inner">
+                                <div class="front"><img src="${cards[i]}" alt="img"></div>
+                                <div class="back"><img src="${backImg}" alt="?" /></div>
+                            </div>
+                        </div>
+                    `);
+                }
+            }
+
+            function resetFlipped() {
+                setTimeout(function(){
+                    $('.memory-card.flipped:not(.matched)').removeClass('flipped');
+                    flipped = [];
+                }, 800);
+            }
+
+            $board.on('click', '.memory-card:not(.flipped):not(.matched)', function(){
+                if (flipped.length >= 2) return;
+                if (!gameStarted) {
+                    gameStarted = true;
+                    startTimer();
+                }
+                $(this).addClass('flipped');
+                flipped.push($(this));
+                if (flipped.length === 2) {
+                    setTimeout(function(){
+                        moves++;
+                        $moves.text(moves);
+                        const img1 = flipped[0].data('img');
+                        const img2 = flipped[1].data('img');
+                        if (img1 === img2) {
+                            flipped[0].addClass('matched');
+                            flipped[1].addClass('matched');
+                            matched += 2;
+                            flipped = [];
+                            if (matched === cards.length) {
+                                stopTimer();
+                                setTimeout(function(){
+                                    alert('¡Felicidades! Has ganado en ' + moves + ' movimientos y ' + timer + ' segundos.');
+                                }, 500);
+                            }
+                        } else {
+                            resetFlipped();
+                        }
+                    }, 400);
+                }
+            });
+
+            $('.restart-btn').click(function(){
+                initGame();
+            });
+
+            // Inicializar el juego al cargar
+            initGame();
+        });
+    </script>
+</body>
+</html>
