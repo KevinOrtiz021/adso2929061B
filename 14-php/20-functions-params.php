@@ -4,11 +4,15 @@ $description = 'Functions that operate with values send by parammeter';
 
 include 'template/header.php';
 
-        function sum($n1, $n2 = 5){
-            echo $n1 + $n2. "<br>";
-        }
+echo "<section>";
 
-        sum(1, 2);
-        sum(5);
+function sum($n1, $n2 = 5){
+    echo "<p>" . ($n1 + $n2) . "</p>";
+}
+
+sum(1, 2);
+sum(5);
+
+echo "</section>";
 
 include 'template/footer.php';

@@ -1,12 +1,27 @@
 <?php
-$title = '15-loop-while';
-$description = 'Loop that executes WHILE a condition comes true.';
+$title = '14-Arrays-Multidimensional';
+$description = 'Array that contains other nested arrays.';
 
 include 'template/header.php';
-$i = 1; 
-while($i <= 10){
-    echo "<p>$i</p>";
-    $i++;
+
+echo "<section>";
+
+$bicycles = array(
+    'Specialized' => ['Monster', 'Pro', 'Good'],
+    'Santa Cruz' => ['High', 'Nomad', 'Tower']
+);
+
+foreach($bicycles as $key => $value){
+    echo "<h3>$key</h3>";
+    echo "<ul>";
+    foreach($value as $ref){
+        echo "<li>$ref</li>";
+    }
+    echo "</ul>";
 }
 
-include 'template/footer.php';
+echo "</section>";
+
+?>
+
+<?php include 'template/footer.php'; ?>

@@ -4,11 +4,15 @@ $description = 'Functions that return a response / result';
 
 include 'template/header.php';
 
-        function div($n1, $n2 = 5){
-            return  "$n1 / $n2 = ".  $n1 / $n2. "<br>";
-        }
+echo "<section>";
 
-        echo div(25);
-        echo div(25, 6);
+function div($n1, $n2 = 5){
+    return "<p>$n1 / $n2 = " . ($n1 / $n2) . "</p>";
+}
+
+echo div(25);
+echo div(25, 6);
+
+echo "</section>";
 
 include 'template/footer.php';
