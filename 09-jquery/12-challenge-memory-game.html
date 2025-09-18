@@ -282,6 +282,21 @@
         return array.sort(() => 0.5 - Math.random())
       }
 
+      $.delay = function (time) {
+        return $.Deferred(function (dfd) {
+          setTimeout(dfd.resolve, time)
+        }).promise()
+      }
+
+      function showAllCards() {
+        $('.memory-card').addClass('flipped')
+        $.delay(650).then(function () {
+          $('.memory-card').removeClass('flipped')
+          flipped = []
+          gameStarted = false
+        })
+      }
+
       function initGame() {
         cards = shuffle(images.concat(images))
         $board.empty()
@@ -302,14 +317,11 @@
             '</div>'
           )
         })
+        showAllCards()
       }
 
       function cardClick($card) {
-        if (flipped.length >= 2) return
-        if (!gameStarted) {
-          gameStarted = true
-          startTimer()
-        }
+        if (flipped.length >= 2 || !gameStarted) return
         $card.addClass('flipped')
         flipped.push($card)
         if (flipped.length === 2) {
@@ -375,13 +387,11 @@
         if (timerInterval) clearInterval(timerInterval)
       }
 
-      $.delay = function (time) {
-        return $.Deferred(function (dfd) {
-          setTimeout(dfd.resolve, time)
-        }).promise()
-      }
-
       $board.on('click', '.memory-card:not(.flipped):not(.matched)', function () {
+        if (!gameStarted) {
+          gameStarted = true
+          startTimer()
+        }
         cardClick($(this))
       })
 
@@ -397,4 +407,5 @@
     })
   </script>
 </body>
+
 </html>
