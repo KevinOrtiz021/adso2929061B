@@ -3,7 +3,7 @@ $title = '33 - Filters';
 $description = 'Sanitize and validate data with PHP filters.';
 include_once 'template/header.php';
 
-echo '<section><h2>🏙️ Filtro de Ciudad o Edad</h2>';
+echo '<section><h2> Filtro de Ciudad o Edad</h2>';
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $v = $_POST['valor'];
