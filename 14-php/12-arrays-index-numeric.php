@@ -6,7 +6,7 @@
 
     echo "<section>";
 
-    $carros = array("Mazda 3 🚗", "Renault Duster 🚙", "Nissan GT-R 🏎️", "Audi Q7 🚘");
+    $carros = array("Mazda 3 ", "Renault Duster ", "Nissan GT-R ", "Audi Q7 ");
 
     foreach($carros as $indice => $carro) {
         echo "<p><strong>Índice:</strong> $indice | <strong>Carro:</strong> $carro</p>";

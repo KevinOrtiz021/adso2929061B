@@ -5,34 +5,34 @@
     include 'template/header.php';
     echo "<section>";
 
-    $carros_manual[0] = "Mazda 3 🚗";
-    $carros_manual[1] = "Renault Duster 🚙";
-    $carros_manual[2] = "Nissan GT-R 🏎️";
-    $carros_manual[3] = "Audi Q7 🚘";
+    $carros_manual[0] = "Mazda 3";
+    $carros_manual[1] = "Renault Duster";
+    $carros_manual[2] = "Nissan GT-R";
+    $carros_manual[3] = "Audi Q7";
 
     $indice_manual = 0; 
     $carro_manual = $carros_manual[$indice_manual];
+
+    echo "<h2>Método 2: Índice Manual</h2>";
+    echo "<p><strong>Índice seleccionado:</strong> $indice_manual</p>";
+    echo "<p><strong>Carro:</strong> $carro_manual</p>";
+
+    switch($carro_manual) {
+        case 'Mazda 3':
+            echo '<h4>El carro seleccionado es un Mazda 3 🚗</h4>';
+            break;
+        case 'Renault Duster':
+            echo '<h4>El carro seleccionado es un Renault Duster 🚙</h4>';
+            break;
+        case 'Nissan GT-R':
+            echo '<h4>El carro seleccionado es un Nissan GT-R 🏎️</h4>';
+            break;
+        case 'Audi Q7':
+            echo '<h4>El carro seleccionado es un Audi Q7 🚘</h4>';
+            break;
+        default:
+            echo '<h4>No se encontró el carro seleccionado</h4>';
+    }
+
+    include 'template/footer.php';
 ?>
-
-<h2>Método 2: Índice Manual</h2>
-<p><strong>Índice seleccionado:</strong> <?php echo $indice_manual; ?></p>
-<p><strong>Carro:</strong> <?php echo $carro_manual; ?></p>
-
-<?php switch($carro_manual): ?>
-<?php case 'Mazda 3 🚗': ?>
-    <h4>El carro seleccionado es un Mazda 3 🚗</h4>
-    <?php break; ?>
-<?php case 'Renault Duster 🚙': ?>
-    <h4>El carro seleccionado es un Renault Duster 🚙</h4>
-    <?php break; ?>
-<?php case 'Nissan GT-R 🏎️': ?>
-    <h4>El carro seleccionado es un Nissan GT-R 🏎️</h4>
-    <?php break; ?>
-<?php case 'Audi Q7 🚘': ?>
-    <h4>El carro seleccionado es un Audi Q7 🚘</h4>
-    <?php break; ?>
-<?php default: ?>
-    <h4>No se encontró el carro seleccionado</h4>
-<?php endswitch; ?>
-
-<?php include 'template/footer.php';
