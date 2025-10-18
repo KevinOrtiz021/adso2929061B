@@ -89,7 +89,7 @@ SELECT name, type FROM pokemons WHERE type = 'Water' ORDER BY name DESC;
             <textarea>SELECT name, type, (strength + staming + speed + accuracy) AS total_skills FROM pokemons;</textarea>
             <small>Sum all skills by type</small>
             <textarea>SELECT type, SUM(strength + staming + speed + accuracy) AS total_skills_por_tipo FROM pokemons GROUP BY type;</textarea>
-            <small></small>
+            <small>Select COUNT(*)</small>
             <textarea>SELECT COUNT(*) AS total_water_pokemons FROM pokemons WHERE type = 'water';</textarea>
         </section>
     </main>
