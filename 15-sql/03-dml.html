@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>03 DML</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <style>
+        section {
+            textarea {
+                background-color: #8d481e;
+                border-radius: 0.4rem;
+                outline: none;
+                padding: 0.4rem;
+                color: #fff;
+                width: 100%;
+                min-height: 32px;
+                font-size: 0.8rem;
+                resize: none;
+                field-sizing: content;
+            }
+        }
+    </style>
+</head>
+
+<body class="sql">
+    <nav>
+        <a href="index.html">
+            <svg xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 448 512"><!--!Font Awesome Free 6.5.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.-->
+                <path fill="#ffffff"
+                    d="M9.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.2 288 416 288c17.7 0 32-14.3 32-32s-14.3-32-32-32l-306.7 0L214.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z" />
+            </svg>
+        </a>
+    </nav>
+    <main>
+        <header>
+            <h1>03 DML</h1>
+            <p>
+                Data Manipulation Language (DML) is a subset of SQL used for managing data within database tables, including operations such as inserting, updating, deleting, and retrieving data.
+            </p>
+        </header>
+        <section>
+            <h3>INSERT INTO (ShortHAnd):</h3>
+            <textarea>INSERT INTO gyms VALUES (DEFAULT, 'saffrom');
+INSERT INTO gyms VALUES (DEFAULT, 'fucshia');
+INSERT INTO trainers VALUES (DEFAULT, "Ash Ketchum", 2, 1);
+INSERT INTO trainers VALUES ( DEFAULT, "Misty", 4, 2);
+INSERT INTO trainers VALUES ( DEFAULT, "Brok", 6, 2);</textarea>
+
+            <h3>INSER INTO (Long Form)</h3>
+            <textarea>INSERT INTO gyms (id, name) VALUES (DEFAULT, 'pallete');
+INSERT INTO trainers (id, name, level, gym_id) VALUES ( DEFAULT, "Serena", 4, 3);
+INSERT INTO trainers (id, name, level, gym_id) VALUES ( DEFAULT, "Oak", 9, 1);
+</textarea>
+            <h3>SELECT ALL pokemons</h3>
+            <textarea>SELECT * FROM pokemons;</textarea>
+            <h3>SELECT especific COLUMNS</h3>
+            <textarea>SELECT name, type, FROM pokemons;</textarea>
+            <h3>SELECT COLUMNS DISTICTS</h3>
+            <textarea>SELECT DISTINCT type FROM pokemons;</textarea>
+            <h3>SELECT  WITH CONDITION (WHERE)</h3>
+            <textarea>SELECT name, type FROM pokemons WHERE type = 'Electric';</textarea>
+            <h3>SELECT  WITH CONDITION (OR WHERE)</h3>
+            <textarea>SELECT name, type FROM pokemons WHERE type = 'Electric' OR type = 'Water';</textarea>
+            <h3>SELECT  WITH CONDITION (AND WHERE)</h3>
+            <textarea>SELECT name, type FROM pokemons WHERE trainer_id = 2 AND type = 'Water';</textarea>
+            <h3>SELECT WHIT CONDITION(>)</h3>
+            <textarea>SELECT name, type FROM pokemons WHERE strength > 1000;</textarea>
+            <h3>SELECT WHIT CONDITION(<>)</h3>
+            <textarea>SELECT name, type FROM pokemons WHERE type <> 'Water';</textarea>
+            <h3>SELECT WHIT CONDITION(BETWEEN)</h3>
+            <textarea>SELECT name, type, speed FROM pokemons WHERE speed BETWEEN 50 AND 100;</textarea>
+            <h3>SELECT ORDER BY (ASC/DESC)</h3>
+            <textarea>SELECT name, type FROM pokemons WHERE type = 'Water' ORDER BY name ASC;
+SELECT name, type FROM pokemons WHERE type = 'Water' ORDER BY name DESC;
+            </textarea>
+            <h3>SELECT LIMIT</h3>
+            <textarea>SELECT id, name, type FROM pokemons LIMIT 5;</textarea>
+            <h3>SELECT OFFSET</h3>
+            <textarea>SELECT id, name, type FROM pokemons LIMIT 5 OFFSET 5;</textarea>
+            <h3>SELECT SEARCH(LIKE)</h3>
+            <textarea>SELECT id, name, type FROM pokemons WHERE name LIKE "%as%";</textarea>
+            <h3>SELECT CHALLENGES</h3>
+            <small>List pokemons type water average speed</small>
+            <textarea>SELECT AVG(speed) AVERAGE_SPEED FROM pokemons WHERE type = 'Water';</textarea>
+            <small>List all pokemons total sum all skills</small>
+            <textarea>SELECT name, type, (strength + staming + speed + accuracy) AS total_skills FROM pokemons;</textarea>
+            <small>Sum all skills by type</small>
+            <textarea>SELECT type, SUM(strength + staming + speed + accuracy) AS total_skills_por_tipo FROM pokemons GROUP BY type;</textarea>
+            <small></small>
+            <textarea>SELECT COUNT(*) AS total_water_pokemons FROM pokemons WHERE type = 'water';</textarea>
+        </section>
+    </main>
+
+</body>
+
+</html>

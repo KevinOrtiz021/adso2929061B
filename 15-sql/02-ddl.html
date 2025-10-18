@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>02 DDL</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <style>
+        section {
+            textarea {
+                background-color: #8d481e;
+                border-radius: 0.4rem;
+                outline: none;
+                padding: 0.4rem;
+                color: #fff;
+                width: 100%;
+                min-height: 32px;
+                font-size: 0.8rem;
+                resize: none;
+                field-sizing: content;
+            }
+        }
+    </style>
+</head>
+
+<body class="sql">
+    <nav>
+        <a href="index.html">
+            <svg xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 448 512"><!--!Font Awesome Free 6.5.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.-->
+                <path fill="#ffffff"
+                    d="M9.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.2 288 416 288c17.7 0 32-14.3 32-32s-14.3-32-32-32l-306.7 0L214.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z" />
+            </svg>
+        </a>
+    </nav>
+    <main>
+        <header>
+            <h1>02 DDL</h1>
+            <p>
+                Data Definition Language (DDL) is a subset of SQL used to define and manage database structures such as tables, indexes, and relationships.
+            </p>
+        </header>
+        <section>
+            <h3>Create Table</h3>
+            <textarea>create table pokemons(
+    id int auto_increment,
+    name varchar(32) not null unique,
+    type varchar(32) not null,
+    strength int not null,
+    staming int not null,
+    speed int not null,
+    accuracy int not null,
+    PRIMARY KEY(id),
+    trainer_id int,
+    FOREIGN KEY(trainer_id) REFERENCES trainers(id)); </textarea>
+
+                    <h3>ALTER TABLE FK</h3>
+            <textarea>ALTER TABLE pokemons
+    ADD FOREIGN KEY (trainer_id) 
+    REFERENCES trainers(id);</textarea>
+
+            <h3>Alter Table RENAME </h3>
+            <textarea>ALTER TABLE pokemons
+    RENAME TO chachacha;</textarea>
+
+            <h3>ALTER TABLE RENAME COLUMN:  </h3>
+            <textarea>ALTER TABLE pokemons
+    CHANGE  nickname name varchar(32) NOT NULL
+    UNIQUE;</textarea>
+            <h3>ALTER TABLE ADD COLUMN;</h3>
+            <textarea>>ALTER TABLE pokemons
+ADD COLUMN color varchar(16);</textarea>
+
+            <h3>DROP TABLE </h3>
+            <textarea>DROP TABLE gyms;</textarea>
+
+            <h3>ALTER TABLE DROP COLUMN;</h3>
+            <textarea>ALTER TABLE pokemons
+    DROP COLUMN color;</textarea>
+
+            <h3>ALTER TABLE ADD COLUMN AFTER COLUMN </h3>
+            <textarea>ALTER TABLE pokemons
+    ADD COLUMN color varchar(16) AFTER accuracy;</textarea>
+
+        </section>
+    </main>
+
+</body>
+
+</html>

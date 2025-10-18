@@ -1,30 +1,75 @@
-// connet to Mysql
-> mysql -u root -p 
+<!DOCTYPE html>
+<html lang="en">
 
-// Mysql Version
-> mysql --version
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>01-Basic</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <style>
+        section {
+            textarea {
+                background-color: #8d481e;
+                border-radius: 0.4rem;
+                outline: none;
+                padding: 0.4rem;
+                color: #fff;
+                width: 100%;
+                min-height: 32px;
+                font-size: 0.8rem;
+                resize: none;
+                field-sizing: content;
+            }
+        }
+    </style>
+</head>
 
-// Show All Databases
-> show databases;
+<body class="sql">
+    <nav>
+        <a href="index.html">
+            <svg xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 448 512"><!--!Font Awesome Free 6.5.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.-->
+                <path fill="#ffffff"
+                    d="M9.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.2 288 416 288c17.7 0 32-14.3 32-32s-14.3-32-32-32l-306.7 0L214.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z" />
+            </svg>
+        </a>
+    </nav>
+    <main>
+        <header>
+            <h1>01 BAsic</h1>
+            <p>
+                How to enter and view databases, create them, delete them, and make backup copies.
+            </p>
+        </header>
+        <section>
+            <h3>connet to Mysql</h3>
+            <textarea>mysql -u root -p </textarea>
 
-// create Database
-> create database pokeadso;
+            <h3>Mysql Version</h3>
+            <textarea>mysql --version </textarea>
 
-// Connet to Database
-> connet pokeadso;
+            <h3>Show All Databases</h3>
+            <textarea>show databases;</textarea>
 
-// Use Database
-> use pokeadso;
+            <h3>create Database</h3>
+            <textarea>create database pokeadso;</textarea>
 
-// Create table gyms
-create table gyms(
+            <h3>Connet to Database</h3>
+            <textarea>connet pokeadso;</textarea>
+
+            <h3>Use Database</h3>
+            <textarea>use pokeadso;</textarea>
+
+            <h3>Create table gyms</h3>
+            <textarea>create table gyms(
     id int auto_increment,
     name varchar(32) not null unique,
     PRIMARY KEY(id)
 );
+            </textarea>
 
-// Create table triners
-create table trainers(
+            <h3>Create table triners</h3>
+            <textarea>create table trainers(
     id int AUTO_INCREMENT,
     name varchar(32) not null unique,
     level int not null,
@@ -32,9 +77,10 @@ create table trainers(
     PRIMARY KEY(id),
     FOREIGN KEY(gym_id) REFERENCES gyms(id)
 );
+            </textarea>
 
-// Create table pokemons
-create table pokemons(
+            <h3>Create table pokemons</h3>
+            <textarea>create table pokemons(
     id int auto_increment,
     name varchar(32) not null unique,
     type varchar(32) not null,
@@ -46,21 +92,30 @@ create table pokemons(
     trainer_id int,
     FOREIGN KEY(trainer_id) REFERENCES trainers(id)
 );
+            </textarea>
 
-// Describe table 
-> Describe pokemons;
+            <h3>Describe table </h3>
+            <textarea>Describe pokemons;</textarea>
 
-// Create BAckup databases 
-mysqldump -u root pokeadso > /Users/APRENDIZ/Desktop/backup_pokeadso.sql
+            <h3>Create BAckup databases </h3>
+            <textarea>mysqldump -u root pokeadso > /Users/APRENDIZ/Desktop/backup_pokeadso.sql</textarea>
 
-// Drop DataBase
-> drop database pokeadso;
+            <h3>Drop DataBase</h3>
+            <textarea>drop database pokeadso;</textarea>
 
-// Truncate table
-> truncate table pokemons;
-> delete * from pokemons;
+            <h3>Truncate table</h3>
+            <textarea>truncate table pokemons;
+delete * from pokemons;
+            </textarea>
 
-// Recovery database
-> create database pokeadso;
-> exit
-> mysql -u root pokeadso < /Users/APRENDIZ/Desktop/adso2929061B/15-sql/backup_pokeadso.sql
+            <h3>Recovery database</h3>
+            <textarea> create database pokeadso;
+exit
+mysql -u root pokeadso < /Users/APRENDIZ/Desktop/adso2929061B/15-sql/backup_pokeadso.sql
+            </textarea>
+        </section>
+    </main>
+
+</body>
+
+</html>
