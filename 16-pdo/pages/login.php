@@ -28,7 +28,7 @@
                 };
             }
 
-            if(isset($_SESSION{'error'})){
+            if(isset($_SESSION['error'])){
                 include 'error.php';
                 unset($_SESSION['error']);
             }

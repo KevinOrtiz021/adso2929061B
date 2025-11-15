@@ -1,0 +1,6 @@
+[2025-11-15 01:40:19] Pokémon registrado: Pikachu | Tipo: Eléctrico
+[2025-11-15 01:40:19] Pokémon registrado: Charmander | Tipo: Fuego
+[2025-11-15 01:41:38] Pokémon registrado: Pikachu | Tipo: Eléctrico
+[2025-11-15 01:41:38] Pokémon registrado: Charmander | Tipo: Fuego
+[2025-11-15 02:02:57] Pokémon registrado: Pikachu | Tipo: Eléctrico
+[2025-11-15 02:02:57] Pokémon registrado: Squirtle | Tipo: Agua
