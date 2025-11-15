@@ -7,9 +7,9 @@ const memoryLockeds:    [number, string]    = [1, 'Bone Botton'];
 const firstSkill:       any                 = "Dash"
 
 // Display in browser
-const output = document.getElementById('output');
-if(output){
-    output.innerHTML = `
+const output01 = document.getElementById('output01');
+if(output01){
+    output01.innerHTML = `
         <li><strong>Character:</strong> ${characterName}</li>
         <li><strong>Health:</strong> ${health}</li>
         <li><strong>Can Double Jump:</strong> ${canBoubleJump}</li>

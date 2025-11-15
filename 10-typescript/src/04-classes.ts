@@ -1,23 +1,25 @@
-//Classes: crear clases y metodos
-class Car {
-    brand: string;
-    speed: number;
-    constructor(brand: string, speed: number) {
-        this.brand = brand;
-        this.speed = speed;
-    }
-    accelerate(): string {
-        return `${this.brand} is accelerating to ${this.speed} km/h`;
-    }
-}
-const car = new Car('Toyota', 120);
+class Enemy{
+    name: string;
+    health: number;
 
-// Display in browser
-const output = document.getElementById('output');
-if (output) {
-    output.innerHTML = `
-            <li><strrong>Car:</strong> ${car.brand}</li>
-            <li><strong>Speed:</strong> ${car.speed}</li>
-            <li>${car.accelerate()}</li>
-        `;
+    constructor(name: string, health: number) {
+        this.name = name;
+        this.health = health;
+    }
+    takeDamage(damage: number): void {
+        this.health -= damage;
+}
+}
+const mosskin = new Enemy('Mosskin', 100);
+mosskin.takeDamage(10);
+mosskin.takeDamage(10);
+mosskin.takeDamage(10);
+
+const output04 = document.getElementById('output04');
+
+if(output04) {
+    output04.innerHTML = `
+        <li><strong>Eney: </strong>${mosskin.name}</li>
+        <li><strong>Healt after attack: </strong>${mosskin.health}</li>
+    `
 }
