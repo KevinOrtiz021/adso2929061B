@@ -1,6 +1,6 @@
 <?php
 $title = '01-Class';
-$description = 'Lorem Input dolor sit amet.';
+$description = 'Blueprint for creating objects with shared properties and behaviors.';
 include 'template/header.php';
 echo '<section>';
 

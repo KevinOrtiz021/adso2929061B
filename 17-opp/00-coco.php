@@ -5,19 +5,11 @@ include 'template/header.php';
 echo '<section>';
 
 
-
-/* ===========================================================
-   1️⃣ Interface Tipo → Bajo acoplamiento
-   =========================================================== */
 interface Tipo {
     public function obtenerNombreTipo(): string;
 }
 
 
-
-/* ===========================================================
-   2️⃣ Tipos concretos → Alta cohesión
-   =========================================================== */
 class TipoElectrico implements Tipo {
     public function obtenerNombreTipo(): string {
         return "Eléctrico";
@@ -30,12 +22,6 @@ class TipoAgua implements Tipo {
     }
 }
 
-
-
-/* ===========================================================
-   3️⃣ Clase Pokémon → Alta cohesión
-      Solo representa un Pokémon y su estado de captura
-   =========================================================== */
 class Pokemon {
     public string $nombre;
     public Tipo $tipo;
@@ -51,12 +37,6 @@ class Pokemon {
     }
 }
 
-
-
-/* ===========================================================
-   4️⃣ Entrenador → Alta cohesión + Bajo acoplamiento
-      No depende de tipos específicos de Pokémon
-   =========================================================== */
 class Entrenador {
     public string $nombre;
     private array $equipo = [];
@@ -76,24 +56,14 @@ class Entrenador {
     }
 }
 
-
-
-/* ===========================================================
-   5️⃣ Ejemplo en acción
-   =========================================================== */
-
-// Creamos pokémon
 $pikachu = new Pokemon("Pikachu", new TipoElectrico());
 $squirtle = new Pokemon("Squirtle", new TipoAgua());
 
-// Creamos entrenador
 $ash = new Entrenador("Ash Ketchum");
 
-// El entrenador captura pokémones
 $ash->capturarPokemon($pikachu);
 $ash->capturarPokemon($squirtle);
 
-// Mostrar equipo usando foreach
 echo "<h2>Pokémon capturados por {$ash->nombre}</h2>";
 echo "<ul>";
 
