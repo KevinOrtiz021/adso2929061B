@@ -5,7 +5,11 @@ include 'template/header.php';
 echo "<section>";
 
 abstract class DataBase{
-
+    protected $host = 'localhost';
+    protected $user = 'root';
+    protected $pass = '';
+    protected $dbname = 'pokeadso';
+    protected $conx;
 }
 
 include 'template/footer.php';
