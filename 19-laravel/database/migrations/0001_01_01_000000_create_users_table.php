@@ -16,7 +16,7 @@ return new class extends Migration
             $table->bigInteger('document')->unique();
             $table->string('fullname');
             $table->string('gender');
-            $table->date('birthdata');
+            $table->date('birthdate');
             $table->string('photo')->default('no-photo.png');
             $table->string('phone');
             $table->string('email')->unique();
