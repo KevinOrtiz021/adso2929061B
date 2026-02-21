@@ -19,7 +19,7 @@ class PetSeeder extends Seeder
         $pet->kind = 'dog';
         $pet->weight = 4;
         $pet->age = 6;
-        $pet->bread = 'creole';
+        $pet->breed = 'creole';
         $pet->location = 'villamaria caldas';
         $pet->description = 'He is a calm dog and is friendly to everyone.';
         
@@ -30,7 +30,7 @@ class PetSeeder extends Seeder
         $pet->kind = 'cat';
         $pet->weight = 2;
         $pet->age = 8;
-        $pet->bread = 'orange';
+        $pet->breed = 'orange';
         $pet->location = 'villamaria caldas';
         $pet->description = 'He is a calm and sleepy cat.';
         $pet->save();
@@ -40,7 +40,7 @@ class PetSeeder extends Seeder
         $pet->kind = 'Horse';
         $pet->weight = 16;
         $pet->age = 2;
-        $pet->bread = 'friesian';
+        $pet->breed = 'friesian';
         $pet->location = 'Llanitos villamaria Caldas';
         $pet->description = 'He is a beautiful and calm horse who loves to trot all over the countryside, happy with life.';
         $pet->save();
@@ -50,7 +50,7 @@ class PetSeeder extends Seeder
         $pet->kind = 'pig';
         $pet->weight = 5;
         $pet->age = 1;
-        $pet->bread = 'mini pig';
+        $pet->breed = 'mini pig';
         $pet->location = 'buenaventura Valle del cauca';
         $pet->description = 'Its a pig that eats people and loves pork.';
         $pet->save();
@@ -60,7 +60,7 @@ class PetSeeder extends Seeder
         $pet->kind = 'cow';
         $pet->weight = 15;
         $pet->age = 3;
-        $pet->bread = 'angus';
+        $pet->breed = 'angus';
         $pet->location = 'Bereira risaralda';
         $pet->description = 'Shes a quiet cow, bored of living in Bereira.';
         $pet->save();
