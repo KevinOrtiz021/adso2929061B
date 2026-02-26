@@ -4,13 +4,16 @@ use Illuminate\Support\Facades\Route;
 use App\Models\User;
 use App\Models\Pet;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\DB;
 
 Route::get('/', function () {
     return view('welcome');
 });
+
 Route::get('hello', function () {
     return "<h1>Hello Laravel 🚀</h1>";
 });
+
 Route::get('sayhello/{name}', function () {
     return "<h1>Hello: ".request()->name."</h1>";
 });
@@ -19,42 +22,72 @@ Route::get('getall/pets', function(){
     $pets = App\Models\Pet::all();
     dd($pets->toArray()); 
 });
+
 Route::get('show/pet/{id}', function(){
     $pet = App\Models\Pet::find(request()->id);
     dd($pet->toArray()); 
 });
-Route::get('/challenge', function () {
-    $users = User::take(20)->get();
-    
-    $output = "<style>
-        body { font-family: Arial, sans-serif; margin: 20px; }
-        h2 { color: #333; }
-        table { border-collapse: collapse; width: 100%; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
-        th { background: #4CAF50; color: white; padding: 12px; text-align: left; }
-        td { padding: 10px; border: 1px solid #ddd; }
-        tr:nth-child(even) { background: #f9f9f9; }
-    </style>";
-    
-    $output .= "<h2>Users Challenge</h2>";
-    $output .= "<table>";
-    $output .= "<tr><th>Fullname</th><th>Age</th><th>Created</th></tr>";
-    
-    foreach ($users as $user) {
-        $birthdate = Carbon::parse($user->birthdate);
-        $age = $birthdate->age;
-        
-        $createdAt = Carbon::parse($user->created_at);
-        $timeAgo = $createdAt->diffForHumans();
-        
-        $output .= "<tr>";
-        $output .= "<td>" . $user->fullname . "</td>";
-        $output .= "<td>" . $age . " years old</td>";
-        $output .= "<td>created " . $timeAgo . "</td>";
-        $output .= "</tr>";
+Route::get('challenge', function () {
+    if (!file_exists(public_path('images'))) {
+        mkdir(public_path('images'), 0777, true);
     }
     
-    $output .= "</table>";
+    if (User::count() < 20) {
+        User::factory()->count(20)->create();
+    }
     
+    $users = User::take(20)->get();
+
+    foreach ($users as $user) {
+        $imagePath = public_path('images/' . $user->photo);
+        if (!file_exists($imagePath)) {
+            try {
+                $gender = ($user->gender == 'Male') ? 'men' : 'women';
+                $url = "https://randomuser.me/api/portraits/{$gender}/" . rand(1,99) . ".png";
+                file_put_contents($imagePath, file_get_contents($url));
+            } catch (\Exception $e) {
+            }
+        }
+    }
+
+    $headerStyle = "style='background: gray; color: white; padding: 0.4rem; border: 1px solid gray;'";
+    $cellStyle = "style='border: 1px solid gray; padding: 0.4rem;'";
     
-    return $output;
+    $code = "<h2>Challenge</h2>";
+    $code .= "<table style='border-collapse: collapse; margin: 2px auto; font-family: Arial; border: 1px solid gray; width: 100%;'>";
+    
+    $code .= "<tr>";
+    $code .= "<th $headerStyle>Photo</th>";
+    $code .= "<th $headerStyle>Fullname</th>";
+    $code .= "<th $headerStyle>Age</th>";
+    $code .= "<th $headerStyle>Gender</th>";
+    $code .= "<th $headerStyle>Created At</th>";
+    $code .= "</tr>";
+
+    foreach ($users as $user) {
+        $age = Carbon::parse($user->birthdate)->age;
+        
+        $code .= "<tr>";
+
+        $code .= "<td $cellStyle>";
+        if (file_exists(public_path('images/' . $user->photo))) {
+            $code .= "<img src='" . asset('images/' . $user->photo) . "' width='60' height='60' style='display: block; margin: 0 auto;'>";
+        }
+        $code .= "</td>";
+        
+        $code .= "<td $cellStyle>" . $user->fullname . "</td>";
+        $code .= "<td $cellStyle>" . $age . " años</td>";
+        $code .= "<td $cellStyle>" . $user->gender . "</td>";
+        $code .= "<td $cellStyle>" . $user->created_at . "</td>";
+        $code .= "</tr>";
+    }
+    
+    $code .= "</table>";
+    
+    return $code;
+});
+
+Route::get('getall/pets', function(){
+    $pets = App\Models\Pet::all();
+    return view('getallpets')->with('pets', $pets);
 });
