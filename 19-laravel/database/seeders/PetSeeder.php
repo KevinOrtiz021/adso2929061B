@@ -64,9 +64,6 @@ class PetSeeder extends Seeder
         $pet->description = 'Shes a quiet cow, bored of living in Bereira.';
         $pet->save();
 
-        // ========== NUEVAS 10 MASCOTAS ==========
-
-        // Mascota 6: Perro
         $pet = new Pet;
         $pet->name = 'Luna';
         $pet->kind = 'dog';
@@ -77,7 +74,6 @@ class PetSeeder extends Seeder
         $pet->description = 'She is an energetic dog who loves to play fetch and swim in the river.';
         $pet->save();
 
-        // Mascota 7: Gato
         $pet = new Pet;
         $pet->name = 'Michi';
         $pet->kind = 'cat';
@@ -88,7 +84,6 @@ class PetSeeder extends Seeder
         $pet->description = 'A curious cat who loves to explore and climb trees. Very vocal and affectionate.';
         $pet->save();
 
-        // Mascota 8: Loro
         $pet = new Pet;
         $pet->name = 'Pepe';
         $pet->kind = 'bird';
@@ -99,7 +94,6 @@ class PetSeeder extends Seeder
         $pet->description = 'He can talk and mimic sounds. Loves to whistle and say "Hola".';
         $pet->save();
 
-        // Mascota 9: Conejo
         $pet = new Pet;
         $pet->name = 'Copito';
         $pet->kind = 'rabbit';
@@ -110,7 +104,6 @@ class PetSeeder extends Seeder
         $pet->description = 'A fluffy white rabbit who loves carrots and jumping around the garden.';
         $pet->save();
 
-        // Mascota 10: Hamster
         $pet = new Pet;
         $pet->name = 'Ruedita';
         $pet->kind = 'rodent';
@@ -121,7 +114,6 @@ class PetSeeder extends Seeder
         $pet->description = 'Tiny and fast, loves to run on his wheel all night long.';
         $pet->save();
 
-        // Mascota 11: Tortuga
         $pet = new Pet;
         $pet->name = 'Manuelita';
         $pet->kind = 'turtle';
@@ -132,7 +124,6 @@ class PetSeeder extends Seeder
         $pet->description = 'A wise old turtle who enjoys sunbathing on rocks and swimming slowly.';
         $pet->save();
 
-        // Mascota 12: Pez
         $pet = new Pet;
         $pet->name = 'Nemo';
         $pet->kind = 'fish';
@@ -143,7 +134,6 @@ class PetSeeder extends Seeder
         $pet->description = 'Bright orange and white fish who loves swimming among anemones.';
         $pet->save();
 
-        // Mascota 13: Perro
         $pet = new Pet;
         $pet->name = 'Bruno';
         $pet->kind = 'dog';
@@ -154,7 +144,6 @@ class PetSeeder extends Seeder
         $pet->description = 'Protective and loyal, great with kids and very intelligent.';
         $pet->save();
 
-        // Mascota 14: Gato
         $pet = new Pet;
         $pet->name = 'Canela';
         $pet->kind = 'cat';
@@ -165,7 +154,6 @@ class PetSeeder extends Seeder
         $pet->description = 'Long-haired beauty with a calm temperament. Loves to be brushed.';
         $pet->save();
 
-        // Mascota 15: Caballo
         $pet = new Pet;
         $pet->name = 'Relámpago';
         $pet->kind = 'horse';
