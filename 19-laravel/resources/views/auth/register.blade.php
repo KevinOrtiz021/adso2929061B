@@ -2,6 +2,7 @@
 
 @section('title', 'Larapets: Register')
 @section('content')
+@include('partials.navbar')
 
     <section class="bg-[#0006] p-4 border-white border-2 rounded-md md:w-fit w-80 flex flex-col justify-center items-center my-5">
 
