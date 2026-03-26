@@ -23,7 +23,7 @@
                 </a>
             </li>
             <li>
-                <a href="{{ url('users') }}">
+                <a href="{{ route('users.index') }}">
                     <svg xmlns="http://www.w3.org/2000/svg" class="size-4" fill="currentColor" viewBox="0 0 256 256">
                         <path d="M244.8,150.4a8,8,0,0,1-11.2-1.6A51.6,51.6,0,0,0,192,128a8,8,0,0,1-7.37-4.89,8,8,0,0,1,0-6.22A8,8,0,0,1,192,112a24,24,0,1,0-23.24-30,8,8,0,1,1-15.5-4A40,40,0,1,1,219,117.51a67.94,67.94,0,0,1,27.43,21.68A8,8,0,0,1,244.8,150.4ZM190.92,212a8,8,0,1,1-13.84,8,57,57,0,0,0-98.16,0,8,8,0,1,1-13.84-8,72.06,72.06,0,0,1,33.74-29.92,48,48,0,1,1,58.36,0A72.06,72.06,0,0,1,190.92,212ZM128,176a32,32,0,1,0-32-32A32,32,0,0,0,128,176ZM72,120a8,8,0,0,0-8-8A24,24,0,1,1,87.24,82a8,8,0,1,0,15.5-4A40,40,0,1,0,37,117.51,67.94,67.94,0,0,0,9.6,139.19a8,8,0,1,0,12.8,9.61A51.6,51.6,0,0,1,64,128,8,8,0,0,0,72,120Z"/>
                     </svg>
@@ -41,8 +41,27 @@
         </ul>
     </div>
 
+    {{-- Mostrar mensajes de éxito o error --}}
+    @if(session('message'))
+        <div class="alert alert-success mb-4">
+            <svg xmlns="http://www.w3.org/2000/svg" class="stroke-current shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+            <span>{{ session('message') }}</span>
+        </div>
+    @endif
+
+    @if($errors->any())
+        <div class="alert alert-error mb-4">
+            <svg xmlns="http://www.w3.org/2000/svg" class="stroke-current shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+            <span>Please fix the following errors:</span>
+        </div>
+    @endif
+
     <div class="card text-white md:w-[720px] w-[320px] bg-black/50 p-8 mb-4">
-        <form method="POST" action="{{ url('users/' . $user->id) }}" class="flex flex-col md:flex-row gap-4 mt-4"
+        <form method="POST" action="{{ route('users.update', $user->id) }}" class="flex flex-col md:flex-row gap-4 mt-4"
             enctype="multipart/form-data">
             @csrf
             @method('PUT')
@@ -51,7 +70,7 @@
             <div class="w-full md:w-[320px]">
                 <div class="avatar flex flex-col gap-1 items-center justify-center cursor-pointer hover:scale-105 transition ease-in">
                     <div id="upload" class="mask mask-squircle w-48">
-                        <img id="preview" src="{{ asset('images/' . $user->photo) }}" />
+                        <img id="preview" src="{{ asset('images/' . ($user->photo ?? 'default.jpg')) }}" />
                     </div>
                     <small class="pb-0 border-white border-b flex gap-1 items-center justify-center">
                         <svg xmlns="http://www.w3.org/2000/svg" class="size-5" fill="currentColor" viewBox="0 0 256 256">
@@ -70,7 +89,7 @@
             <div class="w-full md:w-[320px]">
                 {{-- Document --}}
                 <label class="label text-white">Document:</label>
-                <input type="text" class="input bg-[#0009] outline-0" name="document"
+                <input type="text" class="input bg-[#0009] outline-0 @error('document') input-error @enderror" name="document"
                     value="{{ old('document', $user->document) }}">
                 @error('document')
                     <small class="badge badge-error w-full mt-1 text-xs py-4">{{ $message }}</small>
@@ -78,7 +97,7 @@
 
                 {{-- FullName --}}
                 <label class="label text-white">FullName:</label>
-                <input type="text" class="input bg-[#0009] outline-0" name="fullname"
+                <input type="text" class="input bg-[#0009] outline-0 @error('fullname') input-error @enderror" name="fullname"
                     value="{{ old('fullname', $user->fullname) }}">
                 @error('fullname')
                     <small class="badge badge-error w-full mt-1 text-xs py-4">{{ $message }}</small>
@@ -86,7 +105,7 @@
 
                 {{-- Gender --}}
                 <label class="label text-white">Gender:</label>
-                <select name="gender" class="select bg-[#0009] outline-0">
+                <select name="gender" class="select bg-[#0009] outline-0 @error('gender') select-error @enderror">
                     <option value="">Select...</option>
                     <option value="Female" @if(old('gender', $user->gender) == 'Female') selected @endif>Female</option>
                     <option value="Male"   @if(old('gender', $user->gender) == 'Male')   selected @endif>Male</option>
@@ -97,7 +116,7 @@
 
                 {{-- Birthdate --}}
                 <label class="label text-white">Birthdate:</label>
-                <input type="date" class="input bg-[#0009] outline-0" name="birthdate"
+                <input type="date" class="input bg-[#0009] outline-0 @error('birthdate') input-error @enderror" name="birthdate"
                     value="{{ old('birthdate', $user->birthdate) }}">
                 @error('birthdate')
                     <small class="badge badge-error w-full mt-1 text-xs py-4">{{ $message }}</small>
@@ -105,7 +124,7 @@
 
                 {{-- Active --}}
                 <label class="label text-white">Active:</label>
-                <select name="active" class="select bg-[#0009] outline-0">
+                <select name="active" class="select bg-[#0009] outline-0 @error('active') select-error @enderror">
                     <option value="1" @if(old('active', $user->active) == 1) selected @endif>Active</option>
                     <option value="0" @if(old('active', $user->active) == 0) selected @endif>Inactive</option>
                 </select>
@@ -118,7 +137,7 @@
             <div class="w-full md:w-[320px]">
                 {{-- Phone --}}
                 <label class="label text-white">Phone:</label>
-                <input type="text" class="input bg-[#0009] outline-0" name="phone"
+                <input type="text" class="input bg-[#0009] outline-0 @error('phone') input-error @enderror" name="phone"
                     value="{{ old('phone', $user->phone) }}">
                 @error('phone')
                     <small class="badge badge-error w-full mt-1 text-xs py-4">{{ $message }}</small>
@@ -126,7 +145,7 @@
 
                 {{-- Email --}}
                 <label class="label text-white">Email:</label>
-                <input type="text" class="input bg-[#0009] outline-0" name="email"
+                <input type="email" class="input bg-[#0009] outline-0 @error('email') input-error @enderror" name="email"
                     value="{{ old('email', $user->email) }}">
                 @error('email')
                     <small class="badge badge-error w-full mt-1 text-xs py-4">{{ $message }}</small>
@@ -134,7 +153,7 @@
 
                 {{-- Role --}}
                 <label class="label text-white">Role:</label>
-                <select name="role" class="select bg-[#0009] outline-0">
+                <select name="role" class="select bg-[#0009] outline-0 @error('role') select-error @enderror">
                     <option value="Customer"  @if(old('role', $user->role) == 'Customer')  selected @endif>Customer</option>
                     <option value="Admin"     @if(old('role', $user->role) == 'Admin')     selected @endif>Admin</option>
                     <option value="Moderator" @if(old('role', $user->role) == 'Moderator') selected @endif>Moderator</option>
@@ -143,7 +162,7 @@
                     <small class="badge badge-error w-full mt-1 text-xs py-4">{{ $message }}</small>
                 @enderror
 
-                <button class="btn btn-outline hover:bg-[#fff6] hover:text-white mt-3 w-full">Update</button>
+                <button class="btn btn-outline hover:bg-[#fff6] hover:text-white mt-3 w-full">Update User</button>
             </div>
 
         </form>
@@ -154,13 +173,20 @@
     <script>
         $(document).ready(function() {
             $('#upload').click(function(e) {
-                e.preventDefault()
-                $('#photo').click()
-            })
+                e.preventDefault();
+                $('#photo').click();
+            });
+
             $('#photo').change(function(e) {
-                e.preventDefault()
-                $('#preview').attr('src', window.URL.createObjectURL($(this).prop('files')[0]))
-            })
-        })
+                e.preventDefault();
+                if (this.files && this.files[0]) {
+                    var reader = new FileReader();
+                    reader.onload = function(e) {
+                        $('#preview').attr('src', e.target.result);
+                    };
+                    reader.readAsDataURL(this.files[0]);
+                }
+            });
+        });
     </script>
 @endsection

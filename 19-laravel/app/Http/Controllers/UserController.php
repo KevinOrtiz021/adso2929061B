@@ -5,6 +5,11 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use Illuminate\Http\Request;
 
+use Barryvdh\DomPDF\Facade\Pdf;
+
+use Maatwebsite\Excel\Facades\Excel;
+use App\Exports\UsersExport;
+
 class UserController extends Controller
 {
     /**
@@ -86,43 +91,53 @@ class UserController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, User $user)
+    public function update(Request $Request, User $user)
     {
-        $request->validate([
-            'document' => ['required', 'numeric', 'unique:' . User::class . ',document,' . $user->id],
+        // Convertir email a minúsculas antes de todo
+        $email = strtolower($Request->email);
+
+        $Request->validate([
+            'document' => ['required', 'numeric', 'unique:users,document,' . $user->id],
             'fullname' => ['required', 'string'],
-            'gender'   => ['required'],
+            'gender'   => ['required', 'in:Female,Male'],
             'birthdate' => ['required', 'date'],
             'phone'    => ['required', 'string'],
-            'email'    => ['required', 'string', 'lowercase', 'email', 'unique:' . User::class . ',email,' . $user->id],
-            'photo'    => ['nullable', 'image'],
-            'active'   => ['required'],
-            'role'     => ['required'],
+            'email'    => ['required', 'string', 'email', 'unique:users,email,' . $user->id],
+            'photo'    => ['nullable', 'image', 'mimes:jpeg,png,jpg,gif', 'max:2048'],
+            'active'   => ['required', 'in:0,1'],
+            'role'     => ['required', 'in:Customer,Admin,Moderator'],
         ]);
 
-        if ($request->hasFile('photo')) {
-            $oldPhoto = public_path('images/' . $user->photo);
-            if (file_exists($oldPhoto)) {
-                unlink($oldPhoto);
-            }
-            $photo = time() . '.' . $request->photo->extension();
-            $request->photo->move(public_path('images'), $photo);
-            $user->photo = $photo;
-        }
+        // Asignar el email convertido
+        $user->email = $email;
+        $user->document = $Request->document;
+        $user->fullname = $Request->fullname;
+        $user->gender = $Request->gender;
+        $user->birthdate = $Request->birthdate;
+        $user->phone = $Request->phone;
+        $user->active = $Request->active;
+        $user->role = $Request->role;
 
-        $user->document  = $request->document;
-        $user->fullname  = $request->fullname;
-        $user->gender    = $request->gender;
-        $user->birthdate = $request->birthdate;
-        $user->phone     = $request->phone;
-        $user->email     = $request->email;
-        $user->active    = $request->active;
-        $user->role      = $request->role;
+        // Manejar la foto
+        if ($Request->hasFile('photo')) {
+            // Eliminar foto anterior si no es la default
+            if ($user->photo && $user->photo != 'default.jpg') {
+                $oldPhotoPath = public_path('images/' . $user->photo);
+                if (file_exists($oldPhotoPath)) {
+                    unlink($oldPhotoPath);
+                }
+            }
+
+            $photoName = time() . '.' . $Request->photo->extension();
+            $Request->photo->move(public_path('images'), $photoName);
+            $user->photo = $photoName;
+        }
 
         if ($user->save()) {
-            return redirect('users')
-                ->with('message', 'The User: ' . $user->fullname . ' was updated successfully!');
+            return redirect('users')->with('message', 'The User: ' . $user->fullname . ' was edited successfully!');
         }
+
+        return back()->with('error', 'Error updating user');
     }
 
     /**
@@ -130,6 +145,33 @@ class UserController extends Controller
      */
     public function destroy(User $user)
     {
-        //
+        //Delete old photo
+        if (
+            $user->photo != 'no-photo.png' &&
+            file_exists(public_path('images/' . $user->photo))
+        ) {
+            unlink(public_path('images/' . $user->photo));
+        }
+        if ($user->delete()) {
+            return redirect('users')
+                ->with('message', 'The User: ' . $user->fullname . ' was delete successfully!');
+        }
+    }
+
+    /**
+     * Generate a PDF file
+     */
+    public function pdf()
+    {
+        $users = User::all();
+        $pdf = PDF::loadView('users.pdf', compact('users'));
+        return $pdf->download('allusers.pdf');
+    }
+    /**
+     * Generate a Excel file
+     */
+    public function excel()
+    {
+        return Excel::download(new UsersExport, 'allusers.xlsx');
     }
 }

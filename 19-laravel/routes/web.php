@@ -17,14 +17,22 @@ Route::get('/', function () {
 Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
-
+// Middleware Auth
 Route::middleware('auth')->group(function () {
+    //Resources
     Route::resources([
         'users'       => UserController::class,
         'pets'        => PetController::class,
         'adoptions'   => Controller::class,
     ]);
+    //Exports PDF
+    Route::get('export/users/pdf', [UserController::class, 'pdf']);
+
+    //Exports Excel
+    Route::get('export/users/excel', [UserController::class, 'excel']);
 });
+
+
 
 require __DIR__.'/auth.php';
 Route::get('hello', function () {
