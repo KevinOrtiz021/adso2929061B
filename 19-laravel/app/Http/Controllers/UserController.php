@@ -10,6 +10,8 @@ use Barryvdh\DomPDF\Facade\Pdf;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Exports\UsersExport;
 
+use App\Imports\UsersImport;
+
 class UserController extends Controller
 {
     /**
@@ -173,5 +175,19 @@ class UserController extends Controller
     public function excel()
     {
         return Excel::download(new UsersExport, 'allusers.xlsx');
+    }
+    /**
+     * Generate a Excel file
+     */
+    public function import(request $request)
+    {
+        $file = $request->file('file');
+        Excel::import(new UsersImport, $file);
+        return redirect()->back()->with('message', 'USers Imported succefuly!');
+    }
+
+    public function search(Request $request){
+        $users = User::names($request->q)->orderBy('id', 'desc')->paginate(12);
+        $users view('users.search')->with('users', $users);
     }
 }

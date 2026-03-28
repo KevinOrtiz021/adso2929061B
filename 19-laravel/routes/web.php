@@ -30,6 +30,10 @@ Route::middleware('auth')->group(function () {
 
     //Exports Excel
     Route::get('export/users/excel', [UserController::class, 'excel']);
+
+    Route::post('import/users', [UserController::class, 'import']);
+
+    Route::post('search/users', [UserController::class, 'search']);
 });
 
 
