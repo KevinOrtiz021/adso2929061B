@@ -176,18 +176,19 @@ class UserController extends Controller
     {
         return Excel::download(new UsersExport, 'allusers.xlsx');
     }
-    /**
-     * Generate a Excel file
-     */
-    public function import(request $request)
-    {
-        $file = $request->file('file');
-        Excel::import(new UsersImport, $file);
-        return redirect()->back()->with('message', 'USers Imported succefuly!');
-    }
+/**
+ * Import a Excel file
+ */
+public function import(Request $request)  // ← Request con R mayúscula
+{
+    $file = $request->file('file');
+    Excel::import(new UsersImport, $file);
+    return redirect()->back()->with('message', 'Users Imported successfully!');
+}
 
-    public function search(Request $request){
-        $users = User::names($request->q)->orderBy('id', 'desc')->paginate(12);
-        $users view('users.search')->with('users', $users);
-    }
+public function search(Request $request)  // ← Request con R mayúscula
+{
+    $users = User::names($request->q)->orderBy('id', 'desc')->paginate(12);
+    return view('users.search')->with('users', $users);  // ← return agregado
+}
 }
