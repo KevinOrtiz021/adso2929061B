@@ -69,7 +69,7 @@ class UserController extends Controller
 
         if ($user->save()) {
             return redirect('users')
-                ->with('message', 'The USer: ' . $user->fullname . ' Was added successful!');
+                ->with('message', 'The User: ' . $user->fullname . ' Was added successful!');
         }
     }
 
