@@ -5,9 +5,9 @@ namespace App\Http\Controllers;
 use App\Models\Pet;
 use Illuminate\Http\Request;
 use Barryvdh\DomPDF\Facade\Pdf;
-
 use Maatwebsite\Excel\Facades\Excel;
-use App\Exports\UsersExport;
+use App\Exports\PetsExport;
+use Illuminate\Validation\Rule;
 
 class PetController extends Controller
 {
@@ -16,7 +16,6 @@ class PetController extends Controller
      */
     public function index()
     {
-        // $Pets = Pet::all();
         $pets = Pet::orderBy('id', 'desc')->paginate(12);
         return view('pets.index')->with('pets', $pets);
     }
@@ -34,42 +33,43 @@ class PetController extends Controller
      */
     public function store(Request $request)
     {
-        $validation = $request->validate([
-
+        $validated = $request->validate([
             'name' => ['required', 'string', 'unique:' . Pet::class],
-            'images'=> ['required', 'image'],
-            'kind'=>['required','string'],
-            'weigth'=>['required','numeric'],
-            'age'=>['required','numeric',],
-            'breed'=>['required','string'],
-            'location'=>['required','string'],
-            'description'=>['required','string'],
-            'active' => ['required'],
-            'adopted' => ['required'],
+            'image' => ['required', 'image', 'mimes:jpeg,png,jpg,gif', 'max:2048'],
+            'kind' => ['required', 'string', 'in:Perro,Gato'],
+            'weight' => ['required', 'numeric', 'min:0'],
+            'age' => ['required', 'numeric', 'min:0'],
+            'breed' => ['required', 'string'],
+            'location' => ['required', 'string'],
+            'description' => ['required', 'string'],
         ]);
-        if ($validation) {
-            // dd($request->all());
-            if ($request->hasFile('images')) {
-                $image = time() . '.' . $request->images->extension();
-                $request->images->move(public_path('images/pets'), $image);
-            }
+
+        // Manejar la imagen
+        $imageName = 'no-photo.png';
+        if ($request->hasFile('image')) {
+            $imageName = time() . '.' . $request->image->extension();
+            $request->image->move(public_path('images/pets'), $imageName);
         }
-        $pet = new Pet;
+
+        // Crear la mascota
+        $pet = new Pet();
         $pet->name = $request->name;
-        $pet->image = $image;
+        $pet->image = $imageName;
         $pet->kind = $request->kind;
-        $pet->weigth = $request->weigth;
+        $pet->weight = $request->weight;
         $pet->age = $request->age;
         $pet->breed = $request->breed;
         $pet->location = $request->location;
         $pet->description = $request->description;
-        $pet->active = $request->active;
-        $pet->adopted = $request->adopted;
+        $pet->active = 1;
+        $pet->adopted = 0;
 
-        if($pet->save()){
+        if ($pet->save()) {
             return redirect('pets')
-            ->with('message', 'The Pet: ' . $pet->name . ' Was added successful!');
+                ->with('message', 'The Pet: ' . $pet->name . ' was added successfully!');
         }
+
+        return back()->with('error', 'Error adding pet')->withInput();
     }
 
     /**
@@ -94,17 +94,14 @@ class PetController extends Controller
     public function update(Request $request, Pet $pet)
     {
         $request->validate([
-
-            'name' => ['required', 'string', 'unique:' . Pet::class . ',name,' . $pet->id],
-            'images'=> ['image'],
-            'kind'=>['required','string'],
-            'weight'=>['required','numeric'],
-            'age'=>['required','numeric',],
-            'breed'=>['required','string'],
-            'location'=>['required','string'],
-            'description'=>['required','string'],
-            'active' => ['required'],
-            'adopted' => ['required'],
+            'name' => ['required', 'string', Rule::unique('pets')->ignore($pet->id)],
+            'image' => ['nullable', 'image', 'mimes:jpeg,png,jpg,gif', 'max:2048'],
+            'kind' => ['required', 'string'],
+            'weight' => ['required', 'numeric'],
+            'age' => ['required', 'numeric'],
+            'breed' => ['required', 'string'],
+            'location' => ['required', 'string'],
+            'description' => ['required', 'string'],
         ]);
 
         $pet->name = $request->name;
@@ -114,27 +111,23 @@ class PetController extends Controller
         $pet->breed = $request->breed;
         $pet->location = $request->location;
         $pet->description = $request->description;
-        $pet->active = $request->active;
-        $pet->adopted = $request->adopted;
 
-        // Manejar la foto
-        if ($request->hasFile('images')) {
-            // Eliminar foto anterior si no es la default
-            if ($pet->image && $pet->image != 'default.jpg') {
+        // Manejar la imagen
+        if ($request->hasFile('image')) {
+            if ($pet->image && $pet->image != 'no-photo.png') {
                 $oldImagePath = public_path('images/pets/' . $pet->image);
                 if (file_exists($oldImagePath)) {
                     unlink($oldImagePath);
                 }
             }
-
-            $photoName = time() . '.' . $request->images->extension();
-            $request->images->move(public_path('images/pets'), $photoName);
-            $pet->image = $photoName;
+            $imageName = time() . '.' . $request->image->extension();
+            $request->image->move(public_path('images/pets'), $imageName);
+            $pet->image = $imageName;
         }
 
-        if($pet->save()){
+        if ($pet->save()) {
             return redirect('pets')
-            ->with('message', 'The Pet: ' . $pet->name . ' Was updated successful!');
+                ->with('message', 'The Pet: ' . $pet->name . ' was updated successfully!');
         }
 
         return back()->with('error', 'Error updating pet');
@@ -145,18 +138,31 @@ class PetController extends Controller
      */
     public function destroy(Pet $pet)
     {
-        //Delete old image
-        if (
-            $pet->image != 'no-image.png' &&
-            file_exists(public_path('images/pets/' . $pet->image))
-        ) {
+        if ($pet->image != 'no-photo.png' && file_exists(public_path('images/pets/' . $pet->image))) {
             unlink(public_path('images/pets/' . $pet->image));
         }
+
         if ($pet->delete()) {
             return redirect('pets')
-                ->with('message', 'The Pet: ' . $pet->name . ' was delete successfully!');
+                ->with('message', 'The Pet: ' . $pet->name . ' was deleted successfully!');
         }
+
+        return back()->with('error', 'Error deleting pet');
     }
+
+    /**
+     * Search pets - CORREGIDO como Users
+     */
+    public function search(Request $request)
+{
+    $query = $request->input('q');
+    $pets = Pet::where('name', 'like', "%{$query}%")
+        ->orWhere('kind', 'like', "%{$query}%")
+        ->orWhere('breed', 'like', "%{$query}%")
+        ->paginate(12);
+    
+    return view('pets.search', compact('pets'));
+}
 
     /**
      * Generate a PDF file
@@ -164,8 +170,8 @@ class PetController extends Controller
     public function pdf()
     {
         $pets = Pet::all();
-        $pdf = PDF::loadView('pets.pdf', compact('pets'));
-        return $pdf->download('allpets.pdf');
+        $pdf = Pdf::loadView('pets.pdf', compact('pets'));
+        return $pdf->download('mascotas-' . date('Y-m-d') . '.pdf');
     }
 
     /**
@@ -173,6 +179,6 @@ class PetController extends Controller
      */
     public function excel()
     {
-        return Excel::download(new UsersExport, 'allpets.xlsx');
+        return Excel::download(new PetsExport, 'mascotas-' . date('Y-m-d') . '.xlsx');
     }
 }

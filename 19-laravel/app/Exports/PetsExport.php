@@ -3,30 +3,14 @@
 namespace App\Exports;
 
 use App\Models\Pet;
-use Maatwebsite\Excel\Concerns\FromCollection;
-use Maatwebsite\Excel\Concerns\WithHeadings;
+use Maatwebsite\Excel\Concerns\FromView;
+use Illuminate\Contracts\View\View;
 
-class PetsExport implements FromCollection, WithHeadings
+class PetsExport implements FromView
 {
-    public function collection()
+    public function view(): View
     {
-        return Pet::select('id', 'name', 'kind', 'weigth', 'age', 'breed', 'location', 'description', 'active', 'adopted')->get();
-    }
-
-    public function headings(): array
-    {
-        return [
-            'ID',
-            'Name',
-            'Kind',
-            'Weight',
-            'Age',
-            'Breed',
-            'Location',
-            'Description',
-            'Active',
-            'Adopted'
-        ];
+        $pets = Pet::all();
+        return view('pets.excel', compact('pets'));
     }
 }
-

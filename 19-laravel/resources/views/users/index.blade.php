@@ -104,8 +104,7 @@
                         </td>
                         <td>
                             <a href=" {{ url('users/' . $user->id) }}" class="btn btn-xs btn-outline btn-default "><svg
-                                    xmlns="http://www.w3.org/2000/svg" class="size-4" fill="currentcolor"
-                                    viewBox="0 0 256 256">
+                                    xmlns="http://www.w3.org/2000/svg" class="size-4" fill="currentcolor" viewBox="0 0 256 256">
                                     <path
                                         d="M229.66,218.34l-50.07-50.06a88.11,88.11,0,1,0-11.31,11.31l50.06,50.07a8,8,0,0,0,11.32-11.32ZM40,112a72,72,0,1,1,72,72A72.08,72.08,0,0,1,40,112Z">
                                     </path>
@@ -134,46 +133,48 @@
                 @endforeach
             </tbody>
             <tfoot>
-                <tr>
-                    <td colspan="6"> {{ $users->links('partials.pagination') }} </td>
+                <tr class="border-t border-base-content/10">
+                    <td colspan="10" class="px-4 py-3">
+                        {{ $users->links('partials.pagination') }}
+                    </td>
                 </tr>
             </tfoot>
         </table>
-    @endsection
+@endsection
     @section('js')
-<script>
-    // Messages - - -
-    @if(session('message'))
-       Swal.fire({
-            position: "top-end",
-            icon: "success",
-            title: "{{ session('message') }}",
-            showConfirmButton: false,
-            timer: 4500
-        });
-    @endif
-    // Delete - - -
-    $('.btn-delete').click(function() {
-        $fullname = $(this).attr('data-fullname')
-        Swal.fire({
-            title: "Are you sure?",
-            text: "The User: "+$fullname+"  will be deleted!",
-            icon: "warning",
-            showCancelButton: true,
-            confirmButtonColor: "#3085d6",
-            cancelButtonColor: "#d33",
-            confirmButtonText: "Yes, delete it!"
-            }).then((result) => {
-            if (result.isConfirmed) {
-                $(this).next().submit();
-            }
-        });
-    });
-       // Import File - - -
-            $('.btn-import').click(function(e) {
+        <script>
+            // Messages - - -
+            @if(session('message'))
+                Swal.fire({
+                    position: "top-end",
+                    icon: "success",
+                    title: "{{ session('message') }}",
+                    showConfirmButton: false,
+                    timer: 4500
+                });
+            @endif
+            // Delete - - -
+            $('.btn-delete').click(function () {
+                $fullname = $(this).attr('data-fullname')
+                Swal.fire({
+                    title: "Are you sure?",
+                    text: "The User: " + $fullname + "  will be deleted!",
+                    icon: "warning",
+                    showCancelButton: true,
+                    confirmButtonColor: "#3085d6",
+                    cancelButtonColor: "#d33",
+                    confirmButtonText: "Yes, delete it!"
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        $(this).next().submit();
+                    }
+                });
+            });
+            // Import File - - -
+            $('.btn-import').click(function (e) {
                 $('#file').click()
             })
-            $('#file').change(function(e) {
+            $('#file').change(function (e) {
                 $(this).parent().submit()
             })
             // Search - - - - - - - - - - - - - - - -
@@ -188,26 +189,26 @@
                     timeout = setTimeout(later, wait)
                 }
             }
-            const search = debounce(function(query) {
+            const search = debounce(function (query) {
 
                 $token = $('input[name=_token]').val()
 
-                $.post("search/users", {'q': query, '_token': $token},
+                $.post("search/users", { 'q': query, '_token': $token },
                     function (data) {
                         $('.datalist').html(data).hide().fadeIn(1000)
                     }
                 )
             }, 500)
-            $('body').on('input', '#qsearch', function(event) {
+            $('body').on('input', '#qsearch', function (event) {
                 event.preventDefault()
                 const query = $(this).val()
 
                 $('.datalist').html(`<tr>
-                                        <td colspan="7" class="text-center py-18">
-                                            <span class="loading loading-spinner loading-xl"></span>
-                                        </td>
-                                    </tr>`)
-                if(query != '') {
+                                            <td colspan="7" class="text-center py-18">
+                                                <span class="loading loading-spinner loading-xl"></span>
+                                            </td>
+                                        </tr>`)
+                if (query != '') {
                     search(query)
                 } else {
                     setTimeout(() => {
@@ -215,5 +216,5 @@
                     }, 500)
                 }
             })
-</script>
-@endsection
+        </script>
+    @endsection

@@ -119,7 +119,7 @@
                             <div class="text-xs uppercase font-semibold opacity-60">Dogs</div>
                         </div>
                         <button class="btn btn-square btn-ghost">
-                            {{ App\Models\Pet::where('kind', 'Dog')->count() }}
+                            {{ App\Models\Pet::where('kind', 'Perro')->count() }}
                         </button>
                     </li>
                     <li class="list-row">
@@ -132,7 +132,7 @@
                             <div class="text-xs uppercase font-semibold opacity-60">Cats</div>
                         </div>
                         <button class="btn btn-square btn-ghost">
-                            {{ App\Models\Pet::where('kind', 'Cat')->count() }}
+                            {{ App\Models\Pet::where('kind', 'Gato')->count() }}
                         </button>
                     </li>
 
@@ -186,7 +186,7 @@
                             <div class="text-xs uppercase font-semibold opacity-60">Dog Adopteds</div>
                         </div>
                         <button class="btn btn-square btn-ghost">
-                            {{ App\Models\Pet::where('adopted', 1)->where('kind', 'Dog')->count() }}
+                            {{ App\Models\Pet::where('adopted', 1)->where('kind', 'Perro')->count() }}
                         </button>
                     </li>
                     <li class="list-row">
@@ -199,7 +199,7 @@
                             <div class="text-xs uppercase font-semibold opacity-60">Cat Adpoteds</div>
                         </div>
                         <button class="btn btn-square btn-ghost">
-                            {{ App\Models\Pet::where('adopted', 1)->where('kind', 'Cat')->count() }}
+                            {{ App\Models\Pet::where('adopted', 1)->where('kind', 'Gato')->count() }}
                         </button>
                     </li>
                     </ul>

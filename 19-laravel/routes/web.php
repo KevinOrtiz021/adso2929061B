@@ -1,14 +1,13 @@
 <?php
 
 use App\Http\Controllers\ProfileController;
-use Illuminate\Support\Facades\Route;use App\Models\User;
+use Illuminate\Support\Facades\Route;
+use App\Models\User;
 use App\Models\Pet;
 use Carbon\Carbon;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\PetController;
 use App\Http\Controllers\AdoptionController;
-
-
 
 Route::get('/', function () {
     return view('welcome');
@@ -17,28 +16,30 @@ Route::get('/', function () {
 Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
+
 // Middleware Auth
 Route::middleware('auth')->group(function () {
-    //Resources
+    // Exports PDF - DEBEN IR ANTES que los resources
+    Route::get('export/users/pdf', [UserController::class, 'pdf'])->name('users.pdf');
+    Route::get('export/pets/pdf', [PetController::class, 'pdf'])->name('pets.pdf');
+    
+    // Exports Excel
+    Route::get('export/users/excel', [UserController::class, 'excel'])->name('users.excel');
+    Route::get('export/pets/excel', [PetController::class, 'excel'])->name('pets.excel');
+    
+    // Search
+    Route::post('search/users', [UserController::class, 'search'])->name('users.search');
+    Route::post('search/pets', [PetController::class, 'search'])->name('pets.search');
+    
+    // Imports Users
+    Route::post('import/users', [UserController::class, 'import'])->name('users.import');
+    
+    // Resources - DEBEN IR AL FINAL
     Route::resources([
         'users'       => UserController::class,
         'pets'        => PetController::class,
-        'adoptions'   => Controller::class,
+        'adoptions'   => AdoptionController::class,
     ]);
-    //Exports PDF
-    Route::get('export/users/pdf', [UserController::class, 'pdf']);
-    Route::get('export/pets/pdf', [PetController::class, 'pdf']);
-
-    //Exports Excel
-    Route::get('export/users/excel', [UserController::class, 'excel']);
-    Route::get('export/pets/excel', [PetController::class, 'excel']);
-
-    //Imports Users
-    Route::post('import/users', [UserController::class, 'import']);
-
-    //Search Users & Pets
-    Route::post('search/users', [UserController::class, 'search']);
-    Route::post('search/pets', [PetController::class, 'search']);
 });
 
 
@@ -121,10 +122,12 @@ Route::get('challenge', function () {
     return $code;
 });
 
+// Rutas de prueba (sin auth)
 Route::get('getall/pets', function(){
-    $pets = App\Models\Pet::all();
+    $pets = Pet::all();
     return view('getallpets')->with('pets', $pets);
 });
+
 Route::get('show/pet/{id}', function($id){
     $pet = Pet::findOrFail($id);
     return view('showpet')->with('pet', $pet);
