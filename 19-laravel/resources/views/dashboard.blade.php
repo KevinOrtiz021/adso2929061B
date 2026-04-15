@@ -119,7 +119,7 @@
                             <div class="text-xs uppercase font-semibold opacity-60">Dogs</div>
                         </div>
                         <button class="btn btn-square btn-ghost">
-                            {{ App\Models\Pet::where('kind', 'Perro')->count() }}
+                            {{ App\Models\Pet::where('kind', 'dog')->count() }}
                         </button>
                     </li>
                     <li class="list-row">
@@ -132,7 +132,7 @@
                             <div class="text-xs uppercase font-semibold opacity-60">Cats</div>
                         </div>
                         <button class="btn btn-square btn-ghost">
-                            {{ App\Models\Pet::where('kind', 'Gato')->count() }}
+                            {{ App\Models\Pet::where('kind', 'cat')->count() }}
                         </button>
                     </li>
 

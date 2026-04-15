@@ -1,211 +1,44 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Listado de Mascotas - Larapets</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+@foreach ($pets as $pet)
+<tr class="even:bg-white/5">
+    <td class="hidden md:table-cell">{{ $pet->id }}</td>
+    <td>
+        <div class="avatar">
+            <div class="mask mask-squircle w-12">
+                <img src="{{ asset('images/pets/' . $pet->image) }}" />
+            </div>
+        </div>
+    </td>
+    <td class="font-bold">{{ $pet->name }}</td>
+    <td class="hidden md:table-cell">{{ $pet->kind }}</td>
+    <td class="hidden md:table-cell">{{ $pet->breed }}</td>
+    <td>
+        @if ($pet->adopted)
+            <span class="badge badge-success">Adopted</span>
+        @else
+            <span class="badge badge-info">Available</span>
+        @endif
+    </td>
+    <td>
+        <div class="flex gap-1">
+            <a href="{{ url('pets/' . $pet->id) }}" class="btn btn-xs btn-outline btn-default">
+                <svg xmlns="http://www.w3.org/2000/svg" class="size-4" fill="currentColor" viewBox="0 0 256 256">
+                    <path d="M229.66,218.34l-50.07-50.06a88.11,88.11,0,1,0-11.31,11.31l50.06,50.07a8,8,0,0,0,11.32-11.32ZM40,112a72,72,0,1,1,72,72A72.08,72.08,0,0,1,40,112Z"></path>
+                </svg>
+            </a>
+            <a href="{{ url('pets/' . $pet->id . '/edit') }}" class="btn btn-xs btn-outline btn-default">
+                <svg xmlns="http://www.w3.org/2000/svg" class="size-4" fill="currentColor" viewBox="0 0 256 256">
+                    <path d="M227.31,73.37,182.63,28.68a16,16,0,0,0-22.63,0L36.69,152A15.86,15.86,0,0,0,32,163.31V208a16,16,0,0,0,16,16H92.69A15.86,15.86,0,0,0,104,219.31L227.31,96a16,16,0,0,0,0-22.63ZM92.69,208H48V163.31l88-88L180.69,120ZM192,108.68,147.31,64l24-24L216,84.68Z"></path>
+                </svg>
+            </a>
+        </div>
+    </td>
+</tr>
+@endforeach
 
-        body {
-            font-family: 'Arial', 'Helvetica', sans-serif;
-            font-size: 12px;
-            padding: 20px;
-            background: #fff;
-            color: #333;
-        }
-
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-bottom: 20px;
-            font-size: 12px;
-        }
-
-        th {
-            background-color: #2d3748;
-            color: white;
-            padding: 10px 8px;
-            text-align: center;
-            font-weight: bold;
-            border: 1px solid #4a5568;
-            font-size: 12px;
-        }
-
-        td {
-            padding: 8px 6px;
-            border: 1px solid #cbd5e0;
-            vertical-align: middle;
-            font-size: 11px;
-        }
-
-        tr:nth-child(even) {
-            background-color: #f7fafc;
-        }
-
-        tr:hover {
-            background-color: #edf2f7;
-        }
-
-        .pet-photo {
-            width: 45px;
-            height: 45px;
-            border-radius: 50%;
-            object-fit: cover;
-            display: block;
-            margin: 0 auto;
-        }
-
-        .no-photo {
-            width: 45px;
-            height: 45px;
-            border-radius: 50%;
-            object-fit: cover;
-            display: block;
-            margin: 0 auto;
-        }
-
-        .status-available {
-            color: #48bb78;
-            font-weight: bold;
-            text-align: center;
-            display: inline-block;
-            padding: 2px 8px;
-            border-radius: 4px;
-            background: #f0fff4;
-        }
-
-        .status-adopted {
-            color: #4299e1;
-            font-weight: bold;
-            text-align: center;
-            display: inline-block;
-            padding: 2px 8px;
-            border-radius: 4px;
-            background: #ebf8ff;
-        }
-
-        .status-inactive {
-            color: #f56565;
-            font-weight: bold;
-            text-align: center;
-            display: inline-block;
-            padding: 2px 8px;
-            border-radius: 4px;
-            background: #fff5f5;
-        }
-
-        .text-center {
-            text-align: center;
-        }
-
-        .text-left {
-            text-align: left;
-        }
-
-        .font-bold {
-            font-weight: bold;
-        }
-
-        .footer {
-            text-align: center;
-            margin-top: 25px;
-            padding-top: 15px;
-            border-top: 1px solid #e2e8f0;
-            font-size: 10px;
-            color: #a0aec0;
-        }
-
-        @page {
-            margin: 15mm;
-            size: landscape;
-        }
-
-        @media print {
-            body {
-                padding: 0;
-            }
-            .no-break {
-                page-break-inside: avoid;
-            }
-        }
-    </style>
-</head>
-<body>
-
-    <table cellspacing="0" cellpadding="0">
-        <thead>
-            <tr>
-                <th width="5%">ID</th>
-                <th width="8%">FOTO</th>
-                <th width="12%">NOMBRE</th>
-                <th width="10%">TIPO</th>
-                <th width="8%">PESO</th>
-                <th width="6%">EDAD</th>
-                <th width="12%">RAZA</th>
-                <th width="12%">UBICACIÓN</th>
-                <th width="15%">DESCRIPCIÓN</th>
-                <th width="8%">ESTADO</th>
-            </tr>
-        </thead>
-        <tbody>
-            @forelse($pets as $pet)
-            <tr>
-                <td class="text-center">{{ $pet->id }}</td>
-                <td class="text-center">
-                    @php
-                        $imagePath = public_path('images/pets/' . $pet->image);
-                        $noImagePath = public_path('images/pets/no-photo.png');
-                        $isValidImage = false;
-
-                        if($pet->image && $pet->image != 'no-photo.png' && $pet->image != '') {
-                            $imageExtension = strtolower(pathinfo($pet->image, PATHINFO_EXTENSION));
-                            if(in_array($imageExtension, ['jpg', 'jpeg', 'png', 'gif', 'webp']) && file_exists($imagePath)) {
-                                $isValidImage = true;
-                            }
-                        }
-                    @endphp
-
-                    @if($isValidImage)
-                        <img src="{{ $imagePath }}" class="pet-photo" alt="Foto {{ $pet->name }}">
-                    @else
-                        <img src="{{ $noImagePath }}" class="no-photo" alt="Sin foto">
-                    @endif
-                </td>
-                <td class="font-bold">{{ strtoupper($pet->name) }}</td>
-                <td class="text-center">{{ $pet->kind }}</td>
-                <td class="text-center">{{ number_format($pet->weight, 2) }} kg</td>
-                <td class="text-center">
-                    @if($pet->age < 1)
-                        {{ $pet->age * 12 }} meses
-                    @else
-                        {{ number_format($pet->age, 1) }} años
-                    @endif
-                </td>
-                <td>{{ $pet->breed ?: 'No especificada' }}</td>
-                <td>{{ $pet->location ?: 'No especificada' }}</td>
-                <td style="font-size: 10px;">{{ Str::limit($pet->description, 50) }}</td>
-                <td class="text-center">
-                    @if($pet->adopted)
-                        <span class="status-adopted">ADOPTADO</span>
-                    @elseif($pet->active)
-                        <span class="status-available">DISPONIBLE</span>
-                    @else
-                        <span class="status-inactive">INACTIVO</span>
-                    @endif
-                </td>
-            </tr>
-            @empty
-            <tr>
-                <td colspan="10" class="text-center">No se encontraron mascotas</td>
-            </tr>
-            @endforelse
-        </tbody>
-    </table>
-</body>
-</html>
+@if($pets->count() == 0)
+<tr>
+    <td colspan="7" class="text-center py-8 text-white">
+        No se encontraron mascotas que coincidan con la búsqueda
+    </td>
+</tr>
+@endif

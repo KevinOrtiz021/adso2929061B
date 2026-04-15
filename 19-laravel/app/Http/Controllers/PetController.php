@@ -155,10 +155,11 @@ class PetController extends Controller
      */
     public function search(Request $request)
 {
-    $query = $request->input('q');
-    $pets = Pet::where('name', 'like', "%{$query}%")
-        ->orWhere('kind', 'like', "%{$query}%")
-        ->orWhere('breed', 'like', "%{$query}%")
+    $q = $request->input('q');
+    $pets = Pet::where('name', 'like', '%' . $q . '%')
+        ->orWhere('kind', 'like', '%' . $q . '%')
+        ->orWhere('breed', 'like', '%' . $q . '%')
+        ->orderBy('id', 'desc')
         ->paginate(12);
     
     return view('pets.search', compact('pets'));

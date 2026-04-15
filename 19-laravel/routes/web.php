@@ -17,24 +17,17 @@ Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
-// Middleware Auth
 Route::middleware('auth')->group(function () {
-    // Exports PDF - DEBEN IR ANTES que los resources
     Route::get('export/users/pdf', [UserController::class, 'pdf'])->name('users.pdf');
     Route::get('export/pets/pdf', [PetController::class, 'pdf'])->name('pets.pdf');
-    
-    // Exports Excel
     Route::get('export/users/excel', [UserController::class, 'excel'])->name('users.excel');
     Route::get('export/pets/excel', [PetController::class, 'excel'])->name('pets.excel');
     
-    // Search
     Route::post('search/users', [UserController::class, 'search'])->name('users.search');
     Route::post('search/pets', [PetController::class, 'search'])->name('pets.search');
     
-    // Imports Users
     Route::post('import/users', [UserController::class, 'import'])->name('users.import');
     
-    // Resources - DEBEN IR AL FINAL
     Route::resources([
         'users'       => UserController::class,
         'pets'        => PetController::class,
@@ -42,25 +35,24 @@ Route::middleware('auth')->group(function () {
     ]);
 });
 
-
-
 require __DIR__.'/auth.php';
+
 Route::get('hello', function () {
     return "<h1>Hello Laravel 🚀</h1>";
 });
 
-Route::get('sayhello/{name}', function () {
-    return "<h1>Hello: ".request()->name."</h1>";
+Route::get('sayhello/{name}', function ($name) {
+    return "<h1>Hello: " . $name . "</h1>";
 });
 
 Route::get('getall/pets', function(){
-    $pets = App\Models\Pet::all();
-    dd($pets->toArray());
+    $pets = Pet::all();
+    return view('getallpets')->with('pets', $pets);
 });
 
-Route::get('show/pet/{id}', function(){
-    $pet = App\Models\Pet::find(request()->id);
-    dd($pet->toArray());
+Route::get('show/pet/{id}', function($id){
+    $pet = Pet::findOrFail($id);
+    return view('showpet')->with('pet', $pet);
 });
 Route::get('challenge', function () {
     if (!file_exists(public_path('images'))) {
@@ -122,13 +114,3 @@ Route::get('challenge', function () {
     return $code;
 });
 
-// Rutas de prueba (sin auth)
-Route::get('getall/pets', function(){
-    $pets = Pet::all();
-    return view('getallpets')->with('pets', $pets);
-});
-
-Route::get('show/pet/{id}', function($id){
-    $pet = Pet::findOrFail($id);
-    return view('showpet')->with('pet', $pet);
-});

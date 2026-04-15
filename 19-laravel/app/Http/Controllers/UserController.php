@@ -17,12 +17,20 @@ class UserController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
-    {
-        // $users = User::all();
+    public function index(Request $request)
+{
+    $search = $request->get('search');
+    if ($search) {
+        $users = User::where('fullname', 'like', '%' . $search . '%')
+            ->orWhere('email', 'like', '%' . $search . '%')
+            ->orWhere('document', 'like', '%' . $search . '%')
+            ->orderBy('id', 'desc')
+            ->paginate(12);
+    } else {
         $users = User::orderBy('id', 'desc')->paginate(12);
-        return view('users.index')->with('users', $users);
     }
+    return view('users.index')->with('users', $users);
+}
 
     /**
      * Show the form for creating a new resource.
@@ -186,9 +194,15 @@ public function import(Request $request)  // ← Request con R mayúscula
     return redirect()->back()->with('message', 'Users Imported successfully!');
 }
 
-public function search(Request $request)  // ← Request con R mayúscula
+public function search(Request $request)
 {
-    $users = User::names($request->q)->orderBy('id', 'desc')->paginate(12);
-    return view('users.search')->with('users', $users);  // ← return agregado
+    $q = $request->input('q');
+    $users = User::where('fullname', 'like', '%' . $q . '%')
+        ->orWhere('email', 'like', '%' . $q . '%')
+        ->orWhere('document', 'like', '%' . $q . '%')
+        ->orderBy('id', 'desc')
+        ->paginate(12);
+    
+    return view('users.search', compact('users'));
 }
 }

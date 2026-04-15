@@ -1,233 +1,60 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Listado de Usuarios - Larapets</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+@foreach ($users as $user)
+    <tr class="even:bg-white/5">
+        <td class="hidden md:table-cell">{{ $user->id }}</td>
+        <td>
+            <div class="avatar">
+                <div class="mask mask-squircle w-12">
+                    <img src="{{ asset('images/' . $user->photo) }}" />
+                </div>
+            </div>
+        </td>
+        <td class="hidden md:table-cell">{{ $user->document }}</td>
+        <td>{{ $user->fullname }}</td>
+        <td class="hidden md:table-cell">{{ $user->email }}</td>
+        <td class="hidden md:table-cell">
+            @if ($user->role == 'Admin')
+                <span class="badge badge-outline badge-accent">Admin</span>
+            @else
+                <span class="badge badge-outline badge-info">Customer</span>
+            @endif
+        </td>
+        <td>
+            <div class="flex gap-1">
+                <a href="{{ url('users/' . $user->id) }}" class="btn btn-xs btn-outline btn-default">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="size-4" fill="currentcolor" viewBox="0 0 256 256">
+                        <path
+                            d="M229.66,218.34l-50.07-50.06a88.11,88.11,0,1,0-11.31,11.31l50.06,50.07a8,8,0,0,0,11.32-11.32ZM40,112a72,72,0,1,1,72,72A72.08,72.08,0,0,1,40,112Z">
+                        </path>
+                    </svg>
+                </a>
+                <a href="{{ url('users/' . $user->id . '/edit') }}" class="btn btn-xs btn-outline btn-default">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="size-4" fill="currentcolor" viewBox="0 0 256 256">
+                        <path
+                            d="M227.31,73.37,182.63,28.68a16,16,0,0,0-22.63,0L36.69,152A15.86,15.86,0,0,0,32,163.31V208a16,16,0,0,0,16,16H92.69A15.86,15.86,0,0,0,104,219.31L227.31,96a16,16,0,0,0,0-22.63ZM92.69,208H48V163.31l88-88L180.69,120ZM192,108.68,147.31,64l24-24L216,84.68Z">
+                        </path>
+                    </svg>
+                </a>
+                <a href="javascript:;" class="btn btn-xs btn-outline btn-error btn-delete"
+                    data-fullname="{{ $user->fullname }}">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="size-4" fill="currentcolor" viewBox="0 0 256 256">
+                        <path
+                            d="M216,48H176V40a24,24,0,0,0-24-24H104A24,24,0,0,0,80,40v8H40a8,8,0,0,0,0,16h8V208a16,16,0,0,0,16,16H192a16,16,0,0,0,16-16V64h8a8,8,0,0,0,0-16ZM96,40a8,8,0,0,1,8-8h48a8,8,0,0,1,8,8v8H96Zm96,168H64V64H192ZM112,104v64a8,8,0,0,1-16,0V104a8,8,0,0,1,16,0Zm48,0v64a8,8,0,0,1-16,0V104a8,8,0,0,1,16,0Z">
+                        </path>
+                    </svg>
+                </a>
+                <form class="hidden" method="POST" action="{{ url('users/' . $user->id) }}">
+                    @csrf
+                    @method('delete')
+                </form>
+            </div>
+        </td>
+    </tr>
+@endforeach
 
-        body {
-            font-family: 'Arial', 'Helvetica', sans-serif;
-            font-size: 12px;
-            padding: 20px;
-            background: #fff;
-            color: #333;
-        }
-
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-bottom: 20px;
-            font-size: 12px;
-        }
-
-        th {
-            background-color: #2d3748;
-            color: white;
-            padding: 10px 8px;
-            text-align: center;
-            font-weight: bold;
-            border: 1px solid #4a5568;
-            font-size: 12px;
-        }
-
-        td {
-            padding: 8px 6px;
-            border: 1px solid #cbd5e0;
-            vertical-align: middle;
-            font-size: 11px;
-        }
-
-        tr:nth-child(even) {
-            background-color: #f7fafc;
-        }
-
-        tr:hover {
-            background-color: #edf2f7;
-        }
-
-        .user-photo {
-            width: 45px;
-            height: 45px;
-            border-radius: 50%;
-            object-fit: cover;
-            display: block;
-            margin: 0 auto;
-        }
-
-        .no-photo {
-            width: 45px;
-            height: 45px;
-            border-radius: 50%;
-            object-fit: cover;
-            display: block;
-            margin: 0 auto;
-        }
-
-        .status-active {
-            color: rgb(0.74, 0.16, 232);
-            font-weight: bold;
-            text-align: center;
-            display: inline-block;
-            padding: 2px 8px;
-            border-radius: 4px;
-            background: rgb(0.29, 0.07, 243);
-        }
-
-        .status-inactive {
-            color: #f56565;
-            font-weight: bold;
-            text-align: center;
-            display: inline-block;
-            padding: 2px 8px;
-            border-radius: 4px;
-            background: #fff5f5;
-        }
-
-        .role-admin {
-            background-color: #ed64a6;
-            color: white;
-            padding: 3px 10px;
-            border-radius: 4px;
-            display: inline-block;
-            font-size: 10px;
-            font-weight: bold;
-            text-align: center;
-        }
-
-        .role-moderator {
-            background-color: #4299e1;
-            color: white;
-            padding: 3px 10px;
-            border-radius: 4px;
-            display: inline-block;
-            font-size: 10px;
-            font-weight: bold;
-            text-align: center;
-        }
-
-        .role-customer {
-            background-color: #48bb78;
-            color: white;
-            padding: 3px 10px;
-            border-radius: 4px;
-            display: inline-block;
-            font-size: 10px;
-            font-weight: bold;
-            text-align: center;
-        }
-
-        .text-center {
-            text-align: center;
-        }
-
-        .text-left {
-            text-align: left;
-        }
-
-        .font-bold {
-            font-weight: bold;
-        }
-
-        .footer {
-            text-align: center;
-            margin-top: 25px;
-            padding-top: 15px;
-            border-top: 1px solid #e2e8f0;
-            font-size: 10px;
-            color: #a0aec0;
-        }
-
-        @page {
-            margin: 15mm;
-            size: landscape;
-        }
-
-        @media print {
-            body {
-                padding: 0;
-            }
-            .no-break {
-                page-break-inside: avoid;
-            }
-        }
-    </style>
-</head>
-<body>
-
-    <table cellspacing="0" cellpadding="0">
-        <thead>
-            <tr>
-                <th width="5%">ID</th>
-                <th width="8%">FOTO</th>
-                <th width="10%">DOCUMENTO</th>
-                <th width="15%">NOMBRE COMPLETO</th>
-                <th width="8%">GÉNERO</th>
-                <th width="10%">FECHA NAC.</th>
-                <th width="6%">EDAD</th>
-                <th width="10%">TELÉFONO</th>
-                <th width="15%">EMAIL</th>
-                <th width="8%">ROL</th>
-            </tr>
-        </thead>
-        <tbody>
-            @forelse($users as $user)
-            <tr>
-                <td class="text-center">{{ $user->id }}</td>
-                <td class="text-center">
-                    @php
-                        $photoPath = public_path('images/' . $user->photo);
-                        $noPhotoPath = public_path('images/no-photo.png');
-                        $isValidPhoto = false;
-
-                        if($user->photo && $user->photo != 'no-photo.png' && $user->photo != '') {
-                            $photoExtension = strtolower(pathinfo($user->photo, PATHINFO_EXTENSION));
-                            if(in_array($photoExtension, ['jpg', 'jpeg', 'png', 'gif', 'webp']) && file_exists($photoPath)) {
-                                $isValidPhoto = true;
-                            }
-                        }
-                    @endphp
-
-                    @if($isValidPhoto)
-                        <img src="{{ $photoPath }}" class="user-photo" alt="Foto {{ $user->fullname }}">
-                    @else
-                        <img src="{{ $noPhotoPath }}" class="no-photo" alt="Sin foto">
-                    @endif
-                </td>
-                <td class="text-center">{{ number_format($user->document, 0, '', '.') }}</td>
-                <td class="font-bold">{{ strtoupper($user->fullname) }}</td>
-                <td class="text-center">
-                    @if($user->gender == 'Male')
-                        Masculino
-                    @elseif($user->gender == 'Female')
-                        Femenino
-                    @else
-                        {{ $user->gender }}
-                    @endif
-                </td>
-                <td class="text-center">{{ \Carbon\Carbon::parse($user->birthdate)->format('d/m/Y') }}</td>
-                <td class="text-center">{{ \Carbon\Carbon::parse($user->birthdate)->age }} años</td>
-                <td class="text-center">{{ $user->phone }}</td>
-                <td style="font-size: 10px;">{{ strtolower($user->email) }}</td>
-                <td class="text-center">
-                    @if($user->role == 'Admin')
-                        <span class="role-admin">ADMIN</span>
-                    @elseif($user->role == 'Moderator')
-                        <span class="role-moderator">MODERADOR</span>
-                    @else
-                        <span class="role-customer">CLIENTE</span>
-                    @endif
-                </td>
-            </tr>
-            @empty
-            @endforelse
-        </tbody>
-    </table>
-</body>
-</html>
+@if($users->count() == 0)
+    <tr>
+        <td colspan="7" class="text-center py-8 text-white">
+            No se encontraron usuarios que coincidan con la búsqueda
+        </td>
+    </tr>
+@endif
