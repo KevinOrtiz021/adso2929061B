@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Listado de Mascotas - Larapets</title>
     <style>
         * {
@@ -19,35 +20,11 @@
             color: #333;
         }
 
-        .header {
-            text-align: center;
-            margin-bottom: 20px;
-            padding-bottom: 10px;
-            border-bottom: 2px solid #4a5568;
-        }
-
-        .header h1 {
-            color: #2d3748;
-            font-size: 24px;
-            margin-bottom: 5px;
-        }
-
-        .header .date {
-            color: #718096;
-            font-size: 11px;
-        }
-
-        .header .stats {
-            color: #48bb78;
-            font-size: 12px;
-            margin-top: 5px;
-        }
-
         table {
             width: 100%;
             border-collapse: collapse;
             margin-bottom: 20px;
-            font-size: 11px;
+            font-size: 12px;
         }
 
         th {
@@ -57,16 +34,22 @@
             text-align: center;
             font-weight: bold;
             border: 1px solid #4a5568;
+            font-size: 12px;
         }
 
         td {
             padding: 8px 6px;
             border: 1px solid #cbd5e0;
             vertical-align: middle;
+            font-size: 11px;
         }
 
         tr:nth-child(even) {
             background-color: #f7fafc;
+        }
+
+        tr:hover {
+            background-color: #edf2f7;
         }
 
         .pet-photo {
@@ -78,50 +61,55 @@
             margin: 0 auto;
         }
 
-        .status-active {
+        .no-photo {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            object-fit: cover;
+            display: block;
+            margin: 0 auto;
+        }
+
+        .status-available {
             color: #48bb78;
             font-weight: bold;
+            text-align: center;
             display: inline-block;
-            padding: 4px 12px;
-            border-radius: 20px;
+            padding: 2px 8px;
+            border-radius: 4px;
             background: #f0fff4;
-            font-size: 10px;
         }
 
         .status-adopted {
             color: #4299e1;
             font-weight: bold;
+            text-align: center;
             display: inline-block;
-            padding: 4px 12px;
-            border-radius: 20px;
+            padding: 2px 8px;
+            border-radius: 4px;
             background: #ebf8ff;
-            font-size: 10px;
+        }
+
+        .status-inactive {
+            color: #f56565;
+            font-weight: bold;
+            text-align: center;
+            display: inline-block;
+            padding: 2px 8px;
+            border-radius: 4px;
+            background: #fff5f5;
         }
 
         .text-center {
             text-align: center;
         }
 
+        .text-left {
+            text-align: left;
+        }
+
         .font-bold {
             font-weight: bold;
-        }
-
-        .badge-perro {
-            background-color: #4299e1;
-            color: white;
-            padding: 2px 8px;
-            border-radius: 12px;
-            font-size: 9px;
-            display: inline-block;
-        }
-
-        .badge-gato {
-            background-color: #ed8936;
-            color: white;
-            padding: 2px 8px;
-            border-radius: 12px;
-            font-size: 9px;
-            display: inline-block;
         }
 
         .footer {
@@ -137,77 +125,90 @@
             margin: 15mm;
             size: landscape;
         }
+
+        @media print {
+            body {
+                padding: 0;
+            }
+            .no-break {
+                page-break-inside: avoid;
+            }
+        }
     </style>
 </head>
 <body>
-    <div class="header">
-        <h1> LISTADO DE MASCOTAS - LARAPETS</h1>
-        <div class="date">Fecha: {{ \Carbon\Carbon::now()->format('d/m/Y H:i:s') }}</div>
-        <div class="stats">
-             Total: {{ $pets->count() }} mascotas | 
-             Perros: {{ $pets->where('kind', 'Perro')->count() }} | 
-             Gatos: {{ $pets->where('kind', 'Gato')->count() }} |
-            Adoptados: {{ $pets->where('adopted', 1)->count() }}
-        </div>
-    </div>
 
-    <table cellspacing="0">
+    <table cellspacing="0" cellpadding="0">
         <thead>
             <tr>
                 <th width="5%">ID</th>
-                <th width="10%">NOMBRE</th>
-                <th width="8%">TIPO</th>
+                <th width="8%">FOTO</th>
+                <th width="12%">NOMBRE</th>
+                <th width="10%">TIPO</th>
                 <th width="8%">PESO</th>
-                <th width="8%">EDAD</th>
+                <th width="6%">EDAD</th>
                 <th width="12%">RAZA</th>
                 <th width="12%">UBICACIÓN</th>
-                <th width="25%">DESCRIPCIÓN</th>
-                <th width="12%">ESTADO</th>
+                <th width="15%">DESCRIPCIÓN</th>
+                <th width="8%">ESTADO</th>
             </tr>
         </thead>
         <tbody>
             @forelse($pets as $pet)
             <tr>
                 <td class="text-center">{{ $pet->id }}</td>
-                <td class="font-bold">{{ $pet->name }}</td>
                 <td class="text-center">
-                    @if($pet->kind == 'Perro')
-                        <span class="badge-perro"> {{ $pet->kind }}</span>
+                    @php
+                        $imagePath = public_path('images/pets/' . $pet->image);
+                        $noImagePath = public_path('images/pets/no-photo.png');
+                        $isValidImage = false;
+
+                        if($pet->image && $pet->image != 'no-photo.png' && $pet->image != '') {
+                            $imageExtension = strtolower(pathinfo($pet->image, PATHINFO_EXTENSION));
+                            if(in_array($imageExtension, ['jpg', 'jpeg', 'png', 'gif', 'webp']) && file_exists($imagePath)) {
+                                $isValidImage = true;
+                            }
+                        }
+                    @endphp
+
+                    @if($isValidImage)
+                        <img src="{{ $imagePath }}" class="pet-photo" alt="Foto {{ $pet->name }}">
                     @else
-                        <span class="badge-gato"> {{ $pet->kind }}</span>
+                        <img src="{{ $noImagePath }}" class="no-photo" alt="Sin foto">
                     @endif
                 </td>
-                <td class="text-center">{{ number_format($pet->weight, 1) }} kg</td>
+                <td class="font-bold">{{ strtoupper($pet->name) }}</td>
+                <td class="text-center">{{ $pet->kind }}</td>
+                <td class="text-center">{{ number_format($pet->weight, 2) }} kg<\/td>
                 <td class="text-center">
                     @if($pet->age < 1)
                         {{ $pet->age * 12 }} meses
                     @else
-                        {{ number_format($pet->age, 0) }} años
+                        {{ number_format($pet->age, 1) }} años
                     @endif
-                </td>
-                <td>{{ $pet->breed ?: 'No especificada' }}</td>
-                <td>{{ $pet->location ?: 'No especificada' }}</td>
-                <td>{{ Str::limit($pet->description, 80) }}</td>
+                <\/td>
+                <td class="text-center">{{ $pet->breed ?: 'No especificada' }}<\/td>
+                <td class="text-center">{{ $pet->location ?: 'No especificada' }}<\/td>
+                <td style="font-size: 10px;">{{ Str::limit($pet->description, 50) }}<\/td>
                 <td class="text-center">
                     @if($pet->adopted)
-                        <span class="status-adopted"> ADOPTADO</span>
+                        <span class="status-adopted">ADOPTADO</span>
                     @elseif($pet->active)
-                        <span class="status-active"> DISPONIBLE</span>
+                        <span class="status-available">DISPONIBLE</span>
                     @else
-                        <span class="status-inactive"> INACTIVO</span>
+                        <span class="status-inactive">INACTIVO</span>
                     @endif
-                </td>
             </tr>
             @empty
-                <tr>
-                    <td colspan="9" class="text-center">No hay mascotas registradas</td>
-                </tr>
+            <tr>
+                <td colspan="10" class="text-center">No hay mascotas registradas<\/td>
+            </tr>
             @endforelse
         </tbody>
     </table>
 
     <div class="footer">
-        Este documento fue generado automáticamente por Larapets - Sistema de Gestión de Mascotas
+        Total de mascotas: {{ $pets->count() }}
     </div>
 </body>
 </html>
