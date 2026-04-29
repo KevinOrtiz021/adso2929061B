@@ -144,19 +144,32 @@
                 <th width="5%">ID</th>
                 <th width="8%">FOTO</th>
                 <th width="12%">NOMBRE</th>
+<<<<<<< HEAD
                 <th width="10%">TIPO</th>
                 <th width="8%">PESO</th>
+=======
+                <th width="8%">TIPO</th>
+                <th width="6%">PESO</th>
+>>>>>>> bf55a9d (middleware)
                 <th width="6%">EDAD</th>
                 <th width="12%">RAZA</th>
                 <th width="12%">UBICACIÓN</th>
                 <th width="15%">DESCRIPCIÓN</th>
                 <th width="8%">ESTADO</th>
+<<<<<<< HEAD
+=======
+                <th width="8%">CREADO</th>
+>>>>>>> bf55a9d (middleware)
             </tr>
         </thead>
         <tbody>
             @forelse($pets as $pet)
             <tr>
+<<<<<<< HEAD
                 <td class="text-center">{{ $pet->id }}</td>
+=======
+                <td class="text-center">{{ $pet->id }}
+>>>>>>> bf55a9d (middleware)
                 <td class="text-center">
                     @php
                         $imagePath = public_path('images/pets/' . $pet->image);
@@ -177,19 +190,31 @@
                         <img src="{{ $noImagePath }}" class="no-photo" alt="Sin foto">
                     @endif
                 </td>
+<<<<<<< HEAD
                 <td class="font-bold">{{ strtoupper($pet->name) }}</td>
                 <td class="text-center">{{ $pet->kind }}</td>
                 <td class="text-center">{{ number_format($pet->weight, 2) }} kg<\/td>
+=======
+                <td class="font-bold">{{ strtoupper($pet->name) }}
+                <td class="text-center">{{ $pet->kind }}
+                <td class="text-center">{{ number_format($pet->weight, 2) }} kg
+>>>>>>> bf55a9d (middleware)
                 <td class="text-center">
                     @if($pet->age < 1)
                         {{ $pet->age * 12 }} meses
                     @else
                         {{ number_format($pet->age, 1) }} años
                     @endif
+<<<<<<< HEAD
                 <\/td>
                 <td class="text-center">{{ $pet->breed ?: 'No especificada' }}<\/td>
                 <td class="text-center">{{ $pet->location ?: 'No especificada' }}<\/td>
                 <td style="font-size: 10px;">{{ Str::limit($pet->description, 50) }}<\/td>
+=======
+                <td class="text-center">{{ $pet->breed ?: 'No especificada' }}
+                <td class="text-center">{{ $pet->location ?: 'No especificada' }}
+                <td style="font-size: 10px;">{{ Str::limit($pet->description, 50) }}
+>>>>>>> bf55a9d (middleware)
                 <td class="text-center">
                     @if($pet->adopted)
                         <span class="status-adopted">ADOPTADO</span>
@@ -198,17 +223,31 @@
                     @else
                         <span class="status-inactive">INACTIVO</span>
                     @endif
+<<<<<<< HEAD
             </tr>
             @empty
             <tr>
                 <td colspan="10" class="text-center">No hay mascotas registradas<\/td>
+=======
+
+                <td class="text-center">{{ $pet->created_at ? $pet->created_at->format('d/m/Y') : 'N/A' }}
+            </tr>
+            @empty
+            <tr>
+                <td colspan="11" class="text-center">No hay mascotas registradas
+>>>>>>> bf55a9d (middleware)
             </tr>
             @endforelse
         </tbody>
     </table>
 
     <div class="footer">
+<<<<<<< HEAD
         Total de mascotas: {{ $pets->count() }}
+=======
+        Total de mascotas: {{ $pets->count() }} |
+        Generado: {{ \Carbon\Carbon::now()->format('d/m/Y H:i:s') }}
+>>>>>>> bf55a9d (middleware)
     </div>
 </body>
 </html>

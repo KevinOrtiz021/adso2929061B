@@ -17,26 +17,42 @@ Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
+// ============================================
+// RUTAS PROTEGIDAS POR AUTENTICACIÓN
+// ============================================
 Route::middleware('auth')->group(function () {
-    Route::get('export/users/pdf', [UserController::class, 'pdf'])->name('users.pdf');
-    Route::get('export/pets/pdf', [PetController::class, 'pdf'])->name('pets.pdf');
-    Route::get('export/users/excel', [UserController::class, 'excel'])->name('users.excel');
-    Route::get('export/pets/excel', [PetController::class, 'excel'])->name('pets.excel');
-    
+
+    // Búsquedas (todos los usuarios autenticados)
     Route::post('search/users', [UserController::class, 'search'])->name('users.search');
     Route::post('search/pets', [PetController::class, 'search'])->name('pets.search');
-    
-    Route::post('import/users', [UserController::class, 'import'])->name('users.import');
-    
-    Route::resources([
-        'users'       => UserController::class,
-        'pets'        => PetController::class,
-        'adoptions'   => AdoptionController::class,
-    ]);
+
+    // ========================================
+    // RUTAS SOLO PARA ADMINISTRADORES
+    // ========================================
+    Route::middleware('admin')->group(function () {
+
+        // Exportaciones
+        Route::get('export/users/pdf', [UserController::class, 'pdf'])->name('users.pdf');
+        Route::get('export/pets/pdf', [PetController::class, 'pdf'])->name('pets.pdf');
+        Route::get('export/users/excel', [UserController::class, 'excel'])->name('users.excel');
+        Route::get('export/pets/excel', [PetController::class, 'excel'])->name('pets.excel');
+
+        // Importación de usuarios
+        Route::post('import/users', [UserController::class, 'import'])->name('users.import');
+
+        // Recursos completos (CRUD)
+        Route::resources([
+            'users'       => UserController::class,
+            'pets'        => PetController::class,
+            'adoptions'   => AdoptionController::class,
+        ]);
+
+    });
 });
 
 require __DIR__.'/auth.php';
 
+// Rutas públicas
 Route::get('hello', function () {
     return "<h1>Hello Laravel 🚀</h1>";
 });
@@ -54,6 +70,7 @@ Route::get('show/pet/{id}', function($id){
     $pet = Pet::findOrFail($id);
     return view('showpet')->with('pet', $pet);
 });
+
 Route::get('challenge', function () {
     if (!file_exists(public_path('images'))) {
         mkdir(public_path('images'), 0777, true);
@@ -113,4 +130,3 @@ Route::get('challenge', function () {
 
     return $code;
 });
-

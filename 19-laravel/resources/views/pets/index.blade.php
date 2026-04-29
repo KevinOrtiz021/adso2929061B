@@ -149,9 +149,9 @@
     let timeout;
     $('#qsearch').on('keyup', function() {
         let query = $(this).val();
-        
+
         clearTimeout(timeout);
-        
+
         if(query.length >= 2) {
             timeout = setTimeout(function() {
                 $.ajax({
