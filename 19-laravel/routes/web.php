@@ -18,6 +18,15 @@ Route::get('/dashboard', function () {
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 // ============================================
+// RUTAS DE PERFIL (AUTH)
+// ============================================
+Route::middleware('auth')->group(function () {
+    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+});
+
+// ============================================
 // RUTAS PROTEGIDAS POR AUTENTICACIÓN
 // ============================================
 Route::middleware('auth')->group(function () {
@@ -25,6 +34,7 @@ Route::middleware('auth')->group(function () {
     // Búsquedas (todos los usuarios autenticados)
     Route::post('search/users', [UserController::class, 'search'])->name('users.search');
     Route::post('search/pets', [PetController::class, 'search'])->name('pets.search');
+    Route::post('search/adoptions', [AdoptionController::class, 'search']);
 
     // ========================================
     // RUTAS SOLO PARA ADMINISTRADORES
@@ -34,8 +44,10 @@ Route::middleware('auth')->group(function () {
         // Exportaciones
         Route::get('export/users/pdf', [UserController::class, 'pdf'])->name('users.pdf');
         Route::get('export/pets/pdf', [PetController::class, 'pdf'])->name('pets.pdf');
+        Route::get('export/adoptions/pdf', [AdoptionController::class, 'pdf'])->name('adoptions.pdf');
         Route::get('export/users/excel', [UserController::class, 'excel'])->name('users.excel');
         Route::get('export/pets/excel', [PetController::class, 'excel'])->name('pets.excel');
+        Route::get('export/adoptions/excel', [AdoptionController::class, 'excel'])->name('adoptions.excel');
 
         // Importación de usuarios
         Route::post('import/users', [UserController::class, 'import'])->name('users.import');
@@ -52,7 +64,10 @@ Route::middleware('auth')->group(function () {
 
 require __DIR__.'/auth.php';
 
-// Rutas públicas
+// ============================================
+// RUTAS PÚBLICAS
+// ============================================
+
 Route::get('hello', function () {
     return "<h1>Hello Laravel 🚀</h1>";
 });
@@ -61,6 +76,7 @@ Route::get('sayhello/{name}', function ($name) {
     return "<h1>Hello: " . $name . "</h1>";
 });
 
+// Ruta getall/pets (solo una, no duplicada)
 Route::get('getall/pets', function(){
     $pets = Pet::all();
     return view('getallpets')->with('pets', $pets);
