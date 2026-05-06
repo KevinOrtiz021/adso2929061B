@@ -8,6 +8,7 @@ use Carbon\Carbon;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\PetController;
 use App\Http\Controllers\AdoptionController;
+use App\Http\Controllers\CustomerController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -34,7 +35,7 @@ Route::middleware('auth')->group(function () {
     // Búsquedas (todos los usuarios autenticados)
     Route::post('search/users', [UserController::class, 'search'])->name('users.search');
     Route::post('search/pets', [PetController::class, 'search'])->name('pets.search');
-    Route::post('search/adoptions', [AdoptionController::class, 'search']);
+    Route::post('search/adoptions', [AdoptionController::class, 'search'])->name('adoptions.search');
 
     // ========================================
     // RUTAS SOLO PARA ADMINISTRADORES
@@ -58,11 +59,29 @@ Route::middleware('auth')->group(function () {
             'pets'        => PetController::class,
             'adoptions'   => AdoptionController::class,
         ]);
-
     });
+
+    // ========================================
+    // RUTAS DE CUSTOMER (ACCESO PARA CLIENTES)
+    // ========================================
+    // Perfil
+    Route::get('myprofile', [CustomerController::class, 'myprofile'])->name('customer.myprofile');
+    Route::put('myprofile/{user}', [CustomerController::class, 'updatemyprofile'])->name('customer.updatemyprofile');
+
+    // Adopciones del usuario
+    Route::get('myadoptions', [CustomerController::class, 'myadoptions'])->name('customer.myadoptions');
+    Route::get('myadoption/{id}', [CustomerController::class, 'showadoption'])->name('customer.showadoption');
+
+    // Mascotas disponibles
+    Route::get('listpets', [CustomerController::class, 'listpets'])->name('customer.listpets');
+    Route::get('showpet/{id}', [CustomerController::class, 'showpet'])->name('customer.showpet');
+
+    // Búsqueda y adopción
+    Route::post('search/adoptionpets', [CustomerController::class, 'search'])->name('customer.searchpets');
+    Route::post('makeadoption', [CustomerController::class, 'makeadoption'])->name('customer.makeadoption');
 });
 
-require __DIR__.'/auth.php';
+
 
 // ============================================
 // RUTAS PÚBLICAS

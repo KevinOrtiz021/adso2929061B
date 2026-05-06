@@ -313,7 +313,7 @@
                     </div>
                 </div>
             </div>
-            {{-- Module Adoptions --}}
+            {{-- Module Make Adoption --}}
             <div class="card text-white bg-[#0006] w-96 shadow-sm">
                 <figure class="h-[240px]">
                     <img class="object-cover w-60 h-60" src="{{ asset('images/adoption.png') }}" />
@@ -330,7 +330,7 @@
                     </h2>
                     <div class="card-actions justify-end">
                         <a class="btn btn-outline hover:bg-[#fff6] hover:text-white mt-3"
-                            href="{{ url('makeadoption') }}">
+                            href="{{ url('listpets') }}">
                             Enter
                             <svg xmlns="http://www.w3.org/2000/svg" class="size-6" fill="currentColor"
                                 viewBox="0 0 256 256">
@@ -343,17 +343,26 @@
                 </div>
             </div>
         @endif
-
     </div>
 @endsection
 
 @section('js')
 <script>
     @if(session('error'))
-    swal.fire({
+    Swal.fire({
         position: 'top-end',
         icon: 'error',
         title: '{{ session('error') }}',
+        showConfirmButton: false,
+        timer: 2500
+    });
+    @endif
+
+    @if(session('success'))
+    Swal.fire({
+        position: 'top-end',
+        icon: 'success',
+        title: '{{ session('success') }}',
         showConfirmButton: false,
         timer: 2500
     });

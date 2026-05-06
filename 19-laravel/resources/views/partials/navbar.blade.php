@@ -123,7 +123,7 @@
                                 </li>
                             @endif
                             <li class="hover:bg-white/20 rounded-md">
-                                <form method="POST" action="{{ route('logout') }}">
+                                <form method="POST" action="{{ url('logout') }}">
                                     <svg xmlns="http://www.w3.org/2000/svg" class="size-5" fill="currentcolor"
                                         viewBox="0 0 256 256">
                                         <path
@@ -131,7 +131,7 @@
                                         </path>
                                     </svg>
                                     @csrf
-                                    <a class="flex gap-2" href="route('logout')"
+                                    <a class="flex gap-2" href="{{ url('logout') }}"
                                         onclick="event.preventDefault();
                         this.closest('form').submit();">
                                         Log Out
