@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use App\Models\Pet;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use App\Models\Adoption;
@@ -69,50 +70,83 @@ class CustomerController extends Controller
     }
 
     public function myadoptions()
-{
-    // Lógica para mostrar adopciones del usuario
-    $adoptions = Adoption::where('user_id', Auth::user()->id)
-        ->with(['user', 'pet'])
-        ->orderBy('id', 'desc')
-        ->paginate(10); // ← IMPORTANTE: usa paginate(), no get()
+    {
+        // Lógica para mostrar adopciones del usuario
+        $adoptions = Adoption::where('user_id', Auth::user()->id)
+            ->with(['user', 'pet'])
+            ->orderBy('id', 'desc')
+            ->paginate(10);
 
-    return view('customer.myadoptions', compact('adoptions'));
-}
+        return view('customer.myadoptions', compact('adoptions'));
+    }
 
     public function showadoption(Request $request)
     {
         $adoption = Adoption::find($request->id);
-        // dd($adoption->toArray());
         return view('customer.showmyadoption')->with('adoption', $adoption);
     }
 
     public function listpets()
     {
-        // Lógica para listar mascotas
-        return view('customer.listpets');
+        $pets = Pet::where('adopted', 0)->orderBy('id', 'desc')->paginate(12);
+        return view('customer.listpets')->with('pets', $pets);
     }
 
     public function search(Request $request)
-    {
-        $q = $request->input('q');
-        $pets = \App\Models\Pet::where('name', 'LIKE', '%' . $q . '%')
-            ->orWhere('species', 'LIKE', '%' . $q . '%')
-            ->orWhere('breed', 'LIKE', '%' . $q . '%')
-            ->orWhere('location', 'LIKE', '%' . $q . '%')
-            ->get();
-        // Lógica para buscar mascotas para adopción
-        return view('customer.searchpets', compact('pets'));
+{
+    $q = $request->input('q');
+
+    $pets = Pet::where('adopted', 0)
+                ->where(function($query) use ($q) {
+                    $query->where('name', 'LIKE', "%$q%")
+                          ->orWhere('kind', 'LIKE', "%$q%")
+                          ->orWhere('breed', 'LIKE', "%$q%")
+                          ->orWhere('location', 'LIKE', "%$q%");
+                })
+                ->orderBy('id', 'desc')
+                ->paginate(12);
+
+    if ($request->ajax() || $request->wantsJson()) {
+        return view('customer.searchpets', compact('pets'))->render();
     }
+
+    return view('customer.listpets', compact('pets'));
+}
 
     public function showpet($id)
     {
-        // Lógica para mostrar una mascota específica
-        return view('customer.showpet');
+        $pet = Pet::find($id);
+        return view('customer.showpet')->with('pet', $pet);
     }
 
     public function makeadoption(Request $request)
-    {
-        // Lógica para realizar una adopción
-        return redirect()->back()->with('message', 'Adoption request sent successfully!');
+{
+    $request->validate([
+        'pet_id' => 'required|exists:pets,id'
+    ]);
+
+    $user = Auth::user();
+    $pet = Pet::find($request->pet_id);
+
+    if ($pet->adopted) {
+        return redirect()->back()->with('error', 'This pet has already been adopted.');
     }
+
+    $countAdoptions = Adoption::where('user_id', $user->id)->count();
+
+    if($countAdoptions >= 3){
+        return redirect()->back()->with('error', 'You have reached the maximum number of adoptions (3). You cannot adopt more pets.');
+    }
+
+    $adoption = new Adoption();
+    $adoption->user_id = $user->id;
+    $adoption->pet_id = $pet->id;
+    $adoption->save();
+
+
+    $pet->adopted = 1;
+    $pet->save();
+
+    return redirect()->route('customer.myadoptions')->with('message', 'Adoption request sent successfully! You have adopted ' . $pet->name);
+}
 }

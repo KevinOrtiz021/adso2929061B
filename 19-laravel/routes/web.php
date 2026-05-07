@@ -74,15 +74,14 @@ Route::middleware('auth')->group(function () {
 
     // Mascotas disponibles
     Route::get('listpets', [CustomerController::class, 'listpets'])->name('customer.listpets');
-    Route::get('showpet/{id}', [CustomerController::class, 'showpet'])->name('customer.showpet');
+Route::get('showpet/{id}', [CustomerController::class, 'showpet'])->name('customer.showpet');
 
-    // Búsqueda y adopción
-    Route::post('search/adoptionpets', [CustomerController::class, 'search'])->name('customer.searchpets');
-    Route::post('makeadoption', [CustomerController::class, 'makeadoption'])->name('customer.makeadoption');
+Route::match(['get', 'post'], 'search/adoptionpets', [CustomerController::class, 'search'])->name('customer.searchpets');
+Route::post('makeadoption', [CustomerController::class, 'makeadoption'])->name('customer.makeadoption');
 });
 
 
-
+require __DIR__.'/auth.php';
 // ============================================
 // RUTAS PÚBLICAS
 // ============================================
