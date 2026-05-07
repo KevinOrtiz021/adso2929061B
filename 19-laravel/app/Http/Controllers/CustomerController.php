@@ -147,6 +147,6 @@ class CustomerController extends Controller
     $pet->adopted = 1;
     $pet->save();
 
-    return redirect()->route('customer.myadoptions')->with('message', 'Adoption request sent successfully! You have adopted ' . $pet->name);
+    return redirect()->route('customer.listpets')->with('message', 'Congratulations! You have successfully adopted ' . $pet->name);
 }
 }
