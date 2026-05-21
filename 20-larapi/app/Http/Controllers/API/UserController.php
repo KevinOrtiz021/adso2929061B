@@ -4,53 +4,48 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Models\Pet;
+use App\Models\User;
+use Illuminate\Support\Facades\Hash;
 
-class PetController extends Controller
+class UserController extends Controller
 {
     public function index(){
-        $pets = Pet::all();
+        $users = User::all();
         return response()->json([
             'message' => 'Query success!',
-            'pets' => $pets,
+            'users' => $users,
         ], 200);
     }
-
+    
     public function show($id){
-        $pet = Pet::find($id);
+        $user = User::find($id);
         
-        if(!$pet){
+        if(!$user){
             return response()->json([
-                'message' => 'Pet not found!'
+                'message' => 'User not found!'
             ], 404);
         }
         
         return response()->json([
             'message' => 'Query success!',
-            'pet' => $pet
+            'user' => $user
         ], 200);
     }
-
+    
     public function store(Request $request){
         try{
             $validated = $request->validate([
                 'name' => 'required|string|max:255',
-                'image' => 'nullable|string',
-                'kind' => 'required|string|max:255',
-                'weight' => 'nullable|numeric',
-                'age' => 'nullable|integer|min:0',
-                'breed' => 'nullable|string|max:255',
-                'location' => 'nullable|string',
-                'description' => 'nullable|string',
-                'active' => 'nullable|boolean',
-                'adopted' => 'nullable|boolean'
+                'email' => 'required|email|unique:users,email',
+                'password' => 'required|string|min:6'
             ]);
             
-            $pet = Pet::create($validated);
+            $validated['password'] = Hash::make($validated['password']);
+            $user = User::create($validated);
             
             return response()->json([
-                'message' => 'Pet created successfully!',
-                'pet' => $pet
+                'message' => 'User created successfully!',
+                'user' => $user
             ], 201);
             
         } catch(\Illuminate\Validation\ValidationException $e){
@@ -60,35 +55,32 @@ class PetController extends Controller
             ], 422);
         }
     }
-    
+
     public function update(Request $request, $id){
-        $pet = Pet::find($id);
+        $user = User::find($id);
         
-        if(!$pet){
+        if(!$user){
             return response()->json([
-                'message' => 'Pet not found!'
+                'message' => 'User not found!'
             ], 404);
         }
         
         try{
             $validated = $request->validate([
                 'name' => 'sometimes|string|max:255',
-                'image' => 'nullable|string',
-                'kind' => 'sometimes|string|max:255',
-                'weight' => 'nullable|numeric',
-                'age' => 'nullable|integer|min:0',
-                'breed' => 'nullable|string|max:255',
-                'location' => 'nullable|string',
-                'description' => 'nullable|string',
-                'active' => 'nullable|boolean',
-                'adopted' => 'nullable|boolean'
+                'email' => 'sometimes|email|unique:users,email,' . $id,
+                'password' => 'sometimes|string|min:6'
             ]);
             
-            $pet->update($validated);
+            if(isset($validated['password'])){
+                $validated['password'] = Hash::make($validated['password']);
+            }
+            
+            $user->update($validated);
             
             return response()->json([
-                'message' => 'Pet updated successfully!',
-                'pet' => $pet
+                'message' => 'User updated successfully!',
+                'user' => $user
             ], 200);
             
         } catch(\Illuminate\Validation\ValidationException $e){
@@ -100,18 +92,18 @@ class PetController extends Controller
     }
     
     public function destroy($id){
-        $pet = Pet::find($id);
+        $user = User::find($id);
         
-        if(!$pet){
+        if(!$user){
             return response()->json([
-                'message' => 'Pet not found!'
+                'message' => 'User not found!'
             ], 404);
         }
         
-        $pet->delete();
+        $user->delete();
         
         return response()->json([
-            'message' => 'Pet deleted successfully!'
+            'message' => 'User deleted successfully!'
         ], 200);
     }
 }
