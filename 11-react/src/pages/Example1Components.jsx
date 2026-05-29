@@ -1,4 +1,4 @@
-import BtnBack from '@components/BtnBack';
+import BtnBack from '../components/BtnBack';
 
 // Component tanjiro
 function Tanjiro() {
@@ -44,6 +44,7 @@ function Example1Components() {
         <div className="container">
             <BtnBack />
             <h2>Example1Components</h2>
+            <p>Example of simple components in React</p>
             <div style={{
                 display: 'flex', 
                 gap: '1.5rem',        
