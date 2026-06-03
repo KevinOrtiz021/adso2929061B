@@ -9,9 +9,10 @@
     margin-bottom: 2rem;
     transition: all 0.3s;
     width: 40px;
-    svg {
-        zoom: 1.2;
-    }
+}
+
+.btn-back svg {
+    zoom: 1.2;
 }
 
 .btn-back:hover {
