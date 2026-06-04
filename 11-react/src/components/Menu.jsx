@@ -12,6 +12,7 @@ const examples = [
     { id: 6, title: '06- Conditional & Lists', path: '/example6', emoji: '📋', desc: 'Conditional rendering' },
     { id: 7, title: '07- Routing',             path: '/example7', emoji: '🗺️', desc: 'Navigation' },
     { id: 8, title: '08- Data Fetching',       path: '/example8', emoji: '🌐', desc: 'API calls' },
+    { id: 9, title: '09- Challenge',           path: '/challenge', emoji: '🐶', desc: 'Put it all together' },
 ];
 
   return (
@@ -20,7 +21,7 @@ const examples = [
       <p className="menu-subtitle">JavaScript library for building UI</p>
       <div className="menu-grid">
         {examples.map((example) => (
-          <Link to={example.path} key={example.id} className="menu-card">
+          <Link to={example.path} key={example.id} className="menu-card" target={(example.id==9) && '_blank'}>
             <span className="menu-emoji">{example.emoji}</span>
             <h3>{example.title}</h3>
             <p>{example.desc}</p>

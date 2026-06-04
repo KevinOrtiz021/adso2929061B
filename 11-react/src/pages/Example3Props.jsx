@@ -7,7 +7,7 @@ const pokemons = [
         name: 'Pikachu',
         type: 'Electric',
         power: 'Thunderbolt',
-        image: 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/25.png',
+        image: 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/25.png',
         legendary: false
     },
     {
@@ -15,7 +15,7 @@ const pokemons = [
         name: 'kanton',
         type: 'legendary',
         power: 'Shadow Ball',
-        image: 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/151.png',
+        image: 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/151.png',
         legendary: true
     },
     {
@@ -23,7 +23,7 @@ const pokemons = [
         name: 'Charmander',
         type: 'Fire',
         power: 'Ember',
-        image: 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/4.png',
+        image: 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/4.png',
         legendary: false
     }
 ];
