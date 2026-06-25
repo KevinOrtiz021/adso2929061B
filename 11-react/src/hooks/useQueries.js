@@ -11,9 +11,10 @@ export function usePets() {
     setError(null);
     try {
       const data = await petService.getAll();
-      setPets(Array.isArray(data) ? data : data.data ?? []);
+      setPets(data);
     } catch (err) {
-      setError(err.message ?? 'Error al cargar mascotas');
+      const msg = err.response?.data?.message ?? err.message ?? 'Error al cargar mascotas';
+      setError(msg);
     } finally {
       setLoading(false);
     }
@@ -34,7 +35,7 @@ export function usePet(id) {
     setLoading(true);
     petService.getOne(id)
       .then(data => setPet(data))
-      .catch(err => setError(err.message ?? 'Error'))
+      .catch(err => setError(err.response?.data?.message ?? err.message ?? 'Error'))
       .finally(() => setLoading(false));
   }, [id]);
 

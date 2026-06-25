@@ -1,129 +1,198 @@
-// ─── Pet Service — datos reales del dump SQL (localStorage) ─────────────────
+// ─── Pet Service — API Laravel con fallback a localStorage ───────────────────
+// Intenta conectar a http://127.0.0.1:8000/api
+// Si falla (Laravel no corre), usa localStorage automáticamente
 
-const STORAGE_KEY = 'pets_larapets';
+import apiClient from './apiClient';
 
-// Datos reales de larapets2929061b.sql
+const STORAGE_KEY  = 'pets_larapets_local';
+const IMAGE_BASE   = 'http://127.0.0.1:8000/storage/pets/';
+
+// ── Datos iniciales del dump SQL (se usan si no hay API) ──────────────────────
 const INITIAL_PETS = [
-  { id:1,  name:'Rocko52',    kind:'Perro',  weight:4,   age:6,  breed:'Creole',           location:'Villamaria Caldas',             description:'He is a calm dog and is friendly to everyone.',                                                                          active:1, adopted:0, image:null },
-  { id:2,  name:'Tiger',      kind:'Cat',    weight:2,   age:8,  breed:'Orange',           location:'Villamaria Caldas',             description:'He is a calm and sleepy cat.',                                                                                            active:1, adopted:1, image:null },
-  { id:3,  name:'Juan',       kind:'Horse',  weight:16,  age:2,  breed:'Friesian',         location:'Llanitos Villamaria Caldas',    description:'He is a beautiful and calm horse who loves to trot all over the countryside, happy with life.',                            active:1, adopted:0, image:null },
-  { id:4,  name:'Roberto',    kind:'Pig',    weight:5,   age:1,  breed:'Mini Pig',         location:'Buenaventura Valle del Cauca',  description:'Its a pig that eats people and loves pork.',                                                                             active:1, adopted:1, image:null },
-  { id:5,  name:'Chilindrina',kind:'Cow',    weight:15,  age:3,  breed:'Angus',            location:'Pereira Risaralda',             description:'Shes a quiet cow, bored of living in Pereira.',                                                                          active:1, adopted:0, image:null },
-  { id:6,  name:'Luna',       kind:'Dog',    weight:8,   age:3,  breed:'Golden Retriever', location:'Manizales Caldas',              description:'She is an energetic dog who loves to play fetch and swim in the river.',                                                  active:1, adopted:0, image:null },
-  { id:7,  name:'Michi',      kind:'Cat',    weight:3,   age:2,  breed:'Siamese',          location:'Pereira Risaralda',             description:'A curious cat who loves to explore and climb trees. Very vocal and affectionate.',                                         active:1, adopted:0, image:null },
-  { id:8,  name:'Pepe',       kind:'Bird',   weight:1,   age:5,  breed:'African Grey',     location:'Armenia Quindío',               description:'He can talk and mimic sounds. Loves to whistle and say "Hola".',                                                           active:1, adopted:0, image:null },
-  { id:9,  name:'Copito',     kind:'Rabbit', weight:2,   age:1,  breed:'Holland Lop',      location:'Chinchiná Caldas',              description:'A fluffy white rabbit who loves carrots and jumping around the garden.',                                                   active:1, adopted:0, image:null },
-  { id:10, name:'Ruedita',    kind:'Rodent', weight:0.5, age:1,  breed:'Syrian Hamster',   location:'Santa Rosa de Cabal',           description:'Tiny and fast, loves to run on his wheel all night long.',                                                               active:1, adopted:0, image:null },
-  { id:11, name:'Manuelita',  kind:'Turtle', weight:3,   age:15, breed:'Red-eared Slider', location:'Neira Caldas',                  description:'A wise old turtle who enjoys sunbathing on rocks and swimming slowly.',                                                   active:1, adopted:0, image:null },
-  { id:12, name:'Nemo',       kind:'Fish',   weight:0.2, age:1,  breed:'Clownfish',        location:'Acuario de Manizales',          description:'Bright orange and white fish who loves swimming among anemones.',                                                          active:1, adopted:0, image:null },
-  { id:13, name:'Bruno',      kind:'Dog',    weight:25,  age:4,  breed:'German Shepherd',  location:'Dosquebradas',                  description:'Protective and loyal, great with kids and very intelligent.',                                                             active:1, adopted:0, image:null },
-  { id:14, name:'Canela',     kind:'Cat',    weight:4,   age:3,  breed:'Persian',          location:'La Dorada Caldas',              description:'Long-haired beauty with a calm temperament. Loves to be brushed.',                                                        active:1, adopted:0, image:null },
-  { id:15, name:'Relámpago',  kind:'Horse',  weight:18,  age:7,  breed:'Arabian',          location:'Chinchiná Caldas',              description:'Fast and elegant, winner of local competitions. Very noble.',                                                             active:1, adopted:0, image:null },
-  { id:16, name:'Sasha',      kind:'Bird',   weight:3.6, age:13, breed:'Cockatiel',        location:"O'Reillyview",                  description:'Eius optio blanditiis pariatur cupiditate veniam cumque.',                                                               active:1, adopted:0, image:null },
-  { id:17, name:'Rocky',      kind:'Cat',    weight:4.4, age:4,  breed:'British Shorthair',location:'Emmerichberg',                  description:'Nam quis est dolores nisi animi et.',                                                                                    active:1, adopted:0, image:null },
-  { id:18, name:'Simba',      kind:'Bird',   weight:3.8, age:15, breed:'Canary',           location:'South Frances',                 description:'Eum quia rerum similique.',                                                                                              active:1, adopted:0, image:null },
-  { id:19, name:'Oliver',     kind:'Bird',   weight:9.9, age:12, breed:'Cockatiel',        location:'East Allene',                   description:'Vitae maxime omnis culpa.',                                                                                              active:1, adopted:0, image:null },
-  { id:20, name:'Charlie',    kind:'Pig',    weight:8,   age:15, breed:'Vietnamese',       location:'Kianaburgh',                    description:'Tempora molestias autem cumque illo.',                                                                                   active:1, adopted:0, image:null },
+  { id:1,  name:'Rocko52',    kind:'Perro',  weight:4,   age:6,  bread:'Creole',            location:'Villamaria Caldas',          description:'He is a calm dog.',        active:1, adopted:0, image:null },
+  { id:2,  name:'Tiger',      kind:'Cat',    weight:2,   age:8,  bread:'Orange',            location:'Villamaria Caldas',          description:'He is a calm sleepy cat.', active:1, adopted:1, image:null },
+  { id:3,  name:'Juan',       kind:'Horse',  weight:16,  age:2,  bread:'Friesian',          location:'Llanitos Villamaria Caldas', description:'Beautiful calm horse.',    active:1, adopted:0, image:null },
+  { id:4,  name:'Roberto',    kind:'Pig',    weight:5,   age:1,  bread:'Mini Pig',          location:'Buenaventura Valle',        description:'Mini pig that eats a lot.',active:1, adopted:1, image:null },
+  { id:5,  name:'Chilindrina', kind:'Cow',   weight:15,  age:3,  bread:'Angus',             location:'Pereira Risaralda',         description:'Quiet cow.',               active:1, adopted:0, image:null },
+  { id:6,  name:'Luna',       kind:'Dog',    weight:8,   age:3,  bread:'Golden Retriever',  location:'Manizales Caldas',          description:'Energetic dog.',           active:1, adopted:0, image:null },
+  { id:7,  name:'Michi',      kind:'Cat',    weight:3,   age:2,  bread:'Siamese',           location:'Pereira Risaralda',         description:'Curious cat.',             active:1, adopted:0, image:null },
+  { id:8,  name:'Pepe',       kind:'Bird',   weight:1,   age:5,  bread:'African Grey',      location:'Armenia Quindío',           description:'Can talk and whistle.',    active:1, adopted:0, image:null },
+  { id:9,  name:'Copito',     kind:'Rabbit', weight:2,   age:1,  bread:'Holland Lop',       location:'Chinchiná Caldas',          description:'Fluffy white rabbit.',     active:1, adopted:0, image:null },
+  { id:10, name:'Bruno',      kind:'Dog',    weight:25,  age:4,  bread:'German Shepherd',   location:'Dosquebradas',              description:'Loyal and intelligent.',   active:1, adopted:0, image:null },
 ];
 
-function loadPets() {
+// ── Helpers localStorage ───────────────────────────────────────────────────────
+function localLoad() {
   try {
     const raw = localStorage.getItem(STORAGE_KEY);
     if (raw) return JSON.parse(raw);
-    // Primera vez: cargar datos reales del SQL
     localStorage.setItem(STORAGE_KEY, JSON.stringify(INITIAL_PETS));
     return INITIAL_PETS;
   } catch { return INITIAL_PETS; }
 }
-
-function savePets(pets) {
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(pets));
-}
-
-function getNextId() {
-  const pets = loadPets();
-  return pets.length > 0 ? Math.max(...pets.map(p => p.id)) + 1 : 1;
-}
-
-const delay = (ms = 350) => new Promise(r => setTimeout(r, ms));
-
+function localSave(pets) { localStorage.setItem(STORAGE_KEY, JSON.stringify(pets)); }
+function nextId() { const p = localLoad(); return p.length ? Math.max(...p.map(x=>x.id))+1 : 1; }
 function fileToBase64(file) {
-  return new Promise((resolve, reject) => {
-    if (!file) { resolve(null); return; }
-    const reader = new FileReader();
-    reader.onload  = () => resolve(reader.result);
-    reader.onerror = reject;
-    reader.readAsDataURL(file);
+  return new Promise((res, rej) => {
+    const r = new FileReader();
+    r.onload  = () => res(r.result);
+    r.onerror = rej;
+    r.readAsDataURL(file);
   });
 }
 
+// ── Normaliza pet de la API → objeto interno ───────────────────────────────────
+function normalize(pet) {
+  const img = pet.image;
+  return {
+    ...pet,
+    breed:    pet.breed ?? pet.bread ?? '',
+    bread:    pet.bread ?? pet.breed ?? '',
+    // imageUrl: URL completa para mostrar la imagen
+    imageUrl: img
+      ? (img.startsWith('data:') || img.startsWith('http') ? img : `${IMAGE_BASE}${img}`)
+      : null,
+  };
+}
+
+// ── API calls con fallback automático ─────────────────────────────────────────
 const petService = {
+
   getAll: async () => {
-    await delay(300);
-    return loadPets();
+    try {
+      const r = await apiClient.get('/pets/list');
+      const pets = r.data.pets ?? r.data ?? [];
+      return Array.isArray(pets) ? pets.map(normalize) : [];
+    } catch {
+      // Sin backend → usar localStorage
+      return localLoad().map(normalize);
+    }
   },
 
   getOne: async (id) => {
-    await delay(200);
-    const pet = loadPets().find(p => p.id === Number(id));
-    if (!pet) throw new Error('Mascota no encontrada');
-    return pet;
+    try {
+      const r = await apiClient.get(`/pets/show/${id}`);
+      return normalize(r.data.pet ?? r.data);
+    } catch {
+      const pet = localLoad().find(p => p.id === Number(id));
+      if (!pet) throw new Error('Mascota no encontrada');
+      return normalize(pet);
+    }
   },
 
+  // Crea mascota — intenta con API, si falla usa localStorage
+  // Soporta imagen como File (multipart) o null
   create: async (petData) => {
-    await delay(500);
-    const pets = loadPets();
-    let imageData = null;
-    if (petData.image instanceof File) {
-      imageData = await fileToBase64(petData.image);
+    try {
+      // Si hay imagen → multipart/form-data
+      if (petData.image instanceof File) {
+        const fd = new FormData();
+        fd.append('name',        petData.name        || '');
+        fd.append('kind',        petData.kind        || '');
+        fd.append('bread',       petData.breed || petData.bread || '');
+        fd.append('age',         petData.age         || 0);
+        fd.append('weight',      petData.weight      || 0);
+        fd.append('location',    petData.location    || '');
+        fd.append('description', petData.description || '');
+        fd.append('active',      1);
+        fd.append('adopted',     0);
+        fd.append('image',       petData.image);
+        const r = await apiClient.post('/pets/store', fd, {
+          headers: { 'Content-Type': 'multipart/form-data' }
+        });
+        return normalize(r.data.pet ?? r.data);
+      } else {
+        // Sin imagen → JSON
+        const payload = {
+          name: petData.name||'', kind: petData.kind||'',
+          bread: petData.breed||petData.bread||'',
+          age: Number(petData.age)||0, weight: Number(petData.weight)||0,
+          location: petData.location||'', description: petData.description||'',
+          active: true, adopted: false,
+        };
+        const r = await apiClient.post('/pets/store', payload);
+        return normalize(r.data.pet ?? r.data);
+      }
+    } catch {
+      // Fallback localStorage
+      const pets = localLoad();
+      let imageData = null;
+      if (petData.image instanceof File) imageData = await fileToBase64(petData.image);
+      const newPet = {
+        id: nextId(), name: petData.name||'', kind: petData.kind||'',
+        bread: petData.breed||petData.bread||'', age: Number(petData.age)||0,
+        weight: Number(petData.weight)||0, location: petData.location||'',
+        description: petData.description||'', active:1, adopted:0,
+        image: imageData,
+      };
+      pets.push(newPet);
+      localSave(pets);
+      return normalize(newPet);
     }
-    const newPet = {
-      id:          getNextId(),
-      name:        petData.name        || '',
-      kind:        petData.kind        || '',
-      weight:      Number(petData.weight) || 0,
-      age:         Number(petData.age)    || 0,
-      breed:       petData.breed       || '',
-      location:    petData.location    || '',
-      description: petData.description || '',
-      active:      1,
-      adopted:     0,
-      image:       imageData,
-    };
-    pets.push(newPet);
-    savePets(pets);
-    return newPet;
   },
 
   update: async (id, petData) => {
-    await delay(500);
-    const pets = loadPets();
-    const idx = pets.findIndex(p => p.id === Number(id));
-    if (idx === -1) throw new Error('Mascota no encontrada');
-    let imageData = pets[idx].image;
-    if (petData.image instanceof File) {
-      imageData = await fileToBase64(petData.image);
+    try {
+      if (petData.image instanceof File) {
+        const fd = new FormData();
+        fd.append('name',        petData.name        || '');
+        fd.append('kind',        petData.kind        || '');
+        fd.append('bread',       petData.breed || petData.bread || '');
+        fd.append('age',         petData.age         || 0);
+        fd.append('weight',      petData.weight      || 0);
+        fd.append('location',    petData.location    || '');
+        fd.append('description', petData.description || '');
+        fd.append('active',      petData.active ?? 1);
+        fd.append('adopted',     petData.adopted ?? 0);
+        fd.append('image',       petData.image);
+        fd.append('_method',     'PUT');   // Laravel necesita esto para PUT con multipart
+        const r = await apiClient.post(`/pets/edit/${id}`, fd, {
+          headers: { 'Content-Type': 'multipart/form-data' }
+        });
+        return normalize(r.data.pet ?? r.data);
+      } else {
+        const payload = {
+          name: petData.name||'', kind: petData.kind||'',
+          bread: petData.breed||petData.bread||'',
+          age: Number(petData.age)||0, weight: Number(petData.weight)||0,
+          location: petData.location||'', description: petData.description||'',
+          active: petData.active??true, adopted: petData.adopted??false,
+        };
+        const r = await apiClient.put(`/pets/edit/${id}`, payload);
+        return normalize(r.data.pet ?? r.data);
+      }
+    } catch {
+      // Fallback localStorage
+      const pets = localLoad();
+      const idx  = pets.findIndex(p => p.id === Number(id));
+      if (idx === -1) throw new Error('Mascota no encontrada');
+      let imageData = pets[idx].image;
+      if (petData.image instanceof File) imageData = await fileToBase64(petData.image);
+      pets[idx] = {
+        ...pets[idx],
+        name:        petData.name        ?? pets[idx].name,
+        kind:        petData.kind        ?? pets[idx].kind,
+        bread:       petData.breed ?? petData.bread ?? pets[idx].bread,
+        age:         petData.age         ?? pets[idx].age,
+        weight:      petData.weight      ?? pets[idx].weight,
+        location:    petData.location    ?? pets[idx].location,
+        description: petData.description ?? pets[idx].description,
+        image: imageData,
+      };
+      localSave(pets);
+      return normalize(pets[idx]);
     }
-    pets[idx] = {
-      ...pets[idx],
-      name:        petData.name        ?? pets[idx].name,
-      kind:        petData.kind        ?? pets[idx].kind,
-      weight:      petData.weight      ?? pets[idx].weight,
-      age:         petData.age         ?? pets[idx].age,
-      breed:       petData.breed       ?? pets[idx].breed,
-      location:    petData.location    ?? pets[idx].location,
-      description: petData.description ?? pets[idx].description,
-      image:       imageData,
-    };
-    savePets(pets);
-    return pets[idx];
   },
 
   remove: async (id) => {
-    await delay(300);
-    const pets = loadPets().filter(p => p.id !== Number(id));
-    savePets(pets);
-    return { success: true };
+    try {
+      const r = await apiClient.delete(`/pets/delete/${id}`);
+      return r.data;
+    } catch {
+      const pets = localLoad().filter(p => p.id !== Number(id));
+      localSave(pets);
+      return { success: true };
+    }
   },
 };
 

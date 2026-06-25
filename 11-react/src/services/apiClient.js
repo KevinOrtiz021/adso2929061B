@@ -1,9 +1,13 @@
-// apiClient — no se usa en modo local pero se mantiene por compatibilidad
 import axios from 'axios';
 
+const BASE_URL = process.env.REACT_APP_API_URL || 'http://127.0.0.1:8000/api';
+
 const apiClient = axios.create({
-  baseURL: 'http://localhost:8000/api',
-  headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+  baseURL: BASE_URL,
+  headers: {
+    'Content-Type': 'application/json',
+    'Accept': 'application/json',
+  },
 });
 
 apiClient.interceptors.request.use((config) => {
@@ -18,7 +22,7 @@ apiClient.interceptors.response.use(
     if (error.response?.status === 401) {
       localStorage.removeItem('token');
       localStorage.removeItem('user');
-      window.location.href = '/';
+      window.location.href = '/challenge';
     }
     return Promise.reject(error);
   }
