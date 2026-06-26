@@ -1,4 +1,4 @@
-// ShowPet — igual al Figma: foto grande, campos con iconos, valores en dorado
+// ShowPet — Foto grande, campos con iconos, valores en dorado
 import iconBack     from '../assets/Vector__4_.png';
 import iconSearch   from '../assets/Mask_group.svg';
 import iconPaw      from '../assets/Mask_group.png';
@@ -6,12 +6,38 @@ import iconWeight   from '../assets/Mask_group__3_.png';
 import iconCalendar from '../assets/Mask_group__4_.png';
 import iconRaza     from '../assets/Mask_group__5_.png';
 import iconPin      from '../assets/Mask_group__6_.png';
-import iconDesc     from '../assets/Mask_group_5.svg';
+import iconDesc     from '../assets/Mask_group__7_.png';
+
+const IMAGE_BASE = 'http://127.0.0.1:8000/storage/pets/';
+const DEFAULT_IMAGE = 'https://placehold.co/320x170/1a1a1a/444?text=Sin+foto';
 
 export default function ShowPet({ pet, onBack }) {
   if (!pet) return null;
-  const imgSrc = pet.imageUrl ?? 'https://placehold.co/320x170/1a1a1a/444?text=Sin+foto';
-  const raza   = pet.breed || pet.bread || '—';
+  
+  // Función para obtener la URL de la imagen
+  const getImageSrc = () => {
+    if (!pet.image) return DEFAULT_IMAGE;
+    
+    // 1. Si ya es una URL completa (http, https, data:)
+    if (pet.image.startsWith('http') || pet.image.startsWith('data:')) {
+      return pet.image;
+    }
+    
+    // 2. Si hay imageUrl, usarla
+    if (pet.imageUrl) {
+      return pet.imageUrl;
+    }
+    
+    // 3. Si es un nombre de archivo, construir URL de Laravel
+    if (pet.image !== 'no-image.png' && pet.image !== 'no-photo.png') {
+      return `${IMAGE_BASE}${pet.image}`;
+    }
+    
+    return DEFAULT_IMAGE;
+  };
+
+  const imgSrc = getImageSrc();
+  const raza = pet.breed || pet.bread || '—';
 
   const fields = [
     { icon:iconPaw,      label:'Nombre',      value:pet.name         },
@@ -37,8 +63,14 @@ export default function ShowPet({ pet, onBack }) {
         </div>
 
         {/* Foto */}
-        <img src={imgSrc} alt={pet.name} style={s.photo}
-          onError={e=>{e.target.src='https://placehold.co/320x170/1a1a1a/444?text=Sin+foto';}}/>
+        <img 
+          src={imgSrc} 
+          alt={pet.name} 
+          style={s.photo}
+          onError={(e) => {
+            e.target.src = DEFAULT_IMAGE;
+          }}
+        />
 
         {/* Campos */}
         <div style={s.fields}>
@@ -75,26 +107,26 @@ const s = {
     display: 'flex', 
     alignItems: 'center', 
     justifyContent: 'center', 
-    padding: '20px 0' 
+    padding: '20px 0',
+    background: 'transparent',
   },
   
   card: { 
-    width: 320, 
-    borderRadius: 22, 
+    width: 380,
+    borderRadius: 30,
     overflow: 'hidden', 
     boxShadow: '0 24px 64px rgba(0,0,0,0.7)', 
     background: '#141313', 
-    border: '1px solid #3B3A3A' 
+    border: '2px solid #2d5a2d',
   },
 
-  // Header con título centrado
   header: { 
     display: 'flex', 
     alignItems: 'center', 
-    justifyContent: 'center', // Centra el contenido
+    justifyContent: 'center',
     padding: '13px 16px', 
     borderBottom: '1px solid #3B3A3A',
-    position: 'relative' // Para posicionar el botón atrás
+    position: 'relative'
   },
   
   backBtn: { 
@@ -104,7 +136,7 @@ const s = {
     padding: 0, 
     display: 'flex', 
     alignItems: 'center',
-    position: 'absolute', // Botón flotante a la izquierda
+    position: 'absolute',
     left: 16,
     top: '50%',
     transform: 'translateY(-50%)'
@@ -125,8 +157,8 @@ const s = {
   },
   
   titleIco: { 
-    width: 20, // Aumentado de 14 a 20
-    height: 20, // Aumentado de 14 a 20
+    width: 20,
+    height: 20,
     objectFit: 'contain', 
     filter: 'brightness(2)', 
     opacity: 0.8 

@@ -1,4 +1,3 @@
-// Login — fondo de cuero verde en TODA la card con perro grande
 import { useState } from 'react';
 import { useAuth } from '../contexts/AuthContext';
 import dogImg    from '../assets/Rectangle_3.png';
@@ -24,28 +23,17 @@ export default function Login() {
   return (
     <div style={s.page}>
       <div style={s.card}>
-        
-        {/* Fondo de cuero en TODA la card */}
         <div style={s.leatherBg}>
-          
-          {/* Perro GRANDE en el centro superior */}
           <div style={s.dogContainer}>
             <img src={dogImg} alt="perro" style={s.dog}/>
           </div>
-          
-          {/* Degradado oscuro en la parte inferior */}
           <div style={s.grad}/>
-          
-          {/* Texto de bienvenida */}
           <div style={s.hero}>
             <h2 style={s.welcome}>Bienvenido</h2>
             <p style={s.sub}>Inicia Sesión para continuar</p>
           </div>
-
-          {/* Formulario con fondo semitransparente */}
           <div style={s.form}>
             {error && <p style={s.err}>{error}</p>}
-
             <form onSubmit={onSubmit}>
               <div style={s.fieldGroup}>
                 <p style={s.lbl}>Email</p>
@@ -54,7 +42,6 @@ export default function Login() {
                     value={email} onChange={e=>setEmail(e.target.value)} required/>
                 </div>
               </div>
-
               <div style={s.fieldGroup}>
                 <p style={s.lbl}>Contraseña</p>
                 <div style={s.field}>
@@ -62,7 +49,6 @@ export default function Login() {
                     value={password} onChange={e=>setPassword(e.target.value)} required/>
                 </div>
               </div>
-
               <button style={{...s.btn, opacity:loading?0.75:1}} type="submit" disabled={loading}>
                 {loading ? 'Cargando...' : 'Iniciar sesión'}
               </button>
@@ -183,7 +169,7 @@ const s = {
     background: 'transparent', 
     border: 'none', 
     outline: 'none', 
-    color: '#a8a098', // Gris oscuro
+    color: '#a8a098', 
     fontSize: 14, 
     padding: '12px 0', 
     fontFamily: 'inherit',
