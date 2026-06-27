@@ -1,12 +1,4 @@
 // ─── Auth Service — conexión real con Laravel API ────────────────────────────
-// POST http://127.0.0.1:8000/api/login  →  { message, token, user }
-// POST http://127.0.0.1:8000/api/logout →  Bearer token requerido
-//
-// Credenciales reales de la BD larapets2929061b:
-//   johnw@mail.com   / password
-//   larac@mail.com   / password
-//   (cualquier usuario del dump con contraseña "password")
-
 import apiClient from './apiClient';
 
 const authService = {

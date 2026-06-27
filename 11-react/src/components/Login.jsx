@@ -1,23 +1,29 @@
 import { useState } from 'react';
 import { useAuth } from '../contexts/AuthContext';
+import { useNavigate } from 'react-router-dom';
 import dogImg    from '../assets/Rectangle_3.png';
 import bgLeather from '../assets/Rectangle_2.jpg';
 
 export default function Login() {
   const { login } = useAuth();
-  const [email,    setEmail]    = useState('');
-  const [password, setPassword] = useState('');
+  const navigate = useNavigate();
+  const [email,    setEmail]    = useState('johnw@mail.com'); // ← Pre-cargado para pruebas
+  const [password, setPassword] = useState('admin'); // ← Pre-cargado para pruebas
   const [error,    setError]    = useState('');
   const [loading,  setLoading]  = useState(false);
 
   const onSubmit = async e => {
     e.preventDefault();
-    setError(''); setLoading(true);
+    setError(''); 
+    setLoading(true);
     try {
       await login(email, password);
+      navigate('/dashboard');
     } catch(err) {
       setError(err.response?.data?.message ?? 'Email o contraseña incorrectos');
-    } finally { setLoading(false); }
+    } finally { 
+      setLoading(false); 
+    }
   };
 
   return (
@@ -38,23 +44,38 @@ export default function Login() {
               <div style={s.fieldGroup}>
                 <p style={s.lbl}>Email</p>
                 <div style={s.field}>
-                  <input style={s.inp} type="email" placeholder="ejemplo@mail.com"
-                    value={email} onChange={e=>setEmail(e.target.value)} required/>
+                  <input 
+                    style={s.inp} 
+                    type="email" 
+                    placeholder="ejemplo@mail.com"
+                    value={email} 
+                    onChange={e=>setEmail(e.target.value)} 
+                    required
+                  />
                 </div>
               </div>
               <div style={s.fieldGroup}>
                 <p style={s.lbl}>Contraseña</p>
                 <div style={s.field}>
-                  <input style={s.inp} type="password" placeholder="Contraseña"
-                    value={password} onChange={e=>setPassword(e.target.value)} required/>
+                  <input 
+                    style={s.inp} 
+                    type="password" 
+                    placeholder="Contraseña"
+                    value={password} 
+                    onChange={e=>setPassword(e.target.value)} 
+                    required
+                  />
                 </div>
               </div>
-              <button style={{...s.btn, opacity:loading?0.75:1}} type="submit" disabled={loading}>
+              <button 
+                style={{...s.btn, opacity: loading ? 0.75 : 1}} 
+                type="submit" 
+                disabled={loading}
+              >
                 {loading ? 'Cargando...' : 'Iniciar sesión'}
               </button>
             </form>
           </div>
-          
         </div>
       </div>
     </div>
@@ -62,12 +83,12 @@ export default function Login() {
 }
 
 const s = {
-  
   card: { 
     width: 380,
     borderRadius: 30,
     overflow: 'hidden',
     border: '2px solid #2d5a2d',
+    boxShadow: '0 24px 64px rgba(0,0,0,0.7)',
   },
   
   leatherBg: {

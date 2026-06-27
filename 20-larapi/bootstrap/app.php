@@ -4,6 +4,7 @@ use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
 use App\Http\Middleware\AuthenticateToken;
+use App\Http\Middleware\Cors; // ← Importar Cors
 
 return Application::configure(basePath: dirname(__DIR__))
     ->withRouting(
@@ -15,7 +16,13 @@ return Application::configure(basePath: dirname(__DIR__))
     ->withMiddleware(function (Middleware $middleware) {
         $middleware->alias([
             'auth.token' => AuthenticateToken::class,
+            'cors' => Cors::class, // ← Agregar alias para Cors
         ]);
+        
+        // Opcional: Agregar Cors globalmente al grupo api
+        // $middleware->api([
+        //     Cors::class,
+        // ]);
     })
     ->withExceptions(function (Exceptions $exceptions) {
         //
