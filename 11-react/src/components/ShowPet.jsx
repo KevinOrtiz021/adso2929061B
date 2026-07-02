@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
+import Swal from 'sweetalert2';
 import petService from '../services/petService';
 import iconBack from '../assets/Vector__4_.png';
 import iconSearch from '../assets/Mask_group.svg';
@@ -28,7 +29,17 @@ export default function ShowPet() {
         setPet(data);
       } catch (err) {
         console.error('Error:', err);
-        setError('Error al cargar la mascota');
+        await Swal.fire({
+          title: 'Mascota no encontrada',
+          text: 'Es posible que haya sido eliminada o el enlace ya no sea válido.',
+          icon: 'warning',
+          confirmButtonText: 'Volver al listado',
+          background: '#121116',
+          color: '#e0e0e0',
+          confirmButtonColor: '#A69459',
+        });
+        navigate('/dashboard', { replace: true });
+        return;
       } finally {
         setLoading(false);
       }
@@ -36,8 +47,10 @@ export default function ShowPet() {
 
     if (id) {
       fetchPet();
+    } else {
+      navigate('/dashboard', { replace: true });
     }
-  }, [id]);
+  }, [id, navigate]);
 
   const getImageSrc = () => {
     if (!pet?.image) return DEFAULT_IMAGE;

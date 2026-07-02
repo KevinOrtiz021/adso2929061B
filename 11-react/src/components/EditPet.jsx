@@ -56,7 +56,17 @@ export default function EditPet() {
         setPreview(data.imageUrl || null);
       } catch (err) {
         console.error('Error:', err);
-        setError('Error al cargar la mascota');
+        await Swal.fire({
+          title: 'Mascota no encontrada',
+          text: 'Es posible que haya sido eliminada o el enlace ya no sea válido.',
+          icon: 'warning',
+          confirmButtonText: 'Volver al listado',
+          background: '#121116',
+          color: '#e0e0e0',
+          confirmButtonColor: '#A69459',
+        });
+        navigate('/dashboard', { replace: true });
+        return;
       } finally {
         setLoadingData(false);
       }
@@ -64,8 +74,10 @@ export default function EditPet() {
 
     if (id) {
       fetchPet();
+    } else {
+      navigate('/dashboard', { replace: true });
     }
-  }, [id]);
+  }, [id, navigate]);
 
   const onChange = e => {
     const { name, value, files } = e.target;
